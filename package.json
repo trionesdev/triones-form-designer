@@ -1,0 +1,22 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "clean": "lerna clean",
+    "build": "lerna run build",
+    "preversion": "yarn run build",
+    "version:beta": "lerna version prerelease --preid beta",
+    "release:github": "ts-node scripts/release release",
+    "release:force": "lerna publish from-package --yes --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
+    "prelease:force": "lerna publish from-package --yes --dist-tag next",
+    "release": "lerna publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
+    "codingPublish": "lerna publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^8.0.0"
+  }
+}
