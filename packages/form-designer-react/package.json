@@ -1,5 +1,5 @@
 {
-  "name": "@trionesdev/form-design-react",
+  "name": "@trionesdev/form-designer-react",
   "version": "0.0.1",
   "description": "form-design-react",
   "module": "dist/esm/index.js",
@@ -23,6 +23,19 @@
     "access": "public"
   },
   "devDependencies": {
+    "@types/react": "^18.2.39",
+    "@types/react-dom": "^18.2.17",
     "father": "^4.3.7"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "antd": "^5.11.5",
+    "dayjs": "^1.11.10",
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.2.0"
   }
 }
