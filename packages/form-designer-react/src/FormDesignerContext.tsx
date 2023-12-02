@@ -9,9 +9,14 @@ export interface FormDesignerContextProps {
     setDragging:(value:boolean)=>void
     onMouseMove:(e: React.MouseEvent)=>void
     onMouseDown:(e: React.MouseEvent)=>void
+    onDragStart:(e: React.MouseEvent)=>void
+    onDragEnd:(e: React.MouseEvent)=>void
 }
 
 export const FormDesignerContext = createContext<FormDesignerContextProps>({
+    onDragEnd(e: React.MouseEvent): void {
+    }, onDragStart(e: React.MouseEvent): void {
+    },
     onMouseMove(e: React.MouseEvent): void {
     },
     setNodeIdName(): void {

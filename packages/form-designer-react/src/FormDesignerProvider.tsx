@@ -23,11 +23,21 @@ console.log('handleMouseMove')
     const handleMouseDown = (e: React.MouseEvent) => {
 
         const target = e.target as HTMLElement
-        const el = target?.closest?.(`*[${nodeIdName}]`)
+        const el = target?.closest?.(`*[${nodeIdName}],*[td-designer-source-id]`)
         debugger
         if (el) {
+            handleDragStart(e)
             setSelectionNodeId(el.getAttribute(nodeIdName))
         }
+    }
+
+    const handleDragStart = (e: React.MouseEvent) => {
+        console.log("drag start")
+        setDragging(true)
+    }
+
+    const handleDragEnd = (e: React.MouseEvent) => {
+        setDragging(false)
     }
 
     return <FormDesignerContext.Provider value={{
@@ -38,6 +48,8 @@ console.log('handleMouseMove')
         dragging,
         setDragging,
         onMouseMove: handleMouseMove,
-        onMouseDown: handleMouseDown
+        onMouseDown: handleMouseDown,
+        onDragStart: handleDragStart,
+        onDragEnd: handleDragEnd
     }}>{children}</FormDesignerContext.Provider>
 }

@@ -1,4 +1,3 @@
-import {DraggableWidget} from "./DraggableWidget";
 import {IDesignerProps} from "./types";
 import {FC} from "react";
 import React from "react";
@@ -7,24 +6,24 @@ import {ReactComponent as Ab} from "./Ab.svg"
 import {A} from "./Icon"
 import styled from "@emotion/styled";
 
-type SourceItemProps = {
-    source: IDesignerProps
+const SourceDiv = ({children, className,sourceId}: { children: React.ReactNode, className?: string ,sourceId?: string}) => {
+    return <div className={className} td-designer-source-id={sourceId}>{children}</div>
 }
 
-const SourceItemStyled = styled(DraggableWidget)({
+const SourceItemStyled = styled(SourceDiv)({
     cursor: 'move',
     padding: '8px',
-    display:'flex',
-    alignItems:'center',
-    gap:'4px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
     backgroundColor: '#f0f0f0',
-    '.icon':{
-        display:'inline-block',
-        alignItems:'center',
-        lineHeight:'0',
-        'svg':{
-            width:'1rem',
-            height:'1rem',
+    '.icon': {
+        display: 'inline-block',
+        alignItems: 'center',
+        lineHeight: '0',
+        'svg': {
+            width: '1rem',
+            height: '1rem',
         }
     },
     '&:hover': {
@@ -34,11 +33,15 @@ const SourceItemStyled = styled(DraggableWidget)({
     }
 })
 
-export const SourceItem: FC<SourceItemProps> = ({
-                                                    source
-                                                }) => {
+
+type SourceItemProps = {
+    source: IDesignerProps
+    [key: string]:any
+}
+
+export const SourceItem: FC<SourceItemProps> = ({source,...props}) => {
     // console.log(A)
-    return <SourceItemStyled>
+    return <SourceItemStyled sourceId={source.name} {...props}>
         <span className={`icon`}>{React.cloneElement(A)}</span>
         <span>{source.title}</span>
     </SourceItemStyled>

@@ -29,7 +29,7 @@ export const ResourceWidget: FC<ResourceWidgetProps> = ({sources}) => {
     return <div>
         <Row gutter={[4,4]}>
             {
-                scopeSources.map((source: any) => <Col span={12}><SourceItem source={source}/></Col>)
+                scopeSources.map((source: any) => <Col span={12}>{React.createElement(SourceItem,{"source":source,"dd":"fff"})}</Col>)
             }
         </Row>
 
