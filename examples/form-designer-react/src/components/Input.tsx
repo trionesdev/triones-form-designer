@@ -15,5 +15,15 @@ Input.DesignerProps = [
             'x-decorator': 'FormItem',
             'x-component': 'Input',
         }
+    },
+    {
+        name: 'Input.TextArea',
+        title: '多行输入框',
+        schema: {
+            type: 'string',
+            title: 'Input.TextArea',
+            'x-decorator': 'FormItem',
+            'x-component': 'Input.TextArea',
+        }
     }
 ]

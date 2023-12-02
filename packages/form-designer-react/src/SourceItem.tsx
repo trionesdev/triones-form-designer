@@ -12,7 +12,7 @@ type SourceItemProps = {
 }
 
 const SourceItemStyled = styled(DraggableWidget)({
-    cursor: 'pointer',
+    cursor: 'move',
     padding: '8px',
     display:'flex',
     alignItems:'center',
