@@ -1,7 +1,14 @@
 import React, {FC} from "react"
-import {DraggableWidget} from "./DraggableWidget";
+import styled from "@emotion/styled";
 
-type ElementContainerProps = {}
-export const ElementContainer: FC<ElementContainerProps> = ({}) => {
-    return <DraggableWidget>sss</DraggableWidget>
+type ElementContainerProps = {
+    children?: React.ReactNode
+}
+
+const ElementContainerStyled = styled('div')({})
+
+export const ElementContainer: FC<ElementContainerProps> = ({
+                                                                children
+                                                            }) => {
+    return <ElementContainerStyled>{children}</ElementContainerStyled>
 }
