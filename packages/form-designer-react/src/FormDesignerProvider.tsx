@@ -12,7 +12,7 @@ export const FormDesignerProvider: FC<FormDesignerProviderProps> = ({children}) 
     const [dragging, setDragging] = useState(false)
 
     const handleMouseMove = (e: React.MouseEvent) => {
-
+console.log('handleMouseMove')
         const target = e.target as HTMLElement
         const el = target?.closest?.(`*[${nodeIdName}]`)
         if (el) {
