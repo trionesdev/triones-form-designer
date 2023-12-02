@@ -5,10 +5,12 @@ import styled from "@emotion/styled";
 type DroppableWidgetProps = {
     children?: React.ReactNode
     className?: string
+    style?: React.CSSProperties
 }
 
+
 const DroppableWidgetStyled = styled(`div`)({})
-export const DroppableWidget: FC<DroppableWidgetProps> = ({children, className}) => {
+export const DroppableWidget: FC<DroppableWidgetProps> = ({children, className, style}) => {
     const [, drop] = useDrop(() => ({
         accept: 'box',
         drop: () => ({name: 'Dustbin'}),
@@ -17,5 +19,5 @@ export const DroppableWidget: FC<DroppableWidgetProps> = ({children, className})
             canDrop: monitor.canDrop(),
         }),
     }))
-    return <DroppableWidgetStyled ref={drop}>{children}</DroppableWidgetStyled>
+    return <DroppableWidgetStyled ref={drop} className={className} style={style}>{children}</DroppableWidgetStyled>
 }

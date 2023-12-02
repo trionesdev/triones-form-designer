@@ -14,6 +14,8 @@ const WorkspacePanelStyled = styled('div')({
 
 export const WorkspacePanel: FC<WorkspacePanelProps> = ({children}) => {
     return <WorkspacePanelStyled>
-        <DroppableWidget></DroppableWidget>
+        <DroppableWidget style={{height: '100%'}}>
+            {children}
+        </DroppableWidget>
     </WorkspacePanelStyled>
 }

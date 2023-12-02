@@ -17,7 +17,9 @@ function App() {
                     <CompositePanel style={{width:300}}>
                         <ResourceWidget sources={[Input]}/>
                     </CompositePanel>
-                    <WorkspacePanel></WorkspacePanel>
+                    <WorkspacePanel>
+                        {React.createElement(Input)}
+                    </WorkspacePanel>
                 </StudioPanel>
             </FormDesigner>
         </div>
