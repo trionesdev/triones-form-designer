@@ -14,7 +14,13 @@ const StudioPanelStyled = styled('div')({
 export const StudioPanel: FC<StudioPanelProps> = ({
                                                       children
                                                   }) => {
-    const {onMouseDown, onMouseMove} = useFormDesigner()
+    const {onMouseDown, onMouseUp, onMouseMove} = useFormDesigner()
 
-    return <StudioPanelStyled onMouseDown={onMouseDown} onMouseMove={onMouseMove}>{children}</StudioPanelStyled>
+    return <StudioPanelStyled
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onMouseMove={onMouseMove}
+    >
+        {children}
+    </StudioPanelStyled>
 }

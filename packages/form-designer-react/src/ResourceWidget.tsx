@@ -1,30 +1,26 @@
 import React, {FC, useEffect, useState} from "react";
-import {DesignerComponent, IDesignerProps} from "./types";
+import {DesignerComponent, IResource} from "./types";
 import _ from "lodash";
 import {SourceItem} from "./SourceItem";
 import {Col, Row} from "antd";
+import {useFormDesigner} from "./hooks/useFormDesigner";
 
 type ResourceWidgetProps = {
     sources?: DesignerComponent[]
 }
 
 export const ResourceWidget: FC<ResourceWidgetProps> = ({sources}) => {
-    const [scopeSources, setScopeSources] = useState<IDesignerProps>([])
+    const {registerSources} = useFormDesigner()
+    const [scopeSources, setScopeSources] = useState<IResource>([])
 
     useEffect(() => {
         const sourcesArray = _.reduce(sources, (result, source) => {
             debugger
-            return _.concat(result, source.DesignerProps)
+            return _.concat(result, source.Resource)
         }, [])
         setScopeSources(sourcesArray)
+        registerSources(sourcesArray)
     }, [sources]);
-
-    const ss = _.reduce(sources, (result, source) => {
-        debugger
-        return _.concat(result, source.DesignerProps)
-    }, [])
-
-    console.log(ss)
 
     return <div>
         <Row gutter={[4,4]}>

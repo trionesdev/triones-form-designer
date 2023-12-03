@@ -5,7 +5,7 @@ import React from "react";
 
 export const Input: TdFC<React.ComponentProps<typeof FormilyInput>> = FormilyInput
 
-Input.DesignerProps = [
+Input.Resource = [
     {
         name: 'Input',
         title: '输入框',

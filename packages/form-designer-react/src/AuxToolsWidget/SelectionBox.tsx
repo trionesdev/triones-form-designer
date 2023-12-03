@@ -28,10 +28,10 @@ type SelectionBoxProps = {}
 export const SelectionBox: FC<SelectionBoxProps> = ({}) => {
     const ref = useRef<HTMLDivElement>()
     const helpersRef = useRef<HTMLDivElement>()
-    const {nodeIdName, selectionNodeId} = useFormDesigner()
+    const {nodeIdName, selectionNode} = useFormDesigner()
 
     useEffect(() => {
-        const selectionNodeEl = document.querySelector(`*[${nodeIdName}=${selectionNodeId}]`)
+        const selectionNodeEl = document.querySelector(`*[${nodeIdName}=${selectionNode?.id}]`)
         if (selectionNodeEl) {
             if (ref.current && helpersRef.current) {
                 const rect = selectionNodeEl.getBoundingClientRect()
@@ -54,7 +54,7 @@ export const SelectionBox: FC<SelectionBoxProps> = ({}) => {
 
         }
 
-    }, [selectionNodeId])
+    }, [selectionNode])
 
     return <SelectionBoxStyled ref={ref}>
         <div ref={helpersRef} className={`td-aux-selection-helpers`}>

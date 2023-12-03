@@ -1,4 +1,4 @@
-import {IDesignerProps} from "./types";
+import {IResource} from "./types";
 import {FC} from "react";
 import React from "react";
 // @ts-ignore
@@ -11,6 +11,7 @@ const SourceDiv = ({children, className,sourceId}: { children: React.ReactNode, 
 }
 
 const SourceItemStyled = styled(SourceDiv)({
+    userSelect: 'none',
     cursor: 'move',
     padding: '8px',
     display: 'flex',
@@ -35,7 +36,7 @@ const SourceItemStyled = styled(SourceDiv)({
 
 
 type SourceItemProps = {
-    source: IDesignerProps
+    source: IResource
     [key: string]:any
 }
 

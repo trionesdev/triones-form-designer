@@ -19,37 +19,39 @@ type DashedBoxProps = {}
 export const DashedBox: FC<DashedBoxProps> = ({}) => {
     const ref = useRef<HTMLDivElement>()
     const spanRef = useRef<HTMLDivElement>()
-    const {nodeIdName, hoverNodeId} = useFormDesigner()
+    const {nodeIdName, hoverNode} = useFormDesigner()
 
     useEffect(() => {
         console.log("ss")
-        const hoverNode = document.querySelector(`*[${nodeIdName}=${hoverNodeId}]`)
+        // @ts-ignore
+        console.log(hoverNode)
+        const hoverNodeEl = document.querySelector(`*[${nodeIdName}=${hoverNode?.id}]`)
         console.log(hoverNode)
 
-        if (hoverNode) {
-            console.log("node: {} {}", hoverNode.clientWidth, hoverNode.clientHeight)
-            const rect = hoverNode.getBoundingClientRect()
+        if (hoverNodeEl) {
+            console.log("node: {} {}", hoverNodeEl.clientWidth, hoverNodeEl.clientHeight)
+            const rect = hoverNodeEl.getBoundingClientRect()
             console.log(rect)
             ref.current.style.height = `${rect.height}px`
             ref.current.style.width = `${rect.width}px`
             ref.current.style.border = `1px dashed #1890FF`
             ref.current.style.transform = `perspective(1px) translate3d(0px, ${rect.top}px, 0px)`
 
-            if (spanRef.current){
-                if(rect.height == rect.bottom){
+            if (spanRef.current) {
+                if (rect.height == rect.bottom) {
 
-                }else {
-                    if(rect.top>10){
-                        spanRef.current.style.top='auto';
-                        spanRef.current.style.bottom='100%';
-                    }else {
-                        spanRef.current.style.top='100%';
-                        spanRef.current.style.bottom='auto';
+                } else {
+                    if (rect.top > 10) {
+                        spanRef.current.style.top = 'auto';
+                        spanRef.current.style.bottom = '100%';
+                    } else {
+                        spanRef.current.style.top = '100%';
+                        spanRef.current.style.bottom = 'auto';
                     }
                 }
             }
         }
-    }, [hoverNodeId]);
+    }, [hoverNode]);
 
     return <DashedBoxStyled ref={ref}>
         <span ref={spanRef} className={`td-aux-dashed-box-title`}>测试</span>
