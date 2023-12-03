@@ -19,9 +19,7 @@ export const WorkspacePanel: FC<WorkspacePanelProps> = ({children}) => {
     const {onMouseMove,onMouseDown} = useFormDesigner()
 
     return <WorkspacePanelStyled onMouseMove={onMouseMove} onMouseDown={onMouseDown}>
-        <DroppableWidget style={{height: '100%'}}>
-            {children}
-            <AuxToolsWidget/>
-        </DroppableWidget>
+        {children}
+        <AuxToolsWidget/>
     </WorkspacePanelStyled>
 }

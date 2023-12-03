@@ -1,14 +1,15 @@
 import React from "react";
 import {FC} from "react";
-import {HTML5Backend} from "react-dnd-html5-backend";
-import {DndProvider} from "react-dnd";
-import {FormDesignerProvider} from "./FormDesignerProvider";
+import {FormDesignerContext} from "./FormDesignerContext2";
+import {FormDesignerEngine} from "./model/FormDesignerEngine";
+
 
 type FormDesignerProps = {
     children?: React.ReactNode
 }
 export const FormDesigner: FC<FormDesignerProps> = ({children}) => {
-    return <FormDesignerProvider>
-        <DndProvider backend={HTML5Backend}>{children}</DndProvider>
-    </FormDesignerProvider>
+    const engine = new FormDesignerEngine({rootComponentName: 'Form'})
+    return <FormDesignerContext.Provider value={engine}>
+        {children}
+    </FormDesignerContext.Provider>
 }

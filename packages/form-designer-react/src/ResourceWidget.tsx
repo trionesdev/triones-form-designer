@@ -4,14 +4,15 @@ import _ from "lodash";
 import {SourceItem} from "./SourceItem";
 import {Col, Row} from "antd";
 import {useFormDesigner} from "./hooks/useFormDesigner";
-import {TreeNode} from "./TreeNode";
+import {TreeNode} from "./model/TreeNode";
+import {useFormDesigner2} from "./hooks/useFormDesigner2";
 
 type ResourceWidgetProps = {
     sources?: DesignerComponent[]
 }
 
 export const ResourceWidget: FC<ResourceWidgetProps> = ({sources}) => {
-    const {registerSources} = useFormDesigner()
+    const engine = useFormDesigner2()
     const [scopeSources, setScopeSources] = useState<DesignerComponent>([])
 
     useEffect(() => {
@@ -19,7 +20,7 @@ export const ResourceWidget: FC<ResourceWidgetProps> = ({sources}) => {
             return _.concat(result, source.Resource)
         }, []).map((item: any) => _.assign(item, {node: new TreeNode({isSourceNode: true, componentName: item.name})}))
         setScopeSources(sourcesArray)
-        registerSources(sourcesArray)
+        engine.registerSources()
     }, [sources]);
 
     return <div>

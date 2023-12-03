@@ -1,5 +1,5 @@
 import React, {createContext} from "react";
-import {TreeNode} from "./TreeNode";
+import {TreeNode} from "./model/TreeNode";
 import {DesignerComponent, IComponents, IResource} from "./types";
 import {TD_DESIGNER_NODE_ID} from "./constant";
 

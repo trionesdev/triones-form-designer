@@ -1,6 +1,6 @@
 import {FormDesignerContext} from "./FormDesignerContext";
 import React, {FC, useEffect, useRef, useState} from "react";
-import {TreeNode} from "./TreeNode";
+import {TreeNode} from "./model/TreeNode";
 import {DesignerComponent, IComponents} from "./types";
 import {TD_DESIGNER_NODE_ID, TD_DESIGNER_SOURCE_ID} from "./constant";
 import _ from "lodash";

@@ -1,5 +1,5 @@
 import React, {FC} from "react"
-import {TreeNode} from "../TreeNode";
+import {TreeNode} from "../model/TreeNode";
 import {useFormDesigner} from "../hooks/useFormDesigner";
 
 type ComponentWidgetProps = {

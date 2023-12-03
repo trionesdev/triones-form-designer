@@ -1,5 +1,5 @@
 import React from "react";
-import {TreeNode} from "./TreeNode";
+import {TreeNode} from "./model/TreeNode";
 import {ISchema} from "@formily/react";
 
 export type IResource = {
