@@ -8,7 +8,7 @@ import {
     StudioPanel,
     WorkspacePanel
 } from "@trionesdev/form-designer-react";
-import {Input} from "./components";
+import {Form, Input} from "./components";
 import {FormItem} from "@formily/antd-v5";
 
 function App() {
@@ -16,11 +16,11 @@ function App() {
         <div className="App">
             <FormDesigner>
                 <StudioPanel>
-                    <CompositePanel style={{width:300}}>
+                    <CompositePanel style={{width: 300}}>
                         <ResourceWidget sources={[Input]}/>
                     </CompositePanel>
                     <WorkspacePanel>
-<ComponentsWidget components={{Input}}/>
+                        <ComponentsWidget components={{Form, Input}}/>
                     </WorkspacePanel>
                 </StudioPanel>
             </FormDesigner>

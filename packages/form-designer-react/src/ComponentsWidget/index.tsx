@@ -8,13 +8,19 @@ type ComponentsWidgetProps = {
     components?: IComponents
 }
 export const ComponentsWidget: FC<ComponentsWidgetProps> = ({children, components}) => {
-    const {treeNode, registerComponents} = useFormDesigner()
+    const {nodeIdName, treeNode, registerComponents} = useFormDesigner()
+
+    const dataId = {}
+    if (treeNode) {
+        dataId[nodeIdName] = treeNode.id
+    }
 
     useEffect(() => {
         registerComponents(components)
     }, [components])
 
     return <>
-        {treeNode && <TreeNodeWidget treeNode={treeNode}/>}
+        {treeNode &&
+            <div {...dataId} style={{width: '100%', height: '100%'}}><TreeNodeWidget treeNode={treeNode}/></div>}
     </>
 }

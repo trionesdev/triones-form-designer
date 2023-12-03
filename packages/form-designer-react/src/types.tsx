@@ -1,4 +1,5 @@
 import React from "react";
+import {TreeNode} from "./TreeNode";
 
 export type IResource = {
     name?: string
@@ -6,7 +7,7 @@ export type IResource = {
     [key:string]:any
 }
 
-export type DesignerComponent = IResource
+export type DesignerComponent = IResource & {node?:TreeNode}
 
 export type IComponents = {
     [key:string]: TdFC<any>

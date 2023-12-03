@@ -1,13 +1,16 @@
-import {IResource} from "./types";
+import {DesignerComponent} from "./types";
 import {FC} from "react";
 import React from "react";
 // @ts-ignore
 import {ReactComponent as Ab} from "./Ab.svg"
 import {A} from "./Icon"
 import styled from "@emotion/styled";
+import {TD_DESIGNER_SOURCE_ID} from "./constant";
 
 const SourceDiv = ({children, className,sourceId}: { children: React.ReactNode, className?: string ,sourceId?: string}) => {
-    return <div className={className} td-designer-source-id={sourceId}>{children}</div>
+    // return <div className={className} td-designer-source-id={sourceId}>{children}</div>
+
+    return React.createElement("div", {className,[TD_DESIGNER_SOURCE_ID]:sourceId},children)
 }
 
 const SourceItemStyled = styled(SourceDiv)({
@@ -36,13 +39,13 @@ const SourceItemStyled = styled(SourceDiv)({
 
 
 type SourceItemProps = {
-    source: IResource
+    source: DesignerComponent
     [key: string]:any
 }
 
 export const SourceItem: FC<SourceItemProps> = ({source,...props}) => {
     // console.log(A)
-    return <SourceItemStyled sourceId={source.name} {...props}>
+    return <SourceItemStyled sourceId={source?.node.id} {...props}>
         <span className={`icon`}>{React.cloneElement(A)}</span>
         <span>{source.title}</span>
     </SourceItemStyled>

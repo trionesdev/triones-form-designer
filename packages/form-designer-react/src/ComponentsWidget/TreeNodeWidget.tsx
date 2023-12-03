@@ -9,7 +9,7 @@ export const TreeNodeWidget: FC<ComponentWidgetProps> = ({treeNode}) => {
     const {nodeIdName, components} = useFormDesigner()
 
     const handleRender = () => {
-        const Component = components[treeNode.name]
+        const Component = components?.[treeNode.name];
 
         const renderProps = () => {
             return {
@@ -17,9 +17,12 @@ export const TreeNodeWidget: FC<ComponentWidgetProps> = ({treeNode}) => {
                 ...treeNode.props
             }
         }
+        if (Component){
+            return React.createElement(Component, renderProps())
+        }else {
+            return null
+        }
 
-
-        return React.createElement(Component, renderProps())
     }
 
     return <>{handleRender()}</>

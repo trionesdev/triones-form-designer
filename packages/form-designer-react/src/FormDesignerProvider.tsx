@@ -1,17 +1,18 @@
 import {FormDesignerContext} from "./FormDesignerContext";
-import React, {FC, useState} from "react";
+import React, {FC, useEffect, useRef, useState} from "react";
 import {TreeNode} from "./TreeNode";
-import {IComponents, IResource} from "./types";
+import {DesignerComponent, IComponents} from "./types";
 import {TD_DESIGNER_NODE_ID, TD_DESIGNER_SOURCE_ID} from "./constant";
 
 type FormDesignerProviderProps = {
     children?: React.ReactNode
+    rootComponentName?: string
 }
 
-export const FormDesignerProvider: FC<FormDesignerProviderProps> = ({children}) => {
-    const sources = new Map<string, IResource>();
+export const FormDesignerProvider: FC<FormDesignerProviderProps> = ({children,rootComponentName='Form'}) => {
+    const sources = new Map<string, DesignerComponent>();
     const [components, setComponents] = useState<IComponents>({});
-    const treeNodes = new Map<string, TreeNode>();
+    const treeNodes = useRef<Map<string, TreeNode>>(new Map())
     const [nodeIdName, setNodeIdName] = React.useState<string>(TD_DESIGNER_NODE_ID);
     // @ts-ignore
     const [treeNode, setTreeNode] = React.useState<TreeNode>(null);
@@ -21,14 +22,17 @@ export const FormDesignerProvider: FC<FormDesignerProviderProps> = ({children}) 
     // @ts-ignore
     const [draggingNode, setDraggingNode] = useState<TreeNode>(null)
 
-    const handleRegisterSources = (IResource: IResource[]) => {
+    const handleRegisterSources = (IResource: DesignerComponent[]) => {
+        debugger
         IResource.forEach(item => {
             sources.set(item?.name, item)
+            treeNodes.current.set(item.node.id, item.node)
         })
     }
 
     const handleFindNodeById = (id: string) => {
-        return treeNodes.get(id)
+        debugger
+        return treeNodes.current.get(id)
     }
 
     const handleMouseMove = (e: React.MouseEvent) => {
@@ -43,11 +47,13 @@ export const FormDesignerProvider: FC<FormDesignerProviderProps> = ({children}) 
     const handleMouseDown = (e: React.MouseEvent) => {
 
         const target = e.target as HTMLElement
-        const el = target?.closest?.(`*[${nodeIdName}],*[${TD_DESIGNER_SOURCE_ID}]`)
+        const el = target?.closest?.(`*[${nodeIdName}],
+                            *[${TD_DESIGNER_SOURCE_ID}]`)
         debugger
         if (el) {
+            const sourceId = el.getAttribute(TD_DESIGNER_SOURCE_ID)
             const nodeId = el.getAttribute(nodeIdName)
-            handleDragStart(e, el)
+            handleDragStart(e, (sourceId || nodeId))
             setSelectionNode(handleFindNodeById(nodeId))
         }
     }
@@ -56,23 +62,44 @@ export const FormDesignerProvider: FC<FormDesignerProviderProps> = ({children}) 
         handleDragEnd(e)
     }
 
-    const handleDragStart = (e: React.MouseEvent, el?: Element) => {
+    const handleDragStart = (e: React.MouseEvent, nodeId?: string) => {
         console.log("drag start")
         setDragging(true)
-        const sourceEl = el?.closest?.(`*[${TD_DESIGNER_SOURCE_ID}=${}]`)
+        const node = handleFindNodeById(nodeId)
+        console.log("dragNod {}", node)
+        setDraggingNode(node)
     }
 
-    const handleDragEnd = (e: React.MouseEvent, el?: Element) => {
+    const handleDragEnd = (e: React.MouseEvent) => {
         console.log("drag end")
 
         if (draggingNode) {
+            console.log("drag end node {}", draggingNode)
+            if (draggingNode.isSourceNode) { //拖拽的是组件
+                console.log("drag end node isSourceNode")
 
+            } else {
+
+            }
         }
         setDragging(false)
         setDraggingNode(null)
     }
 
+    useEffect(() => {
+        const Component = components?.[rootComponentName]
+        debugger
+        if (Component) {
+            const rootTreeNode = new TreeNode({
+                name: 'Form'
+            })
+            setTreeNode(rootTreeNode)
+            treeNodes.current.set(rootTreeNode.id, rootTreeNode)
+        }
+    }, [rootComponentName,components])
+
     return <FormDesignerContext.Provider value={{
+        rootComponentName,
         nodeIdName,
         setNodeIdName,
         dragging,

@@ -1,11 +1,13 @@
 import React, {createContext} from "react";
 import {TreeNode} from "./TreeNode";
-import {IComponents, IResource} from "./types";
+import {DesignerComponent, IComponents, IResource} from "./types";
 import {TD_DESIGNER_NODE_ID} from "./constant";
 
 export interface FormDesignerContextProps {
     nodeIdName: string
     setNodeIdName: (value: any) => void
+    rootComponentName?: string
+    setRootComponentName?: (value: any) => void
     components?: IComponents
     treeNode?: TreeNode
     hoverNode?: TreeNode
@@ -13,7 +15,7 @@ export interface FormDesignerContextProps {
     draggingNode?: TreeNode
     dragging: boolean
     setDragging: (value: boolean) => void
-    registerSources:(resources:IResource[])=>void
+    registerSources:(resources:DesignerComponent[])=>void
     registerComponents:(components:IComponents)=>void
     onMouseMove: (e: React.MouseEvent) => void
     onMouseDown: (e: React.MouseEvent) => void
