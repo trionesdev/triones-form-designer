@@ -17,7 +17,7 @@ export const ResourceWidget: FC<ResourceWidgetProps> = ({sources}) => {
     useEffect(() => {
         const sourcesArray = _.reduce(sources, (result, source) => {
             return _.concat(result, source.Resource)
-        }, []).map((item: any) => _.assign(item, {node: new TreeNode({isSourceNode: true, name: item.name})}))
+        }, []).map((item: any) => _.assign(item, {node: new TreeNode({isSourceNode: true, componentName: item.name})}))
         setScopeSources(sourcesArray)
         registerSources(sourcesArray)
     }, [sources]);

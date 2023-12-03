@@ -3,13 +3,14 @@ import React, {FC, useEffect, useRef, useState} from "react";
 import {TreeNode} from "./TreeNode";
 import {DesignerComponent, IComponents} from "./types";
 import {TD_DESIGNER_NODE_ID, TD_DESIGNER_SOURCE_ID} from "./constant";
+import _ from "lodash";
 
 type FormDesignerProviderProps = {
     children?: React.ReactNode
     rootComponentName?: string
 }
 
-export const FormDesignerProvider: FC<FormDesignerProviderProps> = ({children,rootComponentName='Form'}) => {
+export const FormDesignerProvider: FC<FormDesignerProviderProps> = ({children, rootComponentName = 'Form'}) => {
     const sources = new Map<string, DesignerComponent>();
     const [components, setComponents] = useState<IComponents>({});
     const treeNodes = useRef<Map<string, TreeNode>>(new Map())
@@ -77,7 +78,14 @@ export const FormDesignerProvider: FC<FormDesignerProviderProps> = ({children,ro
             console.log("drag end node {}", draggingNode)
             if (draggingNode.isSourceNode) { //拖拽的是组件
                 console.log("drag end node isSourceNode")
-
+               const ss = new TreeNode({
+                    parent: treeNode,
+                    componentName: draggingNode.componentName
+                })
+                treeNode.children.push(ss)
+                setTreeNode(_.cloneDeep(treeNode))
+                treeNodes.current.set(ss.id, ss)
+                console.log("drag end node isSourceNode", treeNode)
             } else {
 
             }
@@ -91,12 +99,12 @@ export const FormDesignerProvider: FC<FormDesignerProviderProps> = ({children,ro
         debugger
         if (Component) {
             const rootTreeNode = new TreeNode({
-                name: 'Form'
+                componentName: 'Form'
             })
             setTreeNode(rootTreeNode)
             treeNodes.current.set(rootTreeNode.id, rootTreeNode)
         }
-    }, [rootComponentName,components])
+    }, [rootComponentName, components])
 
     return <FormDesignerContext.Provider value={{
         rootComponentName,
