@@ -1,7 +1,8 @@
 import React, {FC, useEffect, useRef} from "react"
 import styled from "@emotion/styled";
-import {useFormDesigner} from "../hooks/useFormDesigner";
 import {DragHandler} from "./DragHandler";
+import {useFormDesigner} from "../../hooks/useFormDesigner";
+import {useOperation} from "../../hooks/useOperation";
 
 const SelectionBoxStyled = styled('div')({
     position: 'absolute',
@@ -17,7 +18,7 @@ const SelectionBoxStyled = styled('div')({
         padding: '4px 4px',
         gap: '4px',
         'button': {
-            cursor:'pointer',
+            cursor: 'pointer',
             border: 'none'
         }
     }
@@ -28,7 +29,8 @@ type SelectionBoxProps = {}
 export const SelectionBox: FC<SelectionBoxProps> = ({}) => {
     const ref = useRef<HTMLDivElement>()
     const helpersRef = useRef<HTMLDivElement>()
-    const {nodeIdName, selectionNode} = useFormDesigner()
+    const {nodeIdName} = useFormDesigner()
+    const {selectionNode} = useOperation()
 
     useEffect(() => {
         const selectionNodeEl = document.querySelector(`*[${nodeIdName}=${selectionNode?.id}]`)

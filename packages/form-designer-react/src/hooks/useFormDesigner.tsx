@@ -1,6 +1,7 @@
 import {useContext} from "react";
-import {FormDesignerContext} from "../FormDesignerContext";
+import {FormDesignerEngine} from "../model/FormDesignerEngine";
+import {FormDesignerContext} from "../context";
 
-export const useFormDesigner = () => {
+export const useFormDesigner = ():FormDesignerEngine => {
   return useContext(FormDesignerContext);
 }

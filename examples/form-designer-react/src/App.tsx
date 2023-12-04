@@ -9,7 +9,6 @@ import {
     WorkspacePanel
 } from "@trionesdev/form-designer-react";
 import {Form, Input} from "./components";
-import {FormItem} from "@formily/antd-v5";
 
 function App() {
     return (

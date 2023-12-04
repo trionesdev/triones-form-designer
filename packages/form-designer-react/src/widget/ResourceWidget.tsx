@@ -1,18 +1,18 @@
 import React, {FC, useEffect, useState} from "react";
-import {DesignerComponent} from "./types";
 import _ from "lodash";
-import {SourceItem} from "./SourceItem";
+import {DesignerComponent} from "../types";
+import {useFormDesigner} from "../hooks/useFormDesigner";
+import {TreeNode} from "../model/TreeNode";
+import {SourceItem} from "../SourceItem";
 import {Col, Row} from "antd";
-import {useFormDesigner} from "./hooks/useFormDesigner";
-import {TreeNode} from "./model/TreeNode";
-import {useFormDesigner2} from "./hooks/useFormDesigner2";
+
 
 type ResourceWidgetProps = {
     sources?: DesignerComponent[]
 }
 
 export const ResourceWidget: FC<ResourceWidgetProps> = ({sources}) => {
-    const engine = useFormDesigner2()
+    const engine = useFormDesigner()
     const [scopeSources, setScopeSources] = useState<DesignerComponent>([])
 
     useEffect(() => {

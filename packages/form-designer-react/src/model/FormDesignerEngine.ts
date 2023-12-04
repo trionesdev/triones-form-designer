@@ -3,6 +3,7 @@ import {IComponents} from "../types";
 import {TreeNode} from "./TreeNode";
 import {TD_DESIGNER_NODE_ID} from "../constant";
 import React from "react";
+import {Operation} from "./Operation";
 
 interface IFormDesignerEngine {
     rootComponentName?: string
@@ -12,24 +13,14 @@ interface IFormDesignerEngine {
 export class FormDesignerEngine {
     rootComponentName: string
     nodeIdName?: string
-    components: IComponents[]
-    treeNodes: Map<string, TreeNode>
-    treeNode: TreeNode
-    hoverNode?: TreeNode
-    selectionNode?: TreeNode
+    components: IComponents
+    operation?: Operation
 
-    dragging: boolean
-    draggingNode?: TreeNode
 
     constructor(args: IFormDesignerEngine) {
         this.rootComponentName = args.rootComponentName || 'Form'
         this.nodeIdName = args.nodeIdName || TD_DESIGNER_NODE_ID
-        this.treeNodes = new Map()
-        this.dragging = false
-        this.treeNode = new TreeNode({
-            componentName: this.rootComponentName,
-            engine: this,
-        })
+        this.operation =  new Operation({engine: this})
         this.makeObservable()
     }
 
@@ -37,14 +28,6 @@ export class FormDesignerEngine {
         define(this, {
             nodeIdName: observable.ref,
             components: observable.ref,
-            treeNode: observable.ref,
-            dragging: observable.ref,
-        })
-
-        reaction(() => {
-            return this.treeNode
-        }, () => {
-            console.log('treeNode changed')
         })
 
         reaction(() => {
@@ -53,24 +36,14 @@ export class FormDesignerEngine {
             console.log('components changed')
         })
 
-        reaction(() => {
-            return this.dragging
-        }, () => {
-            console.log('dragging changed')
-        })
     }
 
     registerSources = () => {
-        this.components = []
+
     }
 
-    onMouseDown = (e: React.MouseEvent) => {
-        this.dragging = true
-        console.log('onMouseDown')
+    registerComponents = (components: IComponents) => {
+        this.components = components
     }
 
-    onMouseUp = (e: React.MouseEvent) => {
-        this.dragging = false
-        console.log('onMouseUp')
-    }
 }

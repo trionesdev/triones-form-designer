@@ -1,7 +1,6 @@
 import React, {FC} from "react";
 import styled from "@emotion/styled";
-import {useFormDesigner} from "./hooks/useFormDesigner";
-import {useFormDesigner2} from "./hooks/useFormDesigner2";
+import {useOperation} from "../hooks/useOperation";
 
 type StudioPanelProps = {
     children?: React.ReactNode
@@ -15,7 +14,7 @@ const StudioPanelStyled = styled('div')({
 export const StudioPanel: FC<StudioPanelProps> = ({
                                                       children
                                                   }) => {
-    const {onMouseDown,onMouseUp} = useFormDesigner2()
+    const {onMouseDown,onMouseUp} = useOperation()
 
     return <StudioPanelStyled
         onMouseDown={onMouseDown}

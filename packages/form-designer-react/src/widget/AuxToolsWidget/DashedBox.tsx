@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import React, {useEffect, useRef} from "react";
 import {FC} from "react";
-import {useFormDesigner} from "../hooks/useFormDesigner";
+import {useFormDesigner} from "../../hooks/useFormDesigner";
+import {useOperation} from "../../hooks/useOperation";
 
 const DashedBoxStyled = styled('div')({
     position: 'absolute',
@@ -19,7 +20,8 @@ type DashedBoxProps = {}
 export const DashedBox: FC<DashedBoxProps> = ({}) => {
     const ref = useRef<HTMLDivElement>()
     const spanRef = useRef<HTMLDivElement>()
-    const {nodeIdName, hoverNode} = useFormDesigner()
+    const {nodeIdName} = useFormDesigner()
+    const {hoverNode} = useOperation()
 
     useEffect(() => {
         console.log("ss")
