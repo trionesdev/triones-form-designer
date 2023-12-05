@@ -1,5 +1,5 @@
 import React from "react";
-import {dragMoveEffect, dragStartEffect} from "../effect";
+import {dragMoveEffect, dragStartEffect, mouseDownEffect, mouseMoveEffect} from "../effect";
 import {Operation} from "../model/Operation";
 
 export const Events = {
@@ -41,6 +41,8 @@ export class EventManager {
                     this.operation.dragging = true
                     dragStartEffect(e, this.operation)
                 }
+            } else {
+                mouseMoveEffect(e, this.operation)
             }
 
         }
@@ -51,5 +53,9 @@ export class EventManager {
         this.operation.dragging = false
         this.operation.startEvent = null
         this.operation.onMouseDownAt = 0
+    }
+
+    onMouseClick(e: React.MouseEvent) {
+        console.log("onMouseClick ", e)
     }
 }

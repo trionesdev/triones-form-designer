@@ -8,7 +8,7 @@ type ComponentWidgetProps = {
     treeNode: TreeNode;
 }
 export const TreeNodeWidget: FC<ComponentWidgetProps> = observer(({treeNode}) => {
-    const {nodeIdName, components} = useFormDesigner()
+    const {nodeIdAttrName, components} = useFormDesigner()
     console.log('TreeNodeWidget {}',treeNode)
     const handleRender = () => {
         const Component = components?.[treeNode.componentName];
@@ -24,12 +24,11 @@ export const TreeNodeWidget: FC<ComponentWidgetProps> = observer(({treeNode}) =>
         }
         const renderProps = () => {
             return {
-                [nodeIdName]: treeNode.id,
+                [nodeIdAttrName]: treeNode.id,
                 ...treeNode.props
             }
         }
         if (Component) {
-            debugger
             return React.createElement(Component, renderProps(), ...renderChildren())
         } else {
             if (treeNode.children.length > 0) {

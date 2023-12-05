@@ -5,7 +5,7 @@ import {
     CompositePanel,
     FormDesigner,
     ResourceWidget,
-    StudioPanel,
+    StudioPanel, ViewportPanel,
     WorkspacePanel
 } from "@trionesdev/form-designer-react";
 import {Form, Input} from "./components";
@@ -19,7 +19,9 @@ function App() {
                         <ResourceWidget sources={[Input]}/>
                     </CompositePanel>
                     <WorkspacePanel>
-                        <ComponentsWidget components={{Form, Input}}/>
+                        <ViewportPanel>
+                            <ComponentsWidget components={{Form, Input}}/>
+                        </ViewportPanel>
                     </WorkspacePanel>
                 </StudioPanel>
             </FormDesigner>

@@ -12,6 +12,7 @@ const WorkspacePanelStyled = styled('div')({
     flex: '1 auto',
     minWidth: 0,
     position: 'relative',
+    display: 'flex'
 })
 
 export const WorkspacePanel: FC<WorkspacePanelProps> = observer(({children}) => {

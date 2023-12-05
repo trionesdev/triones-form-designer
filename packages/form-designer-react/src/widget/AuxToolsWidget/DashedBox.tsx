@@ -55,7 +55,9 @@ export const DashedBox: FC<DashedBoxProps> = ({}) => {
         }
     }, [hoverNode]);
 
-    return <DashedBoxStyled ref={ref}>
-        <span ref={spanRef} className={`td-aux-dashed-box-title`}>测试</span>
-    </DashedBoxStyled>
+    return <>
+        {hoverNode && <DashedBoxStyled ref={ref}>
+            <span ref={spanRef} className={`td-aux-dashed-box-title`}>测试</span>
+        </DashedBoxStyled>}
+    </>
 }

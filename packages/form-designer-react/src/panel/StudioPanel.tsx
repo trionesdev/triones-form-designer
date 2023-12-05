@@ -15,7 +15,7 @@ export const StudioPanel: FC<StudioPanelProps> = ({
                                                       children
                                                   }) => {
     const {eventManager} = useOperation()
-debugger
+
     return <StudioPanelStyled
         onMouseDown={(e)=>eventManager.onMouseDown(e)}
         onMouseUp={(e)=>eventManager.onMouseUp(e)}
