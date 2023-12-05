@@ -9,6 +9,7 @@ Input.Resource = [
     {
         name: 'Input',
         title: '输入框',
+        componentName:'Field',
         schema: {
             type: 'string',
             title: 'Input',
@@ -19,6 +20,7 @@ Input.Resource = [
     {
         name: 'Input.TextArea',
         title: '多行输入框',
+        componentName:'Field',
         schema: {
             type: 'string',
             title: 'Input.TextArea',

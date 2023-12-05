@@ -5,6 +5,7 @@ import {useFormDesigner} from "../hooks/useFormDesigner";
 import {TreeNode} from "../model/TreeNode";
 import {SourceItem} from "../SourceItem";
 import {Col, Row} from "antd";
+import {TD_DESIGNER_SOURCE_ID} from "../constant";
 
 
 type ResourceWidgetProps = {
@@ -18,17 +19,14 @@ export const ResourceWidget: FC<ResourceWidgetProps> = ({sources}) => {
     useEffect(() => {
         const sourcesArray = _.reduce(sources, (result, source) => {
             return _.concat(result, source.Resource)
-        }, []).map((item: any) => _.assign(item, {node: new TreeNode({isSourceNode: true, componentName: item.name})}))
+        }, []).map((item: any) => _.assign(item, {node: new TreeNode({isSourceNode: true, componentName: item.componentName})}))
         setScopeSources(sourcesArray)
-        engine.registerSources()
     }, [sources]);
 
     return <div>
         <Row gutter={[4, 4]}>
             {
-                scopeSources.map((source: any) => <Col span={12}>{React.createElement(SourceItem, {
-                    "source": source
-                })}</Col>)
+                scopeSources.map((source: any) => <Col span={12}><SourceItem source={source}/></Col>)
             }
         </Row>
 

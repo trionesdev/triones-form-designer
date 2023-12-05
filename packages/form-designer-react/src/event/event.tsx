@@ -1,5 +1,12 @@
 import React from "react";
-import {dragMoveEffect, dragStartEffect, mouseDownEffect, mouseMoveEffect} from "../effect";
+import {
+    dragEndEffect,
+    dragMoveEffect,
+    dragStartEffect,
+    mouseClickEffect,
+    mouseDownEffect,
+    mouseMoveEffect
+} from "../effect";
 import {Operation} from "../model/Operation";
 
 export const Events = {
@@ -28,7 +35,6 @@ export class EventManager {
         if (this.operation.dragging) {
             dragMoveEffect(e, this.operation)
         } else {
-
             const {startEvent, onMouseDownAt} = this.operation
             if (onMouseDownAt > 0) {
                 console.log("onMouseDownAt", onMouseDownAt)
@@ -37,8 +43,7 @@ export class EventManager {
                     Math.pow(e.pageY - startEvent.pageY, 2)
                 )
                 const timeDelta = Date.now() - onMouseDownAt
-                if (distance > 4 && timeDelta > 10 && e != startEvent) {
-                    this.operation.dragging = true
+                if (distance > 4 && timeDelta > 10 && e != startEvent) { //当距离大于4且时间大于10ms时，开始拖拽
                     dragStartEffect(e, this.operation)
                 }
             } else {
@@ -50,12 +55,15 @@ export class EventManager {
 
     onMouseUp(e: React.MouseEvent) {
         console.log("onMouseUp ", e)
-        this.operation.dragging = false
         this.operation.startEvent = null
         this.operation.onMouseDownAt = 0
+        if (this.operation.dragging) {
+            dragEndEffect(e, this.operation);
+        }
     }
 
     onMouseClick(e: React.MouseEvent) {
         console.log("onMouseClick ", e)
+        mouseClickEffect(e, this.operation)
     }
 }

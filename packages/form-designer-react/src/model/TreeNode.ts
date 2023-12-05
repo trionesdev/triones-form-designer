@@ -34,7 +34,7 @@ export class TreeNode {
         this.parent = args?.parent
         this.children = args?.children || []
         this.isSourceNode = args?.isSourceNode
-        this.componentName = args?.componentName
+        this.componentName = args?.componentName || 'Field'
         this.schema = args?.schema
         this.operation = args?.operation
 

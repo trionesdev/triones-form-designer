@@ -12,7 +12,8 @@ const WorkspacePanelStyled = styled('div')({
     flex: '1 auto',
     minWidth: 0,
     position: 'relative',
-    display: 'flex'
+    display: 'flex',
+    padding: '4px',
 })
 
 export const WorkspacePanel: FC<WorkspacePanelProps> = observer(({children}) => {
@@ -20,7 +21,6 @@ export const WorkspacePanel: FC<WorkspacePanelProps> = observer(({children}) => 
 
     return <WorkspacePanelStyled>
         {children}
-        <AuxToolsWidget/>
     </WorkspacePanelStyled>
 }, {
     scheduler: () => {

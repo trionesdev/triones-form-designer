@@ -19,12 +19,33 @@ export const dragStartEffect = (e, operation: Operation) => {
     }
     const sourceId = el.getAttribute(engine.sourceIdAttrName)
     const nodeId = el.getAttribute(engine.nodeIdAttrName)
-    if (sourceId || nodeId) {
-        const node = operation.findNodeById(sourceId || nodeId)
-        operation.tree.append(node)
+    if ( nodeId) {
+        const node = operation.findNodeById( nodeId)
+        if (node.root == node){
+            return;
+        }
+        if (node){
+            operation.dragging = true
+            operation.draggingNode = node
+        }
+    }else if (sourceId){
+        const sourceNode = operation.findNodeById( sourceId)
+        if (sourceNode){
+            operation.dragging = true
+            operation.draggingNode = sourceNode
+        }
     }
 }
 
 export const dragMoveEffect = (e, operation: Operation) => {
     console.log("dragMoveEffect",e)
+}
+
+export const dragEndEffect = (e, operation: Operation) => {
+    console.log("dragEndEffect",e)
+    if (operation.draggingNode) {
+        operation.tree.append(operation.draggingNode)
+    }
+    operation.dragging = false
+    operation.draggingNode = null
 }

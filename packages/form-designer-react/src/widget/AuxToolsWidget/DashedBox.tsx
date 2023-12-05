@@ -3,6 +3,7 @@ import React, {useEffect, useRef} from "react";
 import {FC} from "react";
 import {useFormDesigner} from "../../hooks/useFormDesigner";
 import {useOperation} from "../../hooks/useOperation";
+import {observer} from "@formily/react";
 
 const DashedBoxStyled = styled('div')({
     position: 'absolute',
@@ -17,11 +18,11 @@ const DashedBoxStyled = styled('div')({
 })
 
 type DashedBoxProps = {}
-export const DashedBox: FC<DashedBoxProps> = ({}) => {
+export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
     const ref = useRef<HTMLDivElement>()
     const spanRef = useRef<HTMLDivElement>()
     const {nodeIdAttrName} = useFormDesigner()
-    const {hoverNode} = useOperation()
+    const {dragging, hoverNode} = useOperation()
 
     useEffect(() => {
         console.log("ss")
@@ -56,8 +57,8 @@ export const DashedBox: FC<DashedBoxProps> = ({}) => {
     }, [hoverNode]);
 
     return <>
-        {hoverNode && <DashedBoxStyled ref={ref}>
+        {!dragging && hoverNode && <DashedBoxStyled ref={ref}>
             <span ref={spanRef} className={`td-aux-dashed-box-title`}>测试</span>
         </DashedBoxStyled>}
     </>
-}
+})

@@ -7,13 +7,17 @@ import {A} from "./Icon"
 import styled from "@emotion/styled";
 import {TD_DESIGNER_SOURCE_ID} from "./constant";
 
-const SourceDiv = ({children, className,sourceId}: { children: React.ReactNode, className?: string ,sourceId?: string}) => {
+const SourceDiv = ({children, className, sourceId}: {
+    children: React.ReactNode,
+    className?: string,
+    sourceId?: string
+}) => {
     // return <div className={className} td-designer-source-id={sourceId}>{children}</div>
 
-    return React.createElement("div", {className,[TD_DESIGNER_SOURCE_ID]:sourceId},children)
+    return React.createElement("div", {className, [TD_DESIGNER_SOURCE_ID]: sourceId}, children)
 }
 
-const SourceItemStyled = styled(SourceDiv)({
+const SourceItemStyled = styled('div')({
     userSelect: 'none',
     cursor: 'move',
     padding: '8px',
@@ -40,12 +44,12 @@ const SourceItemStyled = styled(SourceDiv)({
 
 type SourceItemProps = {
     source: DesignerComponent
-    [key: string]:any
+    [key: string]: any
 }
 
-export const SourceItem: FC<SourceItemProps> = ({source,...props}) => {
+export const SourceItem: FC<SourceItemProps> = ({source, ...props}) => {
     // console.log(A)
-    return <SourceItemStyled sourceId={source?.node.id} {...props}>
+    return <SourceItemStyled {...{[TD_DESIGNER_SOURCE_ID]: source?.node.id}}>
         <span className={`icon`}>{React.cloneElement(A)}</span>
         <span>{source.title}</span>
     </SourceItemStyled>

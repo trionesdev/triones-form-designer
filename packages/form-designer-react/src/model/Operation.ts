@@ -16,6 +16,7 @@ export class Operation {
     startEvent: any
     hoverNode?: TreeNode
     selectionNode?: TreeNode
+    draggingNode?: TreeNode
     eventManager: EventManager
 
     constructor(args: IOperation) {
@@ -31,18 +32,17 @@ export class Operation {
 
     makeObservable() {
         define(this, {
-            tree: observable,
-        })
-
-        reaction(() => {
-            return this.tree
-        }, () => {
-            console.log('tree changed')
+            dragging: observable.ref,
+            hoverNode: observable.ref
         })
     }
 
     findNodeById(id: string) {
         return this.tree.findNodeById(id)
+    }
+
+    setHoverNode(node: TreeNode) {
+        this.hoverNode = node
     }
 
 }

@@ -1,6 +1,7 @@
 import React, {FC} from "react"
 import {useOperation} from "../hooks/useOperation";
 import styled from "@emotion/styled";
+import {AuxToolsWidget} from "../widget";
 
 type ViewportPanelProps = {
     children?: React.ReactNode;
@@ -14,5 +15,8 @@ const ViewportPanelStyled = styled('div')({
 
 export const ViewportPanel: FC<ViewportPanelProps> = ({children}) => {
     const {eventManager} = useOperation()
-    return <ViewportPanelStyled onClick={(e) => eventManager.onMouseClick(e)}>{children}</ViewportPanelStyled>
+    return <ViewportPanelStyled onClick={(e) => eventManager.onMouseClick(e)}>
+        {children}
+        <AuxToolsWidget/>
+    </ViewportPanelStyled>
 }

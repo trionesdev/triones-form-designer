@@ -25,10 +25,11 @@ export const TreeNodeWidget: FC<ComponentWidgetProps> = observer(({treeNode}) =>
         const renderProps = () => {
             return {
                 [nodeIdAttrName]: treeNode.id,
-                ...treeNode.props
+                schema: treeNode.schema
             }
         }
         if (Component) {
+            debugger
             return React.createElement(Component, renderProps(), ...renderChildren())
         } else {
             if (treeNode.children.length > 0) {

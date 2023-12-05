@@ -24,7 +24,23 @@ export const mouseUpEffect = (e, operation: Operation) => {
  * @param operation
  */
 export const mouseMoveEffect = (e, operation: Operation) => {
-
+    console.log("mouseMoveEffect")
+    const engine = operation.engine
+    const target = e.target as HTMLElement
+    const el = target?.closest(`
+       *[${engine.nodeIdAttrName}]
+      `)
+    if (!el?.getAttribute) {
+        return
+    }
+    debugger
+    const nodeId = el.getAttribute(engine.nodeIdAttrName)
+    if (nodeId){
+        const hoverNode = operation.findNodeById( nodeId)
+        if (hoverNode){
+            operation.setHoverNode(hoverNode)
+        }
+    }
 }
 
 export const mouseLeaveEffect = (e, operation: Operation) => {

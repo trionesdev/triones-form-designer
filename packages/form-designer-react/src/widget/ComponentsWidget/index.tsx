@@ -4,6 +4,8 @@ import {observer} from "@formily/react";
 import {IComponents} from "../../types";
 import {useFormDesigner} from "../../hooks/useFormDesigner";
 import {useTree} from "../../hooks/useTree";
+import _ from "lodash";
+import {Field} from "../Field";
 
 type ComponentsWidgetProps = {
     children?: React.ReactNode,
@@ -19,7 +21,7 @@ export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(({children, 
     }
 
     useEffect(() => {
-        registerComponents(components)
+        registerComponents(_.assign({Field},components))
     }, [components])
 
     useEffect(()=>{

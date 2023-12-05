@@ -5,6 +5,9 @@ import {Operation} from "./Operation";
 
 interface IFormDesignerEngine {
     rootComponentName?: string
+    /**
+     * nodeId属性名称 ，必须data-开头 否则很可能不识别
+     */
     nodeIdAttrName?: string
     sourceIdAttrName?: string
 }

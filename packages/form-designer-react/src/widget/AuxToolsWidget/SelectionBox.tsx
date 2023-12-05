@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import {DragHandler} from "./DragHandler";
 import {useFormDesigner} from "../../hooks/useFormDesigner";
 import {useOperation} from "../../hooks/useOperation";
+import {observer} from "@formily/react";
 
 const SelectionBoxStyled = styled('div')({
     position: 'absolute',
@@ -26,14 +27,14 @@ const SelectionBoxStyled = styled('div')({
 
 type SelectionBoxProps = {}
 
-export const SelectionBox: FC<SelectionBoxProps> = ({}) => {
+export const SelectionBox: FC<SelectionBoxProps> = observer(({}) => {
     const ref = useRef<HTMLDivElement>()
     const helpersRef = useRef<HTMLDivElement>()
-    const {nodeIdName} = useFormDesigner()
+    const {nodeIdAttrName} = useFormDesigner()
     const {selectionNode} = useOperation()
 
     useEffect(() => {
-        const selectionNodeEl = document.querySelector(`*[${nodeIdName}=${selectionNode?.id}]`)
+        const selectionNodeEl = document.querySelector(`*[${nodeIdAttrName}=${selectionNode?.id}]`)
         if (selectionNodeEl) {
             if (ref.current && helpersRef.current) {
                 const rect = selectionNodeEl.getBoundingClientRect()
@@ -58,11 +59,11 @@ export const SelectionBox: FC<SelectionBoxProps> = ({}) => {
 
     }, [selectionNode])
 
-    return <SelectionBoxStyled ref={ref}>
+    return <>{selectionNode && <SelectionBoxStyled ref={ref}>
         <div ref={helpersRef} className={`td-aux-selection-helpers`}>
             <button>多行输入</button>
             <DragHandler/>
             <button>删除</button>
         </div>
-    </SelectionBoxStyled>
-}
+    </SelectionBoxStyled>}</>
+})
