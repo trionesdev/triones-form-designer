@@ -20,14 +20,14 @@ type DashedBoxProps = {}
 export const DashedBox: FC<DashedBoxProps> = ({}) => {
     const ref = useRef<HTMLDivElement>()
     const spanRef = useRef<HTMLDivElement>()
-    const {nodeIdName} = useFormDesigner()
+    const {nodeIdAttrName} = useFormDesigner()
     const {hoverNode} = useOperation()
 
     useEffect(() => {
         console.log("ss")
         // @ts-ignore
         console.log(hoverNode)
-        const hoverNodeEl = document.querySelector(`*[${nodeIdName}=${hoverNode?.id}]`)
+        const hoverNodeEl = document.querySelector(`*[${nodeIdAttrName}=${hoverNode?.id}]`)
         console.log(hoverNode)
 
         if (hoverNodeEl) {

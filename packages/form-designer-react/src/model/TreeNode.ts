@@ -46,7 +46,7 @@ export class TreeNode {
             this.parent = null
         }
 
-        TreeNodes.set(this.id, this)
+        TreeNodes.set(this.id, this) //同步设置节点到TreeNodes
         this.makeObservable()
     }
 
@@ -55,6 +55,10 @@ export class TreeNode {
             children: observable.shallow,
             append: action
         })
+    }
+
+    findNodeById(id: string) {
+        return TreeNodes.get(id)
     }
 
     append(...nodes: TreeNode[]) {

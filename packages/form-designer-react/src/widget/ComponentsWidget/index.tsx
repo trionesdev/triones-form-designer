@@ -10,12 +10,12 @@ type ComponentsWidgetProps = {
     components?: IComponents
 }
 export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(({children, components}) => {
-    const {nodeIdName,registerComponents} = useFormDesigner()
+    const {nodeIdAttrName,registerComponents} = useFormDesigner()
     const tree = useTree()
 
     const dataId = {}
     if (tree) {
-        dataId[nodeIdName] = tree.id
+        dataId[nodeIdAttrName] = tree.id
     }
 
     useEffect(() => {

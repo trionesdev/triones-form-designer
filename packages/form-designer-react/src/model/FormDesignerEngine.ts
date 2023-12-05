@@ -1,32 +1,34 @@
 import {define, observable, reaction} from "@formily/reactive";
 import {IComponents} from "../types";
-import {TreeNode} from "./TreeNode";
-import {TD_DESIGNER_NODE_ID} from "../constant";
-import React from "react";
+import {TD_DESIGNER_NODE_ID, TD_DESIGNER_SOURCE_ID} from "../constant";
 import {Operation} from "./Operation";
 
 interface IFormDesignerEngine {
     rootComponentName?: string
-    nodeIdName?: string
+    nodeIdAttrName?: string
+    sourceIdAttrName?: string
 }
 
 export class FormDesignerEngine {
     rootComponentName: string
-    nodeIdName?: string
+    nodeIdAttrName?: string
+    sourceIdAttrName?: string
     components: IComponents
     operation?: Operation
 
 
     constructor(args: IFormDesignerEngine) {
         this.rootComponentName = args.rootComponentName || 'Form'
-        this.nodeIdName = args.nodeIdName || TD_DESIGNER_NODE_ID
-        this.operation =  new Operation({engine: this})
+        this.nodeIdAttrName = args.nodeIdAttrName || TD_DESIGNER_NODE_ID
+        this.sourceIdAttrName = args.sourceIdAttrName || TD_DESIGNER_SOURCE_ID
+        this.operation = new Operation({engine: this})
+
         this.makeObservable()
     }
 
     makeObservable() {
         define(this, {
-            nodeIdName: observable.ref,
+            nodeIdAttrName: observable.ref,
             components: observable.ref,
         })
 
