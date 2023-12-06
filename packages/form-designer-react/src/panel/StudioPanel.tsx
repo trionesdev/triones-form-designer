@@ -8,7 +8,7 @@ type StudioPanelProps = {
 
 const StudioPanelStyled = styled('div')({
     height: '100%',
-    display: 'flex'
+    display: 'flex',
 })
 
 export const StudioPanel: FC<StudioPanelProps> = ({

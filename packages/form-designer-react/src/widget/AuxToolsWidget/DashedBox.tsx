@@ -41,7 +41,7 @@ export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
             ref.current.style.transform = `perspective(1px) translate3d(0px, ${rect.top}px, 0px)`
 
             if (spanRef.current) {
-                if (rect.height == rect.bottom) {
+                if (hoverNode == hoverNode.root) {
 
                 } else {
                     if (rect.top > 10) {
@@ -58,7 +58,7 @@ export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
 
     return <>
         {!dragging && hoverNode && <DashedBoxStyled ref={ref}>
-            <span ref={spanRef} className={`td-aux-dashed-box-title`}>测试</span>
+            {hoverNode != hoverNode.root && <span ref={spanRef} className={`td-aux-dashed-box-title`}>测试</span>}
         </DashedBoxStyled>}
     </>
 })

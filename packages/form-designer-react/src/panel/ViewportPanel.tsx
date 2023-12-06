@@ -11,6 +11,10 @@ const ViewportPanelStyled = styled('div')({
     flex: '1 auto',
     minWidth: 0,
     position: 'relative',
+    '.ant-formily-item-label,.ant-formily-item-control': {
+        userSelect: 'none',
+        pointerEvents: 'none'
+    }
 })
 
 export const ViewportPanel: FC<ViewportPanelProps> = ({children}) => {

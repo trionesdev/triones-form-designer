@@ -43,8 +43,20 @@ export const dragMoveEffect = (e, operation: Operation) => {
 
 export const dragEndEffect = (e, operation: Operation) => {
     console.log("dragEndEffect",e)
+    const engine = operation.engine
     if (operation.draggingNode) {
-        operation.tree.append(operation.draggingNode)
+        const target = e.target as HTMLElement
+        const el = target?.closest(`
+       *[${engine.nodeIdAttrName}]
+      `)
+        if (!el?.getAttribute) {
+            return
+        }
+        const nodeId = el.getAttribute(engine.nodeIdAttrName)
+        if (nodeId){
+            const closestNode = operation.findNodeById( nodeId)
+            closestNode.append(operation.draggingNode)
+        }
     }
     operation.dragging = false
     operation.draggingNode = null

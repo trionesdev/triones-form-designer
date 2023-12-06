@@ -4,6 +4,7 @@ import {DragHandler} from "./DragHandler";
 import {useFormDesigner} from "../../hooks/useFormDesigner";
 import {useOperation} from "../../hooks/useOperation";
 import {observer} from "@formily/react";
+import {DeleteIcon} from "../../Icon";
 
 const SelectionBoxStyled = styled('div')({
     position: 'absolute',
@@ -20,7 +21,16 @@ const SelectionBoxStyled = styled('div')({
         gap: '4px',
         'button': {
             cursor: 'pointer',
-            border: 'none'
+            border: 'none',
+            backgroundColor: '#1890FF',
+            color: 'white',
+            fontSize: '12px',
+            padding: '2px',
+            display: 'inline-flex',
+            'svg': {
+                width: '1rem',
+                height: '1rem',
+            }
         }
     }
 })
@@ -34,6 +44,7 @@ export const SelectionBox: FC<SelectionBoxProps> = observer(({}) => {
     const {selectionNode} = useOperation()
 
     useEffect(() => {
+        console.log(selectionNode)
         const selectionNodeEl = document.querySelector(`*[${nodeIdAttrName}=${selectionNode?.id}]`)
         if (selectionNodeEl) {
             if (ref.current && helpersRef.current) {
@@ -44,26 +55,38 @@ export const SelectionBox: FC<SelectionBoxProps> = observer(({}) => {
                 ref.current.style.border = `2px solid #1890FF`
                 ref.current.style.transform = `perspective(1px) translate3d(0px, ${rect.top}px, 0px)`
 
-
-                if (rect.top > 10) {
+                if (selectionNode == selectionNode.root) {
                     helpersRef.current.style.top = 'auto';
-                    helpersRef.current.style.bottom = '100%';
-                } else {
-                    helpersRef.current.style.top = '100%';
                     helpersRef.current.style.bottom = 'auto';
+                } else {
+                    if (rect.top > 10) {
+                        helpersRef.current.style.top = 'auto';
+                        helpersRef.current.style.bottom = '100%';
+                    } else {
+                        helpersRef.current.style.top = '100%';
+                        helpersRef.current.style.bottom = 'auto';
+                    }
                 }
-
             }
 
         }
 
     }, [selectionNode])
 
+    const handleDelete = () => {
+        if (selectionNode == selectionNode.root) {
+            return
+        }
+        selectionNode.remove()
+    }
+
     return <>{selectionNode && <SelectionBoxStyled ref={ref}>
         <div ref={helpersRef} className={`td-aux-selection-helpers`}>
             <button>多行输入</button>
-            <DragHandler/>
-            <button>删除</button>
+            {selectionNode != selectionNode.root && <>
+                <DragHandler/>
+                <button onClick={handleDelete}>{React.cloneElement(DeleteIcon)}</button>
+            </>}
         </div>
     </SelectionBoxStyled>}</>
 })

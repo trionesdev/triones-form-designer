@@ -53,5 +53,19 @@ export const mouseLeaveEffect = (e, operation: Operation) => {
  * @param operation
  */
 export const mouseClickEffect = (e, operation: Operation) => {
-
+    const engine = operation.engine
+    const target = e.target as HTMLElement
+    const el = target?.closest(`
+       *[${engine.nodeIdAttrName}]
+      `)
+    if (!el?.getAttribute) {
+        return
+    }
+    const nodeId = el.getAttribute(engine.nodeIdAttrName)
+    if (nodeId){
+        const hoverNode = operation.findNodeById( nodeId)
+        if (hoverNode){
+            operation.selectionNode = hoverNode
+        }
+    }
 }

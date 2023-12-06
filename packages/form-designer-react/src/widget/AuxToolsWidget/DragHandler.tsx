@@ -1,8 +1,15 @@
 import styled from "@emotion/styled";
 import React, {FC} from "react";
+import {MoveIcon} from "../../Icon";
 
 const DragHandlerStyled = styled('button')({
-    cursor: 'move!important'
+    cursor: 'move!important',
+    padding:'2px',
+    display:'inline-flex',
+    'svg':{
+        width:'1rem',
+        height:'1rem',
+    }
 })
 
 type DragHandlerProps = {
@@ -14,6 +21,5 @@ export const DragHandler: FC<DragHandlerProps> = ({
                                                   }) => {
 
 
-
-    return <DragHandlerStyled  >拖拽</DragHandlerStyled>
+    return <DragHandlerStyled>{React.cloneElement(MoveIcon)}</DragHandlerStyled>
 }

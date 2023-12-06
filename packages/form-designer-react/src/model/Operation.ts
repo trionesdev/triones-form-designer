@@ -33,7 +33,9 @@ export class Operation {
     makeObservable() {
         define(this, {
             dragging: observable.ref,
-            hoverNode: observable.ref
+            hoverNode: observable.ref,
+            selectionNode: observable.ref,
+            draggingNode: observable.ref,
         })
     }
 
