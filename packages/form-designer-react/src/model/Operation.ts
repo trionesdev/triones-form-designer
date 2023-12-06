@@ -23,6 +23,8 @@ export class Operation {
         this.engine = args.engine
         this.tree = new TreeNode({
             componentName: args.engine.rootComponentName,
+            isSourceNode: false,
+            operation: this
         })
         this.dragging = false
         this.onMouseDownAt = 0

@@ -69,7 +69,10 @@ export class TreeNode {
     append(...nodes: TreeNode[]) {
         const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
         if (droppableNode) {
-            droppableNode.children = _.concat(droppableNode.children, this.restNodes(nodes, droppableNode))
+            const appendNodes = this.restNodes(nodes, droppableNode);
+            droppableNode.children = _.concat(droppableNode.children, appendNodes)
+            console.log(this.operation)
+            this.operation.selectionNode = appendNodes[0] //设置新增节点为选中状态
         }
     }
 
