@@ -6,9 +6,14 @@ import {useFormDesigner} from "../hooks/useFormDesigner";
 import {IComponents} from "../types";
 
 const propsGenerate = ({
+                           nodeIdAttrName,
                            components
                        },
-                       {components: IComponents}) => {
+                       {
+                           nodeIdAttrName: string,
+                           components: IComponents
+                       }) => {
+    return {}
 }
 
 type FieldProps = {
