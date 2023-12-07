@@ -29,7 +29,6 @@ export const TreeNodeWidget: FC<ComponentWidgetProps> = observer(({treeNode}) =>
             }
         }
         if (Component) {
-            debugger
             return React.createElement(Component, renderProps(), ...renderChildren())
         } else {
             if (treeNode.children.length > 0) {

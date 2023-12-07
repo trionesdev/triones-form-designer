@@ -12,9 +12,10 @@ Input.Resource = [
         componentName:'Field',
         schema: {
             type: 'string',
-            title: 'Input',
+            title: '输入框',
             'x-decorator': 'FormItem',
             'x-component': 'Input',
+            required: true,
         }
     },
     {
@@ -23,9 +24,10 @@ Input.Resource = [
         componentName:'Field',
         schema: {
             type: 'string',
-            title: 'Input.TextArea',
+            title: '文本框',
+            required: true,
             'x-decorator': 'FormItem',
-            'x-component': 'Input.TextArea',
+            'x-component': 'Input.TextArea'
         }
     }
 ]

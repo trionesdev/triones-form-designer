@@ -41,7 +41,7 @@ export const SelectionBox: FC<SelectionBoxProps> = observer(({}) => {
     const ref = useRef<HTMLDivElement>()
     const helpersRef = useRef<HTMLDivElement>()
     const {nodeIdAttrName} = useFormDesigner()
-    const {selectionNode} = useOperation()
+    const {dragging, selectionNode} = useOperation()
 
     useEffect(() => {
         console.log(selectionNode)
@@ -80,9 +80,9 @@ export const SelectionBox: FC<SelectionBoxProps> = observer(({}) => {
         selectionNode.remove()
     }
 
-    return <>{selectionNode && <SelectionBoxStyled ref={ref}>
+    return <>{!dragging && selectionNode && <SelectionBoxStyled ref={ref}>
         <div ref={helpersRef} className={`td-aux-selection-helpers`}>
-            <button>多行输入</button>
+            <button>{selectionNode?.title}</button>
             {selectionNode != selectionNode.root && <>
                 <DragHandler/>
                 <button onClick={handleDelete}>{React.cloneElement(DeleteIcon)}</button>

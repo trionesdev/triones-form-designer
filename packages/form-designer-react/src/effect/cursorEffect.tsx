@@ -33,11 +33,10 @@ export const mouseMoveEffect = (e, operation: Operation) => {
     if (!el?.getAttribute) {
         return
     }
-    debugger
     const nodeId = el.getAttribute(engine.nodeIdAttrName)
-    if (nodeId){
-        const hoverNode = operation.findNodeById( nodeId)
-        if (hoverNode){
+    if (nodeId) {
+        const hoverNode = operation.findNodeById(nodeId)
+        if (hoverNode) {
             operation.setHoverNode(hoverNode)
         }
     }
@@ -62,9 +61,9 @@ export const mouseClickEffect = (e, operation: Operation) => {
         return
     }
     const nodeId = el.getAttribute(engine.nodeIdAttrName)
-    if (nodeId){
-        const hoverNode = operation.findNodeById( nodeId)
-        if (hoverNode){
+    if (nodeId) {
+        const hoverNode = operation.findNodeById(nodeId)
+        if (hoverNode) {
             operation.selectionNode = hoverNode
         }
     }

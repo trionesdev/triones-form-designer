@@ -22,12 +22,15 @@ export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
     const ref = useRef<HTMLDivElement>()
     const spanRef = useRef<HTMLDivElement>()
     const {nodeIdAttrName} = useFormDesigner()
-    const {dragging, hoverNode} = useOperation()
+    const {dragging, hoverNode, selectionNode} = useOperation()
 
     useEffect(() => {
         console.log("ss")
         // @ts-ignore
         console.log(hoverNode)
+        if (!ref.current) {
+            return
+        }
         const hoverNodeEl = document.querySelector(`*[${nodeIdAttrName}=${hoverNode?.id}]`)
         console.log(hoverNode)
 
@@ -54,11 +57,11 @@ export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
                 }
             }
         }
-    }, [hoverNode]);
+    }, [dragging, hoverNode, selectionNode]);
 
     return <>
-        {!dragging && hoverNode && <DashedBoxStyled ref={ref}>
-            {hoverNode != hoverNode.root && <span ref={spanRef} className={`td-aux-dashed-box-title`}>测试</span>}
+        {!dragging && hoverNode && (hoverNode != selectionNode) && <DashedBoxStyled ref={ref}>
+            {hoverNode != hoverNode.root && <span ref={spanRef} className={`td-aux-dashed-box-title`}>{hoverNode?.title}</span>}
         </DashedBoxStyled>}
     </>
 })

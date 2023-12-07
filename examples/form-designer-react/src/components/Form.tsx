@@ -19,5 +19,10 @@ Form.Resource = [
     {
         name: 'Form',
         title: '表单',
+        droppable: true,
+        schema: {
+            title: '表单',
+            'x-component': 'Form',
+        }
     }
 ]

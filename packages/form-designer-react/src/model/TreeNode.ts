@@ -14,6 +14,8 @@ interface ITreeNode {
     isSourceNode?: boolean
     schema?: ISchema
     operation?: Operation
+
+    [key: string]: any
 }
 
 const TreeNodes = new Map<string, TreeNode>()
@@ -24,7 +26,6 @@ export class TreeNode {
     children: TreeNode[]
     id: string
     componentName: string
-    props: any
     isSourceNode?: boolean
     schema?: ISchema
     operation?: Operation
@@ -54,8 +55,18 @@ export class TreeNode {
     makeObservable() {
         define(this, {
             children: observable.shallow,
+            schema: observable.ref,
             append: action
         })
+    }
+
+    get title() {
+        return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component'))?.title
+    }
+
+    get droppable() {
+        console.log("droppable", this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component',this.componentName) ))
+        return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))?.droppable || false
     }
 
     findNodeById(id: string) {

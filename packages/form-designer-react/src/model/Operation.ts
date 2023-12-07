@@ -4,6 +4,12 @@ import {define, observable, reaction, toJS} from "@formily/reactive";
 import React from "react";
 import {EventManager} from "../event/event";
 
+export enum ClosestPosition {
+    BEFORE = 'BEFORE',
+    AFTER = 'AFTER',
+    INNER = 'INNER',
+}
+
 interface IOperation {
     engine: FormDesignerEngine;
 }
@@ -11,13 +17,18 @@ interface IOperation {
 export class Operation {
     engine: FormDesignerEngine;
     tree: TreeNode
-    dragging: boolean
-    onMouseDownAt: number
-    startEvent: any
-    hoverNode?: TreeNode
-    selectionNode?: TreeNode
-    draggingNode?: TreeNode
+    dragging: boolean //是否在拖拽
+    onMouseDownAt: number //鼠标按下时间
+    startEvent: any //开始事件
+    hoverNode?: TreeNode //悬浮节点
+    selectionNode?: TreeNode //选中节点
+    draggingNode?: TreeNode //拖拽节点
+    draggingHoverNode?: TreeNode //拖拽悬浮节点
+    closestPosition: ClosestPosition //与最近可托入节点的位置
+    closestNode?: TreeNode //最近节点
     eventManager: EventManager
+    mouseEvent: any
+
 
     constructor(args: IOperation) {
         this.engine = args.engine
@@ -28,6 +39,7 @@ export class Operation {
         })
         this.dragging = false
         this.onMouseDownAt = 0
+        this.closestPosition = null
         this.eventManager = new EventManager(this)
         this.makeObservable()
     }
@@ -38,6 +50,10 @@ export class Operation {
             hoverNode: observable.ref,
             selectionNode: observable.ref,
             draggingNode: observable.ref,
+            draggingHoverNode: observable.ref,
+            closestPosition: observable.ref,
+            mouseEvent: observable.ref,
+            closestNode: observable.ref,
         })
     }
 
