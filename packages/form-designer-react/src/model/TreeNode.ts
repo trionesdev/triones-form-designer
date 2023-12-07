@@ -147,4 +147,12 @@ export class TreeNode {
         })
         return newNode
     }
+
+    get layout(){
+        if (this == this.root ){
+            return 'vertical'
+        }
+        //TODO 根据组件类型获取布局
+        return 'vertical'
+    }
 }
