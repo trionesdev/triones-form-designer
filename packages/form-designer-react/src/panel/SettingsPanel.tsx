@@ -3,26 +3,29 @@ import {useOperation} from "../hooks/useOperation";
 import styled from "@emotion/styled";
 import {createForm} from "@formily/core";
 import {createSchemaField, FormProvider, observer} from "@formily/react";
-import {FormItem, Input} from "@formily/antd-v5";
+import {JSXComponent} from "@formily/react/esm/types";
 
 const SettingsPanelStyled = styled('div')({
     minWidth: '300px'
 })
 
 type SettingsPanelProps = {
-    className?: string
+    className?: string,
+    components?: Record<string, JSXComponent>
+    /**
+     * form 组件属性
+     */
+    formProps?: Omit<any, 'form'>
 }
 
 const SchemaField = createSchemaField({
-    components: {
-        Input,
-        FormItem,
-    },
+    components: {},
 })
 
-
 export const SettingsPanel: React.FC<SettingsPanelProps> = observer(({
-                                                                         className
+                                                                         className,
+                                                                         components,
+                                                                         formProps
                                                                      }) => {
     const operation = useOperation()
     const {selectionNode} = operation
@@ -37,9 +40,21 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = observer(({
         })
     }, [selectionNode, selectionNode?.id])
     debugger
+
+    /**
+     * 如果有Form组件，则使用Form组件包裹，如果没有则使用FormProvider包裹
+     * @param children
+     */
+    const formRender = (children: React.ReactNode) => {
+        const formComp = components['Form']
+        if (formComp) {
+            return React.createElement(formComp, {form, ...formProps}, children)
+        } else {
+            return React.createElement(FormProvider, {form}, children)
+        }
+    }
+
     return <SettingsPanelStyled className={className}>
-        <FormProvider form={form}>
-            <SchemaField schema={selectionNode?.designerProps}/>
-        </FormProvider>
+        {formRender(<SchemaField components={components} schema={selectionNode?.designerProps}/>)}
     </SettingsPanelStyled>
 })
