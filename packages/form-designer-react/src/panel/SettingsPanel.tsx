@@ -4,9 +4,21 @@ import styled from "@emotion/styled";
 import {createForm} from "@formily/core";
 import {createSchemaField, FormProvider, observer} from "@formily/react";
 import {JSXComponent} from "@formily/react/esm/types";
+import {IconWidget} from "../widget/IconWidget";
+import {GlobalStore} from "../store";
 
 const SettingsPanelStyled = styled('div')({
-    minWidth: '300px'
+    minWidth: '300px',
+    '.properties-header':{
+        display:'flex',
+        gap:8,
+        alignItems:'center',
+        padding: '4px',
+        borderBottom: '1px solid #d9d9d9'
+    },
+    '.properties-body':{
+        padding: '4px'
+    },
 })
 
 type SettingsPanelProps = {
@@ -31,6 +43,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = observer(({
     const {selectionNode} = operation
 
     const form = useMemo(() => {
+        console.log("SettingsPanel selectionNode",selectionNode)
         return createForm({
             initialValues: selectionNode?.designerProps?.defaultProps,
             values: selectionNode?.schema,
@@ -55,6 +68,14 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = observer(({
     }
 
     return <SettingsPanelStyled className={className}>
-        {formRender(<SchemaField components={components} schema={selectionNode?.designerProps}/>)}
+        <div className={`properties-header`}>
+            {selectionNode && <>
+                <IconWidget icon={GlobalStore.getIcon(selectionNode.sourceComponent?.icon)} />
+                <span>{selectionNode.title}</span>
+            </>}
+        </div>
+        <div className={`properties-body`}>
+            {formRender(<SchemaField components={components} schema={selectionNode?.designerProps}/>)}
+        </div>
     </SettingsPanelStyled>
 })

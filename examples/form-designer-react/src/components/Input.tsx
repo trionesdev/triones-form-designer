@@ -8,6 +8,7 @@ export const Input: TdFC<React.ComponentProps<typeof FormilyInput>> = FormilyInp
 Input.Resource = [
     {
         name: 'Input',
+        icon: 'InputIcon',
         title: '输入框',
         componentName: 'Field',
         schema: {
@@ -39,6 +40,7 @@ Input.Resource = [
     },
     {
         name: 'Input.TextArea',
+        icon: 'InputIcon',
         title: '多行输入框',
         componentName: 'Field',
         schema: {

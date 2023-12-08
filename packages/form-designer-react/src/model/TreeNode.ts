@@ -61,6 +61,10 @@ export class TreeNode {
         })
     }
 
+    get sourceComponent(){
+        return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))
+    }
+
     get designerProps() {
         return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))?.designerProps?.propsSchema || {}
     }

@@ -3,14 +3,18 @@ import './App.css';
 import {
     ComponentsWidget,
     CompositePanel,
-    FormDesigner,
+    FormDesigner, GlobalStore,
     ResourceWidget, StudioPanel, ViewportPanel,
     WorkspacePanel
 } from "@trionesdev/form-designer-react";
 import {Form, Input, Select} from "./components";
 import {AntdSettingsPanel} from "./AntdSettingsPanel";
+import * as icons from "./Icons";
 
 function App() {
+
+    GlobalStore.registerIcons(icons)
+
     return (
         <div className="App">
             <FormDesigner>

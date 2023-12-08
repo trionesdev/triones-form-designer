@@ -117,12 +117,12 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
             if (closestPosition == ClosestPosition.BEFORE) {
                 ref.current.style.height = `2px`
                 ref.current.style.width = `${closestRect.width}px`
-                ref.current.style.border = `1px solid #1890FF`
+                ref.current.style.backgroundColor = `#1890FF`
                 ref.current.style.transform = `perspective(1px) translate3d(0px, ${closestRect.top}px, 0px)`
             } else if (closestPosition == ClosestPosition.AFTER) {
                 ref.current.style.height = `2px`
                 ref.current.style.width = `${closestRect.width}px`
-                ref.current.style.border = `1px solid #1890FF`
+                ref.current.style.backgroundColor = `#1890FF`
                 ref.current.style.transform = `perspective(1px) translate3d(0px, ${closestRect.top + closestRect.height}px, 0px)`
             }
         }

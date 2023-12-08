@@ -2,10 +2,11 @@ import {DesignerComponent} from "./types";
 import {FC} from "react";
 import React from "react";
 // @ts-ignore
-import {ReactComponent as Ab} from "./Ab.svg"
-import {A} from "./Icon"
 import styled from "@emotion/styled";
 import {TD_DESIGNER_SOURCE_ID} from "./constant";
+import {useFormDesigner} from "./hooks/useFormDesigner";
+import {IconWidget} from "./widget/IconWidget";
+import {GlobalStore} from "./store";
 
 const SourceDiv = ({children, className, sourceId}: {
     children: React.ReactNode,
@@ -48,9 +49,10 @@ type SourceItemProps = {
 }
 
 export const SourceItem: FC<SourceItemProps> = ({source, ...props}) => {
+
     // console.log(A)
     return <SourceItemStyled {...{[TD_DESIGNER_SOURCE_ID]: source?.node.id}}>
-        <span className={`icon`}>{React.cloneElement(A)}</span>
+        <IconWidget icon={GlobalStore.getIcon(source.icon)}/>
         <span>{source.title}</span>
     </SourceItemStyled>
 }

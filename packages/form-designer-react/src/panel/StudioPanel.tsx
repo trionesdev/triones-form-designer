@@ -9,6 +9,15 @@ type StudioPanelProps = {
 const StudioPanelStyled = styled('div')({
     height: '100%',
     display: 'flex',
+    '.icon': {
+        display: 'inline-block',
+        alignItems: 'center',
+        lineHeight: '0',
+        'svg': {
+            width: '1rem',
+            height: '1rem',
+        }
+    },
 })
 
 export const StudioPanel: FC<StudioPanelProps> = ({

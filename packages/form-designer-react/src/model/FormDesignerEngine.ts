@@ -3,6 +3,7 @@ import {DesignerComponent, IComponents, IResource, TdFC} from "../types";
 import {TD_DESIGNER_NODE_ID, TD_DESIGNER_SOURCE_ID} from "../constant";
 import {Operation} from "./Operation";
 import _ from "lodash";
+import React from "react";
 
 interface IFormDesignerEngine {
     rootComponentName?: string
@@ -37,7 +38,7 @@ export class FormDesignerEngine {
             nodeIdAttrName: observable.ref,
             components: observable.ref,
             sourceComponents: observable.ref,
-            componentResources: observable.computed
+            componentResources: observable.computed,
         })
 
         reaction(() => {
