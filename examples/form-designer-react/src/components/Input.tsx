@@ -34,6 +34,12 @@ Input.Resource = [
                         'x-decorator': 'FormItem',
                         'x-component': 'Input',
                     },
+                    required: {
+                        type: 'string',
+                        title: '是否必填',
+                        'x-decorator': 'FormItem',
+                        'x-component': 'Switch',
+                    },
                 }
             }
         }

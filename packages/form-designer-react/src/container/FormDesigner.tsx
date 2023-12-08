@@ -1,7 +1,7 @@
 import React from "react";
 import {FC} from "react";
-import {FormDesignerContext} from "./context";
-import {FormDesignerEngine} from "./model/FormDesignerEngine";
+import {FormDesignerContext} from "../context";
+import {FormDesignerEngine} from "../model/FormDesignerEngine";
 
 
 type FormDesignerProps = {

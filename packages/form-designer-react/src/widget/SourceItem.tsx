@@ -1,12 +1,12 @@
-import {DesignerComponent} from "./types";
+import {DesignerComponent} from "../types";
 import {FC} from "react";
 import React from "react";
 // @ts-ignore
 import styled from "@emotion/styled";
-import {TD_DESIGNER_SOURCE_ID} from "./constant";
-import {useFormDesigner} from "./hooks/useFormDesigner";
-import {IconWidget} from "./widget/IconWidget";
-import {GlobalStore} from "./store";
+import {TD_DESIGNER_SOURCE_ID} from "../constant";
+import {useFormDesigner} from "../hooks/useFormDesigner";
+import {IconWidget} from "./IconWidget";
+import {GlobalStore} from "../store";
 
 const SourceDiv = ({children, className, sourceId}: {
     children: React.ReactNode,

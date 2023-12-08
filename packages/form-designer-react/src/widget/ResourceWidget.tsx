@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from "react";
 import _ from "lodash";
 import {DesignerComponent} from "../types";
 import {TreeNode} from "../model/TreeNode";
-import {SourceItem} from "../SourceItem";
+import {SourceItem} from "./SourceItem";
 import {Col, Row} from "antd";
 import {useOperation} from "../hooks/useOperation";
 import {useFormDesigner} from "../hooks/useFormDesigner";
