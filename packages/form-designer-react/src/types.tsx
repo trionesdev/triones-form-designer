@@ -6,13 +6,17 @@ export type IResource = {
     name?: string
     icon?: string
     schema?: ISchema
-    [key:string]:any
+    designerProps?: {
+        propsSchema?: ISchema
+        defaultProps?: any
+    }
+    [key: string]: any
 }
 
-export type DesignerComponent = IResource & {node?:TreeNode}
+export type DesignerComponent = IResource & { node?: TreeNode }
 
 export type IComponents = {
-    [key:string]: TdFC<any>
+    [key: string]: TdFC<any>
 }
 
 export type TdFC<P = {}> = React.FC<P> & {

@@ -1,5 +1,5 @@
 import {useFormDesigner} from "../hooks/useFormDesigner";
-import {Operation} from "../model/Operation";
+import {ClosestPosition, Operation} from "../model/Operation";
 
 /**
  * 开始拖拽
@@ -45,30 +45,31 @@ export const dragMoveEffect = (e, operation: Operation) => {
        *[${engine.nodeIdAttrName}]
       `)
     if (!el?.getAttribute) {
+        operation.cleanDraggingHover()
         return
     }
     const nodeId = el.getAttribute(engine.nodeIdAttrName)
     if (nodeId) {
         operation.draggingHoverNode = operation.findNodeById(nodeId)
         operation.mouseEvent = e
+    } else {
+        operation.cleanDraggingHover()
     }
 }
 
 export const dragEndEffect = (e, operation: Operation) => {
     console.log("dragEndEffect", e)
     const engine = operation.engine
+    const closestNode = operation.closestNode
+    const closestPosition = operation.closestPosition
+    console.log("dragEndEffect operation", operation,operation.draggingNode)
     if (operation.draggingNode) {
-        const target = e.target as HTMLElement
-        const el = target?.closest(`
-       *[${engine.nodeIdAttrName}]
-      `)
-        if (!el?.getAttribute) {
-            return
-        }
-        const nodeId = el.getAttribute(engine.nodeIdAttrName)
-        if (nodeId) {
-            const closestNode = operation.findNodeById(nodeId)
+        if (ClosestPosition.INNER === closestPosition) {
             closestNode.append(operation.draggingNode)
+        } else if (ClosestPosition.BEFORE === closestPosition) {
+            closestNode.insertBefore(operation.draggingNode)
+        } else if (ClosestPosition.AFTER === closestPosition) {
+            closestNode.insertAfter(operation.draggingNode)
         }
     }
     operation.dragging = false

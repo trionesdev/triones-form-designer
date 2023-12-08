@@ -25,7 +25,7 @@ export const ResourceWidget: FC<ResourceWidgetProps> = ({sources}) => {
                 isSourceNode: true,
                 componentName: item.componentName,
                 operation,
-                schema: item.schema
+                schema: item.schema,
             })
         }))
         setScopeSources(sourcesArray)

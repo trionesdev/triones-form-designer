@@ -21,7 +21,7 @@ export const DraggableWidget: FC<DraggableWidgetProps> = ({
         type: 'box',
         item: {name},
         end: (item, monitor) => {
-            debugger
+             
             const dropResult = monitor.getDropResult<any>()
             if (item && dropResult) {
                 alert(`You dropped ${item.name} into ${dropResult.name}!`)
@@ -44,7 +44,7 @@ console.log("dddd")
 
     useEffect(() => {
         console.log(monitor)
-        debugger
+         
         if (isDragging){
 
         }

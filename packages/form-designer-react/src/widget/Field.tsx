@@ -1,6 +1,6 @@
 import React from "react";
 import {FC} from "react";
-import {Field as FormilyField, ISchema, ObjectField} from "@formily/react"
+import {Field as FormilyField, ISchema, ObjectField, observer} from "@formily/react"
 import {FormItem, Input} from "@formily/antd-v5";
 import {useFormDesigner} from "../hooks/useFormDesigner";
 import {IComponents, TdFC} from "../types";
@@ -79,7 +79,7 @@ type FieldProps = {
     schema?: ISchema,
     [key: string]: any
 }
-export const Field: TdFC<FieldProps> = (props) => {
+export const Field: TdFC<FieldProps> = observer((props) => {
     const {nodeIdAttrName, components} = useFormDesigner()
 
     const fieldProps = toFieldProps({
@@ -91,5 +91,5 @@ export const Field: TdFC<FieldProps> = (props) => {
 
 
     return <FormilyField {...fieldProps} name={_.get(props, nodeIdAttrName)}/>
-}
+})
 Field.Resource = [{}]

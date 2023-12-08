@@ -18,10 +18,11 @@ type InsertionProps = {}
 export const Insertion: FC<InsertionProps> = observer(({}) => {
     const ref = useRef<HTMLDivElement>()
     const {nodeIdAttrName} = useFormDesigner()
-    let {dragging, draggingHoverNode, mouseEvent, closestPosition} = useOperation()
+    const operation = useOperation()
+    const {dragging, draggingHoverNode, mouseEvent} = operation
 
     //计算鼠标与元素的距离
-    const handleComputePointDistance = (mouseEvent, rect: DOMRect) => {
+    const handleComputePointDistance = (rect: DOMRect) => {
         if (mouseEvent.clientX <= rect.left && mouseEvent.clientY <= rect.top) { //鼠标在元素左上角
             return Math.sqrt(Math.pow(rect.left - mouseEvent.clientX, 2) + Math.pow(rect.top - mouseEvent.clientY, 2));
         } else if (mouseEvent.clientX <= rect.left && mouseEvent.clientY >= rect.bottom) { //鼠标在元素左下角
@@ -44,7 +45,7 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
     }
 
     const handleClosestNode = () => {
-        debugger
+         
         if (draggingHoverNode?.droppable) { //当前是可拖入节点
             if (_.isEmpty(draggingHoverNode.children)) {
                 return draggingHoverNode;
@@ -54,9 +55,9 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
                 _.forEach(draggingHoverNode.children, (node: TreeNode) => {
                     const rect = document.querySelector(`*[${nodeIdAttrName}=${node.id}]`).getBoundingClientRect()
                     console.log("rect2222", rect)
-                    const distance = handleComputePointDistance(mouseEvent, rect)
+                    const distance = handleComputePointDistance(rect)
                     console.log("distance", distance)
-                    debugger
+                     
                     if (distance < minDistance) {
                         minDistance = distance
                         closestElement = node
@@ -70,73 +71,64 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
     }
 
     const handleClosestPosition = (closestNode: TreeNode) => {
+        if (closestNode?.droppable) {
+            return ClosestPosition.INNER
+        }
         const closestNodeEl = document.querySelector(`*[${nodeIdAttrName}=${closestNode?.id}]`)
         const closestRect = closestNodeEl.getBoundingClientRect()
-
-        if (closestRect.left >= mouseEvent.clientX) { //左边
-
-        } else if (closestRect.right <= mouseEvent.clientX) { //右边
-
-        } else if (closestRect.top >= mouseEvent.clientY) { //上边
-
-        } else if (closestRect.bottom <= mouseEvent.clientY) { //下边
-
-        } else if ((closestRect.left >= mouseEvent.clientX && closestRect.right <= mouseEvent.clientX) && (closestRect.top <= mouseEvent.clientY && closestRect.bottom >= mouseEvent.clientY)) { //鼠标在元素内
-            if ((closestRect.left <= mouseEvent.clientX && closestRect.left + (closestRect.width / 2) >= mouseEvent.clientX)
-                && (closestRect.top <= mouseEvent.clientY && closestRect.top + (closestRect.height / 2) >= mouseEvent.clientY)
-            ) { //左上
-
-            } else if (
-                (closestRect.right >= mouseEvent.clientX && closestRect.left + (closestRect.width / 2) >= mouseEvent.clientX)
-                && (closestRect.top <= mouseEvent.clientY && closestRect.top + (closestRect.height / 2) >= mouseEvent.clientY)
-            ) { //右上
-
-            } else if (
-                (closestRect.right >= mouseEvent.clientX && closestRect.left + (closestRect.width / 2) >= mouseEvent.clientX)
-                && (closestRect.top + (closestRect.height / 2) >= mouseEvent.clientY && closestRect.bottom <= mouseEvent.clientY)
-            ) { //右下
-
-            } else if (
-                (closestRect.left <= mouseEvent.clientX && closestRect.left + (closestRect.width / 2) >= mouseEvent.clientX)
-                && (closestRect.top + (closestRect.height / 2) >= mouseEvent.clientY && closestRect.bottom <= mouseEvent.clientY)
-            ) { //左下
-
+        const point = {
+            x: mouseEvent.clientX,
+            y: mouseEvent.clientY
+        }
+        const rectCenter = {
+            x: closestRect.left + closestRect.width / 2,
+            y: closestRect.top + closestRect.height / 2,
+        }
+        if (closestNode.layout == 'vertical') {
+            if (point.y <= rectCenter.y) {
+                return ClosestPosition.BEFORE
+            } else {
+                return ClosestPosition.AFTER
+            }
+        } else {
+            {
+                if (point.x <= rectCenter.x) {
+                    return ClosestPosition.BEFORE
+                } else {
+                    return ClosestPosition.AFTER
+                }
             }
         }
     }
 
-    const handleIsBefore = (rect: DOMRect): boolean => {
-
-        return true
-    }
-
     useEffect(() => {
-        if (!dragging || !draggingHoverNode) {
+        if (!dragging || !draggingHoverNode || !ref.current) {
             return
         }
 
-        const closestNode = handleClosestNode()
+        let closestNode = handleClosestNode()
         console.log("closestNode", closestNode)
         if (closestNode) {
-            handleClosestPosition(closestNode)
-
+            operation.closestNode = closestNode
+            let closestPosition = handleClosestPosition(closestNode)
+            operation.closestPosition = closestPosition
+            const closestNodeEl = document.querySelector(`*[${nodeIdAttrName}=${closestNode?.id}]`)
+            const closestRect = closestNodeEl.getBoundingClientRect()
+            if (closestPosition == ClosestPosition.BEFORE) {
+                ref.current.style.height = `2px`
+                ref.current.style.width = `${closestRect.width}px`
+                ref.current.style.border = `1px solid #1890FF`
+                ref.current.style.transform = `perspective(1px) translate3d(0px, ${closestRect.top}px, 0px)`
+            } else if (closestPosition == ClosestPosition.AFTER) {
+                ref.current.style.height = `2px`
+                ref.current.style.width = `${closestRect.width}px`
+                ref.current.style.border = `1px solid #1890FF`
+                ref.current.style.transform = `perspective(1px) translate3d(0px, ${closestRect.top + closestRect.height}px, 0px)`
+            }
         }
-        // const hoverNodeEl = document.querySelector(`*[${nodeIdAttrName}=${draggingHoverNode?.id}]`)
-        // if (hoverNodeEl && mouseEvent.type === 'mousemove') {
-        //     const hoverRect = hoverNodeEl.getBoundingClientRect()
-        //     if (handleIsBefore(hoverRect)) {
-        //         closestPosition = ClosestPosition.BEFORE
-        //     }
-        //
-        //     if (ClosestPosition.BEFORE == closestPosition) {
-        //         ref.current.style.height = `2px`
-        //         ref.current.style.width = `${hoverRect.width}px`
-        //         ref.current.style.border = `1px solid #1890FF`
-        //         ref.current.style.transform = `perspective(1px) translate3d(0px, ${hoverRect.top}px, 0px)`
-        //     }
-        //
-        // }
     }, [dragging, draggingHoverNode, mouseEvent]);
 
-    return <InsertionStyled ref={ref}></InsertionStyled>
+    return <>{
+        dragging && draggingHoverNode && <InsertionStyled ref={ref}></InsertionStyled>
+    }</>
 })

@@ -37,7 +37,7 @@ export const mouseMoveEffect = (e, operation: Operation) => {
     if (nodeId) {
         const hoverNode = operation.findNodeById(nodeId)
         if (hoverNode) {
-            operation.setHoverNode(hoverNode)
+            operation.hoverNode = hoverNode
         }
     }
 }

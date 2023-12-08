@@ -1,6 +1,6 @@
 import {TreeNode} from "./TreeNode";
 import {FormDesignerEngine} from "./FormDesignerEngine";
-import {define, observable, reaction, toJS} from "@formily/reactive";
+import {action, define, observable, reaction, toJS} from "@formily/reactive";
 import React from "react";
 import {EventManager} from "../event/event";
 
@@ -52,8 +52,8 @@ export class Operation {
             draggingNode: observable.ref,
             draggingHoverNode: observable.ref,
             closestPosition: observable.ref,
-            mouseEvent: observable.ref,
             closestNode: observable.ref,
+            mouseEvent: observable.ref,
         })
     }
 
@@ -61,8 +61,9 @@ export class Operation {
         return this.tree.findNodeById(id)
     }
 
-    setHoverNode(node: TreeNode) {
-        this.hoverNode = node
+    cleanDraggingHover() {
+        this.draggingHoverNode = null
+        this.closestPosition = null
     }
 
 }

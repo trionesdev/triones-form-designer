@@ -13,6 +13,25 @@ Select.Resource = [
             title: '性别',
             'x-decorator': 'FormItem',
             'x-component': 'Select',
+        },
+        designerProps: {
+            propsSchema: {
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'string',
+                        title: '字段标识',
+                        'x-decorator': 'FormItem',
+                        'x-component': 'Input',
+                    },
+                    title: {
+                        type: 'string',
+                        title: '标题',
+                        'x-decorator': 'FormItem',
+                        'x-component': 'Input',
+                    },
+                }
+            }
         }
     }
 ]

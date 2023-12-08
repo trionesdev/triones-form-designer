@@ -55,17 +55,22 @@ export class TreeNode {
     makeObservable() {
         define(this, {
             children: observable.shallow,
-            schema: observable.ref,
+            schema: observable,
+            designerProps: observable.computed,
             append: action
         })
     }
 
+    get designerProps() {
+        return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))?.designerProps?.propsSchema || {}
+    }
+
     get title() {
-        return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component'))?.title
+        return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))?.title
     }
 
     get droppable() {
-        console.log("droppable", this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component',this.componentName) ))
+        console.log("droppable", this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName)))
         return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))?.droppable || false
     }
 
@@ -88,11 +93,61 @@ export class TreeNode {
     }
 
     /**
+     * 插入当前节点之前
+     * @param nodes
+     */
+    insertBefore(...nodes: TreeNode[]) {
+        const insertNodes = _.filter(nodes, (node: TreeNode) => {
+            return node.id !== this.id
+        })
+        if (_.isEmpty(insertNodes)) {
+            return
+        }
+        const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
+        if (droppableNode) {
+            const dropNodes = this.restNodes(insertNodes, droppableNode);
+            const index = droppableNode.children.indexOf(this)
+            const dropNodesIds = _.map(dropNodes, (node: TreeNode) => {
+                return node.id
+            })
+            const beforeNodes = _.filter(droppableNode.children.slice(0, index), (node: TreeNode) => {
+                return !_.includes(dropNodesIds, node.id)
+            });
+            const afterNodes = _.filter(droppableNode.children.slice(index), (node: TreeNode) => {
+                return !_.includes(dropNodesIds, node.id)
+            });
+            droppableNode.children = _.concat(beforeNodes, dropNodes, afterNodes)
+            this.operation.selectionNode = dropNodes[0]
+        }
+    }
+
+    /**
      * 插入当前节点后面
      * @param nodes
      */
     insertAfter(...nodes: TreeNode[]) {
-
+        const insertNodes = _.filter(nodes, (node: TreeNode) => {
+            return node.id !== this.id
+        })
+        if (_.isEmpty(insertNodes)) {
+            return
+        }
+        const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
+        if (droppableNode) {
+            const dropNodes = this.restNodes(insertNodes, droppableNode);
+            const index = droppableNode.children.indexOf(this)
+            const dropNodesIds = _.map(dropNodes, (node: TreeNode) => {
+                return node.id
+            })
+            const beforeNodes = _.filter(droppableNode.children.slice(0, index + 1), (node: TreeNode) => {
+                return !_.includes(dropNodesIds, node.id)
+            });
+            const afterNodes = _.filter(droppableNode.children.slice(index + 1), (node: TreeNode) => {
+                return !_.includes(dropNodesIds, node.id)
+            });
+            droppableNode.children = _.concat(beforeNodes, dropNodes, afterNodes)
+            this.operation.selectionNode = dropNodes[0]
+        }
     }
 
     remove() {
@@ -120,7 +175,11 @@ export class TreeNode {
         if (this.isSourceNode) {
             return
         } else {
-            return this;
+            if (this.droppable) {
+                return this;
+            } else {
+                return this.parent?.droppableNode()
+            }
         }
     }
 
@@ -139,7 +198,7 @@ export class TreeNode {
     clone(parent?: TreeNode): TreeNode {
         const newNode = new TreeNode({
             componentName: this.componentName,
-            schema: this.schema,
+            schema: _.cloneDeep(this.schema), //一定要深拷贝，否则数据会干扰，都是直接用的source组件的数据
             parent: parent,
             root: this.root,
             isSourceNode: false,
@@ -148,8 +207,8 @@ export class TreeNode {
         return newNode
     }
 
-    get layout(){
-        if (this == this.root ){
+    get layout() {
+        if (this == this.root) {
             return 'vertical'
         }
         //TODO 根据组件类型获取布局
