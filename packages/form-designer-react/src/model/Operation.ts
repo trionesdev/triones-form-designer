@@ -1,6 +1,6 @@
 import {TreeNode} from "./TreeNode";
 import {FormDesignerEngine} from "./FormDesignerEngine";
-import {action, autorun, define, markObservable, observable, reaction, toJS} from "@formily/reactive";
+import {action, autorun, define, markObservable, observable, observe, reaction, toJS} from "@formily/reactive";
 import React from "react";
 import {EventManager} from "../event/event";
 
@@ -29,12 +29,12 @@ export class Operation {
     closestNode?: TreeNode //最近节点
     eventManager: EventManager
     mouseEvent: any
-    onChange:()=>void
+    onChange: ()=>void
 
     constructor(args: IOperation) {
         this.engine = args.engine
         this.onChange = ()=>{
-            console.log("tree change sssse", this.tree)
+            console.log("[TreeInfo]","tree change sssse", this.tree)
             args.onChange?.(this.tree)
         }
         this.tree = new TreeNode({
@@ -57,6 +57,7 @@ export class Operation {
 
     makeObservable() {
         define(this, {
+            tree:observable,
             dragging: observable.ref,
             hoverNode: observable.ref,
             selectionNode: observable.ref,
@@ -67,6 +68,9 @@ export class Operation {
             mouseEvent: observable.ref,
         })
 
+        observe(this.tree,()=>{
+            console.log("[TreeInfo]", "operation tree changed")
+        })
 
     }
 

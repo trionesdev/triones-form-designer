@@ -62,11 +62,15 @@ export class TreeNode {
             designerProps: observable.computed,
             append: action
         })
-        // reaction(() => {
-        //     return this.children
-        // }, () => {
-        //     console.log("treenode change", this.schema, this.children)
-        // })
+        reaction(() => {
+            return this.children
+        }, () => {
+            console.log("[TreeInfo]", "children changed")
+            if (!this.isSourceNode){
+                this.operation.onChange()
+                console.log("[TreeInfo] children", this.schema)
+            }
+        })
         //
         // reaction(() => {
         //     return JSON.stringify(this.schema)
@@ -74,13 +78,21 @@ export class TreeNode {
         //     console.log("treenode change", this.schema, this.children)
         // })
 
-        autorun(() => {
-            console.log("[TreeInfo]", "tree changed")
+        observe(this.schema, (change) => {
+            console.log("[TreeInfo]", "observe schema changed")
             if (!this.isSourceNode){
                 this.operation.onChange()
-                console.log("[TreeInfo]", this.schema)
+                console.log("[TreeInfo] observe", this.schema)
             }
         })
+
+        // autorun(() => {
+        //     console.log("[TreeInfo]", "tree changed")
+        //     if (!this.isSourceNode){
+        //         this.operation.onChange()
+        //         console.log("[TreeInfo] autorun", this.schema)
+        //     }
+        // })
 
     }
 
