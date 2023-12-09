@@ -40,8 +40,8 @@ export const TreeNodeWidget: FC<ComponentWidgetProps> = observer(({treeNode}) =>
     }
 
     useEffect(() => {
-        console.log('[TreeInfo] TreeNodeWidget',treeNode.schema)
-    }, [treeNode.schema]);
+        console.log('[TreeInfo] TreeNodeWidget',treeNode)
+    }, [treeNode]);
 
     return <TreeNodeContext.Provider value={treeNode}>{handleRender()}</TreeNodeContext.Provider>
 })
