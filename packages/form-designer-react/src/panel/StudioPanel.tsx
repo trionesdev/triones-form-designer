@@ -9,6 +9,7 @@ type StudioPanelProps = {
 const StudioPanelStyled = styled('div')({
     height: '100%',
     display: 'flex',
+    backgroundColor: '#00000014',
     '.icon': {
         display: 'inline-block',
         alignItems: 'center',
@@ -26,9 +27,10 @@ export const StudioPanel: FC<StudioPanelProps> = ({
     const {eventManager} = useOperation()
 
     return <StudioPanelStyled
-        onMouseDown={(e)=>eventManager.onMouseDown(e)}
-        onMouseUp={(e)=>eventManager.onMouseUp(e)}
-        onMouseMove={(e)=>eventManager.onMouseMove(e)}
+        className={`td-studio-panel`}
+        onMouseDown={(e) => eventManager.onMouseDown(e)}
+        onMouseUp={(e) => eventManager.onMouseUp(e)}
+        onMouseMove={(e) => eventManager.onMouseMove(e)}
     >
         {children}
     </StudioPanelStyled>

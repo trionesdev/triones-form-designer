@@ -11,6 +11,7 @@ type CompositePanelProps = {
 const CompositePanelStyled = styled('div')({
     flexShrink: 0,
     borderRight: '1px solid #d9d9d9',
+    backgroundColor: 'white'
 })
 
 export const CompositePanel: FC<CompositePanelProps> = ({

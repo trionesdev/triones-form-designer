@@ -9,15 +9,16 @@ import {GlobalStore} from "../store";
 
 const SettingsPanelStyled = styled('div')({
     minWidth: '300px',
+    backgroundColor: 'white',
     borderLeft: '1px solid #d9d9d9',
-    '.properties-header':{
-        display:'flex',
-        gap:8,
-        alignItems:'center',
+    '.properties-header': {
+        display: 'flex',
+        gap: 8,
+        alignItems: 'center',
         padding: '16px 8px',
         borderBottom: '1px solid #d9d9d9'
     },
-    '.properties-body':{
+    '.properties-body': {
         padding: '8px'
     },
 })
@@ -44,7 +45,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = observer(({
     const {selectionNode} = operation
 
     const form = useMemo(() => {
-        console.log("SettingsPanel selectionNode",selectionNode)
+        console.log("SettingsPanel selectionNode", selectionNode)
         return createForm({
             initialValues: selectionNode?.designerProps?.defaultProps,
             values: selectionNode?.schema,
@@ -71,7 +72,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = observer(({
     return <SettingsPanelStyled className={className}>
         <div className={`properties-header`}>
             {selectionNode && <>
-                <IconWidget icon={GlobalStore.getIcon(selectionNode.sourceComponent?.icon)} />
+                <IconWidget icon={GlobalStore.getIcon(selectionNode.sourceComponent?.icon)}/>
                 <span>{selectionNode.title}</span>
             </>}
         </div>

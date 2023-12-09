@@ -7,6 +7,8 @@ import {FormDesignerEngine} from "../model/FormDesignerEngine";
 type FormDesignerProps = {
     children?: React.ReactNode
     engine?: FormDesignerEngine
+    value?: any
+    onChange?: (value: any) => void
 }
 export const FormDesigner: FC<FormDesignerProps> = ({children, engine}) => {
     let scopeEngine = engine

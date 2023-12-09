@@ -32,7 +32,7 @@ export const ViewPanel: FC<ViewPanelProps> = ({children}) => {
 
 
     return <ViewportContext.Provider value={viewport}>
-        <ViewPanelStyled ref={ref} className={`view-panel`} onClick={(e) => eventManager.onMouseClick(e)}>
+        <ViewPanelStyled ref={ref} className={`td-view-panel`} onClick={(e) => eventManager.onMouseClick(e)}>
             {children}
             <AuxToolsWidget/>
         </ViewPanelStyled>

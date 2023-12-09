@@ -9,6 +9,7 @@ type ViewportPanelProps = {
 }
 
 const ViewportPanelStyled = styled('div')({
+    background: '#fff',
     flex: '1 auto',
     minWidth: 0,
     position: 'relative',

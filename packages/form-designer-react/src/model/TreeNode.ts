@@ -1,7 +1,7 @@
 import randomstring from "randomstring"
 import {ISchema} from "@formily/react";
 import {FormDesignerEngine} from "./FormDesignerEngine";
-import {action, define, observable} from "@formily/reactive";
+import {action, define, observable, reaction, toJS} from "@formily/reactive";
 import {Operation} from "./Operation";
 import _ from "lodash";
 
@@ -59,9 +59,14 @@ export class TreeNode {
             designerProps: observable.computed,
             append: action
         })
+        reaction(() => {
+            return toJS(this.schema)
+        }, ()=>{
+            console.log("reaction", this.schema, this.children)
+        })
     }
 
-    get sourceComponent(){
+    get sourceComponent() {
         return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))
     }
 

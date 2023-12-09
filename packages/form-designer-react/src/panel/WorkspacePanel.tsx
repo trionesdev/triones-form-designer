@@ -14,13 +14,13 @@ const WorkspacePanelStyled = styled('div')({
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    // padding: '4px',
+    padding: '4px',
 })
 
 export const WorkspacePanel: FC<WorkspacePanelProps> = observer(({children}) => {
 
 
-    return <WorkspacePanelStyled>
+    return <WorkspacePanelStyled className={`td-workspace-panel`}>
         {children}
     </WorkspacePanelStyled>
 }, {
