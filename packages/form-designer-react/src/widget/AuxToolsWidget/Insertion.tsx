@@ -3,9 +3,10 @@ import React, {FC, useEffect, useRef} from "react";
 import {observer} from "@formily/react";
 import {useOperation} from "../../hooks/useOperation";
 import {useFormDesigner} from "../../hooks/useFormDesigner";
-import {ClosestPosition} from "../../model/Operation";
+import {ClosestPosition} from "../../model";
 import _ from "lodash";
-import {TreeNode} from "../../model/TreeNode";
+import {TreeNode} from "../../model";
+import {useViewport} from "../../hooks/useViewport";
 
 const InsertionStyled = styled('div')({
     position: 'absolute',
@@ -20,6 +21,7 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
     const {nodeIdAttrName} = useFormDesigner()
     const operation = useOperation()
     const {dragging, draggingHoverNode, mouseEvent} = operation
+    const viewport = useViewport()
 
     //计算鼠标与元素的距离
     const handleComputePointDistance = (rect: DOMRect) => {
@@ -75,7 +77,7 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
             return ClosestPosition.INNER
         }
         const closestNodeEl = document.querySelector(`*[${nodeIdAttrName}=${closestNode?.id}]`)
-        const closestRect = closestNodeEl.getBoundingClientRect()
+        const closestRect = viewport.viewportNodeRect(closestNodeEl)
         const point = {
             x: mouseEvent.clientX,
             y: mouseEvent.clientY
@@ -113,7 +115,7 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
             let closestPosition = handleClosestPosition(closestNode)
             operation.closestPosition = closestPosition
             const closestNodeEl = document.querySelector(`*[${nodeIdAttrName}=${closestNode?.id}]`)
-            const closestRect = closestNodeEl.getBoundingClientRect()
+            const closestRect = viewport.viewportNodeRect(closestNodeEl)
             if (closestPosition == ClosestPosition.BEFORE) {
                 ref.current.style.height = `2px`
                 ref.current.style.width = `${closestRect.width}px`

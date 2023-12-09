@@ -1,7 +1,8 @@
 import {createContext} from "react";
-import {TreeNode} from "./model/TreeNode";
-import {FormDesignerEngine} from "./model/FormDesignerEngine";
+import {FormDesignerEngine, TreeNode, Viewport} from "./model";
 
 export const FormDesignerContext = createContext<FormDesignerEngine>(null)
 
 export const TreeNodeContext = createContext<TreeNode>(null)
+
+export const ViewportContext = createContext<Viewport>(null)

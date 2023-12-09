@@ -15,7 +15,7 @@ const AuxToolsWidgetStyled = styled('div')({
     zIndex: 10
 })
 export const AuxToolsWidget = () => {
-    return <AuxToolsWidgetStyled>
+    return <AuxToolsWidgetStyled className={`aux-tools`}>
         <Insertion/>
         <DashedBox/>
         <SelectionBox/>

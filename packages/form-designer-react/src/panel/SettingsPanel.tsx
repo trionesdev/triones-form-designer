@@ -9,15 +9,16 @@ import {GlobalStore} from "../store";
 
 const SettingsPanelStyled = styled('div')({
     minWidth: '300px',
+    borderLeft: '1px solid #d9d9d9',
     '.properties-header':{
         display:'flex',
         gap:8,
         alignItems:'center',
-        padding: '4px',
+        padding: '16px 8px',
         borderBottom: '1px solid #d9d9d9'
     },
     '.properties-body':{
-        padding: '4px'
+        padding: '8px'
     },
 })
 

@@ -13,6 +13,7 @@ const WorkspacePanelStyled = styled('div')({
     minWidth: 0,
     position: 'relative',
     display: 'flex',
+    flexDirection: 'column',
     // padding: '4px',
 })
 

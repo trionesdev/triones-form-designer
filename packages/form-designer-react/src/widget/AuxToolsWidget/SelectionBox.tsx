@@ -5,6 +5,7 @@ import {useFormDesigner} from "../../hooks/useFormDesigner";
 import {useOperation} from "../../hooks/useOperation";
 import {observer} from "@formily/react";
 import {DeleteIcon} from "../../Icon";
+import {useViewport} from "../../hooks/useViewport";
 
 const SelectionBoxStyled = styled('div')({
     position: 'absolute',
@@ -42,13 +43,14 @@ export const SelectionBox: FC<SelectionBoxProps> = observer(({}) => {
     const helpersRef = useRef<HTMLDivElement>()
     const {nodeIdAttrName} = useFormDesigner()
     const {dragging, selectionNode} = useOperation()
+    const viewport = useViewport()
 
     useEffect(() => {
         console.log(selectionNode)
         const selectionNodeEl = document.querySelector(`*[${nodeIdAttrName}=${selectionNode?.id}]`)
         if (selectionNodeEl) {
             if (ref.current && helpersRef.current) {
-                const rect = selectionNodeEl.getBoundingClientRect()
+                const rect = viewport.viewportNodeRect(selectionNodeEl)
 
                 ref.current.style.height = `${rect.height}px`
                 ref.current.style.width = `${rect.width}px`

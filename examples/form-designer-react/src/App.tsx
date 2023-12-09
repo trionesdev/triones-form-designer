@@ -23,6 +23,7 @@ function App() {
                         <ResourceWidget sources={[Input, Select]}/>
                     </CompositePanel>
                     <WorkspacePanel>
+                        <div>ssss</div>
                         <ViewportPanel>
                             <ViewPanel>
                                 <ComponentsWidget components={{Form, Input, Select}}/>

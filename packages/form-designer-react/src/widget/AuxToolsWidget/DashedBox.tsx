@@ -4,6 +4,7 @@ import {FC} from "react";
 import {useFormDesigner} from "../../hooks/useFormDesigner";
 import {useOperation} from "../../hooks/useOperation";
 import {observer} from "@formily/react";
+import {useViewport} from "../../hooks/useViewport";
 
 const DashedBoxStyled = styled('div')({
     position: 'absolute',
@@ -23,6 +24,7 @@ export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
     const spanRef = useRef<HTMLDivElement>()
     const {nodeIdAttrName} = useFormDesigner()
     const {dragging, hoverNode, selectionNode} = useOperation()
+    const viewport = useViewport()
 
     useEffect(() => {
         console.log("ss")
@@ -36,7 +38,7 @@ export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
 
         if (hoverNodeEl) {
             console.log("node: {} {}", hoverNodeEl.clientWidth, hoverNodeEl.clientHeight)
-            const rect = hoverNodeEl.getBoundingClientRect()
+            const rect = viewport.viewportNodeRect(hoverNodeEl)
             console.log(rect)
             ref.current.style.height = `${rect.height}px`
             ref.current.style.width = `${rect.width}px`
