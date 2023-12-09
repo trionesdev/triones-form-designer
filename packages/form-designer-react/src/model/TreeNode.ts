@@ -1,7 +1,7 @@
 import randomstring from "randomstring"
 import {ISchema} from "@formily/react";
 import {FormDesignerEngine} from "./FormDesignerEngine";
-import {action, define, observable, reaction, toJS} from "@formily/reactive";
+import {action, autorun, define, observable, observe, reaction, toJS} from "@formily/reactive";
 import {Operation} from "./Operation";
 import _ from "lodash";
 
@@ -31,7 +31,10 @@ export class TreeNode {
     operation?: Operation
 
     constructor(args: ITreeNode) {
-        this.id = args.id || `td_${randomstring.generate(10)}`
+        this.id = args.id || `td_${randomstring.generate({
+            length: 10,
+            charset: 'alphabetic'
+        })}`
         this.root = args?.root
         this.parent = args?.parent
         this.children = args?.children || []
@@ -59,11 +62,26 @@ export class TreeNode {
             designerProps: observable.computed,
             append: action
         })
-        reaction(() => {
-            return toJS(this.schema)
-        }, ()=>{
-            console.log("reaction", this.schema, this.children)
+        // reaction(() => {
+        //     return this.children
+        // }, () => {
+        //     console.log("treenode change", this.schema, this.children)
+        // })
+        //
+        // reaction(() => {
+        //     return JSON.stringify(this.schema)
+        // }, () => {
+        //     console.log("treenode change", this.schema, this.children)
+        // })
+
+        autorun(() => {
+            console.log("[TreeInfo]", "tree changed")
+            if (!this.isSourceNode){
+                this.operation.onChange()
+                console.log("[TreeInfo]", this.schema)
+            }
         })
+
     }
 
     get sourceComponent() {

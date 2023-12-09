@@ -1,9 +1,8 @@
-import {define, observable, reaction} from "@formily/reactive";
+import {define, observable} from "@formily/reactive";
 import {DesignerComponent, IComponents, IResource, TdFC} from "../types";
 import {TD_DESIGNER_NODE_ID, TD_DESIGNER_SOURCE_ID} from "../constant";
 import {Operation} from "./Operation";
 import _ from "lodash";
-import React from "react";
 
 interface IFormDesignerEngine {
     rootComponentName?: string
@@ -28,7 +27,9 @@ export class FormDesignerEngine {
         this.nodeIdAttrName = args.nodeIdAttrName || TD_DESIGNER_NODE_ID
         this.sourceIdAttrName = args.sourceIdAttrName || TD_DESIGNER_SOURCE_ID
         this.sourceComponents = []
-        this.operation = new Operation({engine: this})
+        this.operation = new Operation({engine: this,onChange:(tree )=>{
+            console.log("treeeee",tree)
+            }})
 
         this.makeObservable()
     }
@@ -41,16 +42,9 @@ export class FormDesignerEngine {
             componentResources: observable.computed,
         })
 
-        reaction(() => {
-            return this.components
-        }, () => {
-            console.log('components changed')
-        })
-
     }
 
     get componentResources() {
-        console.log("components", this.components)
         return _.reduce(_.values(this.components), (a, b) => {
             console.log("a", a)
             return _.concat(a, b ? b.Resource : [])
@@ -66,7 +60,6 @@ export class FormDesignerEngine {
     }
 
     findSourceComponent(name: string) {
-        console.log("componentResources", this.componentResources)
         return _.find(this.componentResources, (item: IResource) => {
             return item.name === name
         })

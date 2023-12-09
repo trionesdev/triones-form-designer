@@ -1,5 +1,4 @@
 import React from "react";
-import {FC} from "react";
 import {Field as FormilyField, ISchema, ObjectField, observer} from "@formily/react"
 import {FormItem, Input} from "@formily/antd-v5";
 import {useFormDesigner} from "../hooks/useFormDesigner";
@@ -88,7 +87,6 @@ export const Field: TdFC<FieldProps> = observer((props) => {
         components,
         schema: props.schema
     })
-
 
     return <FormilyField {...fieldProps} name={_.get(props, nodeIdAttrName)}/>
 })
