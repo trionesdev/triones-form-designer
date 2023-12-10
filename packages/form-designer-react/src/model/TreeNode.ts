@@ -1,9 +1,9 @@
 import randomstring from "randomstring"
 import {ISchema} from "@formily/react";
-import {FormDesignerEngine} from "./FormDesignerEngine";
-import {action, autorun, define, observable, observe, reaction, toJS} from "@formily/reactive";
+import {action, define, observable, observe, reaction, toJS} from "@formily/reactive";
 import {Operation} from "./Operation";
 import _ from "lodash";
+import {GlobalStore} from "../store";
 
 interface ITreeNode {
     parent?: TreeNode
@@ -66,7 +66,7 @@ export class TreeNode {
             return this.children
         }, () => {
             console.log("[TreeInfo]", "children changed")
-            if (!this.isSourceNode){
+            if (!this.isSourceNode) {
                 this.operation.onChange()
                 console.log("[TreeInfo] children", this.schema)
             }
@@ -80,7 +80,7 @@ export class TreeNode {
 
         observe(this.schema, (change) => {
             console.log("[TreeInfo]", "observe schema changed")
-            if (!this.isSourceNode){
+            if (!this.isSourceNode) {
                 this.operation.onChange()
                 console.log("[TreeInfo] observe", this.schema)
             }
@@ -101,16 +101,20 @@ export class TreeNode {
     }
 
     get designerProps() {
-        return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))?.designerProps?.propsSchema || {}
+        return GlobalStore.getDesignerResourceByNode(this)?.designerProps?.propsSchema || {}
     }
 
     get title() {
-        return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))?.title
+        return GlobalStore.getDesignerResourceByNode(this)?.title
+    }
+
+    get icon(){
+        return GlobalStore.getDesignerResourceByNode(this)?.icon
     }
 
     get droppable() {
-        console.log("droppable", this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName)))
-        return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))?.droppable || false
+        console.log("droppable", GlobalStore.getDesignerResource(_.get(this.schema, 'x-component', this.componentName)))
+        return GlobalStore.getDesignerResourceByNode(this)?.droppable || false
     }
 
     findNodeById(id: string) {

@@ -1,10 +1,11 @@
 import React from "react";
 import {Field as FormilyField, ISchema, ObjectField, observer} from "@formily/react"
 import {FormItem, Input} from "@formily/antd-v5";
-import {useFormDesigner} from "../hooks/useFormDesigner";
+import {useFormDesigner} from "../hooks";
 import {IComponents, TdFC} from "../types";
 import _ from "lodash";
 import {toJS} from "@formily/reactive";
+import {useComponents} from "../hooks";
 
 const SchemaStateMap = {
     title: 'title',
@@ -79,7 +80,8 @@ type FieldProps = {
     [key: string]: any
 }
 export const Field: TdFC<FieldProps> = observer((props) => {
-    const {nodeIdAttrName, components} = useFormDesigner()
+    const {nodeIdAttrName} = useFormDesigner()
+    const components = useComponents()
 
     const fieldProps = toFieldProps({
         id: _.get(props, nodeIdAttrName),

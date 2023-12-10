@@ -1,5 +1,4 @@
-import {useFormDesigner} from "../hooks/useFormDesigner";
-import {ClosestPosition, Operation} from "../model/Operation";
+import {ClosestPosition, Operation} from "../model";
 
 /**
  * 开始拖拽

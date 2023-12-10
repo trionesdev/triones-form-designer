@@ -4,10 +4,9 @@ import {
     dragMoveEffect,
     dragStartEffect,
     mouseClickEffect,
-    mouseDownEffect,
     mouseMoveEffect
 } from "../effect";
-import {Operation} from "../model/Operation";
+import {Operation} from "../model";
 
 export const Events = {
     MOUSE_DOWN: "mouseDown",
@@ -31,7 +30,10 @@ export class EventManager {
     }
 
     onMouseMove(e: React.MouseEvent) {
-        console.log("onMouseMove ", e)
+        console.log("[MouseEvent]","onMouseMove ", e)
+        if (!e.bubbles){ //如果鼠标没有按住，则清除拖拽状态
+            this.operation.cleanDragging()
+        }
         if (this.operation.dragging) {
             dragMoveEffect(e, this.operation)
         } else {

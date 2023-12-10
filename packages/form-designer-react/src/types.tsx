@@ -1,5 +1,5 @@
 import React from "react";
-import {TreeNode} from "./model/TreeNode";
+import {TreeNode} from "./model";
 import {ISchema} from "@formily/react";
 
 export type IResource = {
@@ -9,7 +9,8 @@ export type IResource = {
     designerProps?: {
         propsSchema?: ISchema
         defaultProps?: any
-    }
+    },
+    node?: TreeNode
     [key: string]: any
 }
 
@@ -21,4 +22,8 @@ export type IComponents = {
 
 export type TdFC<P = {}> = React.FC<P> & {
     Resource?: IResource[]
+}
+
+export interface IDesignerComponents {
+    [key: string]: TdFC<any>
 }

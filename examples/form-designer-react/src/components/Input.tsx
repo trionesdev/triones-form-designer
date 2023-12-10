@@ -1,11 +1,12 @@
-import type {TdFC} from "@trionesdev/form-designer-react";
+import {DesignerCore, TdFC} from "@trionesdev/form-designer-react";
 import {Input as FormilyInput} from '@formily/antd-v5'
 import React from "react";
+import createResource = DesignerCore.createResource;
 
 
 export const Input: TdFC<React.ComponentProps<typeof FormilyInput>> = FormilyInput
 
-Input.Resource = [
+Input.Resource = createResource([
     {
         name: 'Input',
         icon: 'InputIcon',
@@ -22,12 +23,6 @@ Input.Resource = [
             propsSchema: {
                 type: 'object',
                 properties: {
-                    name: {
-                        type: 'string',
-                        title: '字段标识',
-                        'x-decorator': 'FormItem',
-                        'x-component': 'Input',
-                    },
                     title: {
                         type: 'string',
                         title: '标题',
@@ -60,12 +55,6 @@ Input.Resource = [
             propsSchema: {
                 type: 'object',
                 properties: {
-                    name: {
-                        type: 'string',
-                        title: '字段标识',
-                        'x-decorator': 'FormItem',
-                        'x-component': 'Input',
-                    },
                     title: {
                         type: 'string',
                         title: '标题',
@@ -76,4 +65,4 @@ Input.Resource = [
             }
         }
     }
-]
+])

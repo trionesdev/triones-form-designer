@@ -6,13 +6,15 @@ import {useFormDesigner} from "../../hooks/useFormDesigner";
 import {useTree} from "../../hooks/useTree";
 import _ from "lodash";
 import {Field} from "../Field";
+import {GlobalStore} from "../../store";
+import {DesignerComponentsContext} from "../../context";
 
 type ComponentsWidgetProps = {
     children?: React.ReactNode,
     components?: IComponents
 }
 export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(({children, components}) => {
-    const {nodeIdAttrName,registerComponents} = useFormDesigner()
+    const {nodeIdAttrName, registerComponents} = useFormDesigner()
     const tree = useTree()
 
     const dataId = {}
@@ -21,14 +23,20 @@ export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(({children, 
     }
 
     useEffect(() => {
-        registerComponents(_.assign({Field},components))
+        registerComponents(_.assign({Field}, components))
     }, [components])
 
-    useEffect(()=>{
-        console.log("treeNode {}",tree)
-    },[tree])
+    useEffect(() => {
+        console.log("treeNode {}", tree)
+    }, [tree])
+
+    useEffect(() => {
+        GlobalStore.registerDesignerResources(_.assign({Field}, components))
+    }, [])
 
     return <>
-        <div {...dataId} style={{width: '100%', height: '100%'}}><TreeNodeWidget treeNode={tree}/></div>
+        <DesignerComponentsContext.Provider value={components}>
+            <div {...dataId} style={{width: '100%', height: '100%'}}><TreeNodeWidget treeNode={tree}/></div>
+        </DesignerComponentsContext.Provider>
     </>
 })

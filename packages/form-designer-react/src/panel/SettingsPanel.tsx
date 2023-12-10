@@ -1,5 +1,5 @@
 import React, {useMemo} from "react"
-import {useOperation} from "../hooks/useOperation";
+import {useOperation} from "../hooks";
 import styled from "@emotion/styled";
 import {createForm} from "@formily/core";
 import {createSchemaField, FormProvider, observer} from "@formily/react";
@@ -72,7 +72,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = observer(({
     return <SettingsPanelStyled className={className}>
         <div className={`properties-header`}>
             {selectionNode && <>
-                <IconWidget icon={GlobalStore.getIcon(selectionNode.sourceComponent?.icon)}/>
+                <IconWidget icon={GlobalStore.getIcon(selectionNode.icon)}/>
                 <span>{selectionNode.title}</span>
             </>}
         </div>

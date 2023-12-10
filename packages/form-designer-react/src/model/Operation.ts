@@ -78,6 +78,18 @@ export class Operation {
         return this.tree.findNodeById(id)
     }
 
+    /**
+     * 清除拖拽状态
+     */
+    cleanDragging(){
+        this.dragging = false
+        this.onMouseDownAt = 0
+        this.draggingNode = null
+    }
+
+    /**
+     * 清除拖拽悬浮状态
+     */
     cleanDraggingHover() {
         this.draggingHoverNode = null
         this.closestPosition = null

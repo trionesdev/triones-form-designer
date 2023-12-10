@@ -46,7 +46,7 @@ export const SelectionBox: FC<SelectionBoxProps> = observer(({}) => {
     const viewport = useViewport()
 
     useEffect(() => {
-        console.log(selectionNode)
+        console.log("SelectionBox",selectionNode)
         const selectionNodeEl = document.querySelector(`*[${nodeIdAttrName}=${selectionNode?.id}]`)
         if (selectionNodeEl) {
             if (ref.current && helpersRef.current) {
@@ -82,7 +82,7 @@ export const SelectionBox: FC<SelectionBoxProps> = observer(({}) => {
         selectionNode.remove()
     }
 
-    return <>{!dragging && selectionNode && <SelectionBoxStyled ref={ref}>
+    return <>{!dragging && selectionNode && <SelectionBoxStyled ref={ref} className={`td-aux-selection`}>
         <div ref={helpersRef} className={`td-aux-selection-helpers`}>
             <button>{selectionNode?.title}</button>
             {selectionNode != selectionNode.root && <>

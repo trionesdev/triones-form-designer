@@ -1,31 +1,24 @@
-import {DesignerComponent} from "../types";
 import {FC} from "react";
 import React from "react";
-// @ts-ignore
+
 import styled from "@emotion/styled";
-import {TD_DESIGNER_SOURCE_ID} from "../constant";
-import {useFormDesigner} from "../hooks/useFormDesigner";
-import {IconWidget} from "./IconWidget";
-import {GlobalStore} from "../store";
-
-const SourceDiv = ({children, className, sourceId}: {
-    children: React.ReactNode,
-    className?: string,
-    sourceId?: string
-}) => {
-    // return <div className={className} td-designer-source-id={sourceId}>{children}</div>
-
-    return React.createElement("div", {className, [TD_DESIGNER_SOURCE_ID]: sourceId}, children)
-}
+import {TD_DESIGNER_SOURCE_ID} from "../../constant";
+import {GlobalStore} from "../../store";
+import {IconWidget} from "../IconWidget";
+import {DesignerComponent} from "../../types";
 
 const SourceItemStyled = styled('div')({
+    gridColumnStart: 'span 1',
     userSelect: 'none',
     cursor: 'move',
-    padding: '8px',
+    padding: '4px 12px',
     display: 'flex',
     alignItems: 'center',
     gap: '4px',
-    backgroundColor: '#f0f0f0',
+    borderRadius: '4px',
+    border: '1px solid #f0f0f0',
+    backgroundColor: 'white',
+    fontSize: '12px',
     '.icon': {
         display: 'inline-block',
         alignItems: 'center',
@@ -48,7 +41,7 @@ type SourceItemProps = {
     [key: string]: any
 }
 
-export const SourceItem: FC<SourceItemProps> = ({source, ...props}) => {
+export const SourceWidget: FC<SourceItemProps> = ({source, ...props}) => {
 
     // console.log(A)
     return <SourceItemStyled {...{[TD_DESIGNER_SOURCE_ID]: source?.node.id}}>

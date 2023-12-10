@@ -1,14 +1,15 @@
-import type {TdFC} from "@trionesdev/form-designer-react";
+import {DesignerCore, TdFC} from "@trionesdev/form-designer-react";
 import React from "react";
 import {Select as FormilySelect} from "@formily/antd-v5";
+import createResource = DesignerCore.createResource;
 
 export const Select: TdFC<React.ComponentProps<typeof FormilySelect>> = FormilySelect
 
-Select.Resource = [
+Select.Resource = createResource([
     {
         name: 'Select',
         title: '选择',
-        componentName:'Field',
+        componentName: 'Field',
         schema: {
             title: '性别',
             'x-decorator': 'FormItem',
@@ -40,4 +41,4 @@ Select.Resource = [
             }
         }
     }
-]
+])
