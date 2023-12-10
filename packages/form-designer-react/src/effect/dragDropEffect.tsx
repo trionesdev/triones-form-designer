@@ -29,6 +29,7 @@ export const dragStartEffect = (e, operation: Operation) => {
         }
     } else if (sourceId) {
         const sourceNode = operation.findNodeById(sourceId)
+        console.log("dragStartEffect sourceNode", sourceNode)
         if (sourceNode) {
             operation.dragging = true
             operation.draggingNode = sourceNode
@@ -63,6 +64,11 @@ export const dragEndEffect = (e, operation: Operation) => {
     const closestPosition = operation.closestPosition
     console.log("dragEndEffect operation", operation,operation.draggingNode)
     if (operation.draggingNode) {
+
+        console.log("dragEndEffect operation draggingNode",operation.draggingNode)
+        console.log("dragEndEffect operation closestNode",closestNode)
+        console.log("dragEndEffect operation closestPosition",closestPosition)
+        console.log("dragEndEffect operation draggingHoverNode",operation.draggingHoverNode)
         if (ClosestPosition.INNER === closestPosition) {
             closestNode.append(operation.draggingNode)
         } else if (ClosestPosition.BEFORE === closestPosition) {

@@ -127,10 +127,11 @@ export class TreeNode {
      */
     append(...nodes: TreeNode[]) {
         const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
+        console.log("droppableNode", droppableNode)
         if (droppableNode) {
             const appendNodes = this.restNodes(nodes, droppableNode);
             droppableNode.children = _.concat(droppableNode.children, appendNodes)
-            console.log(this.operation)
+            console.log("droppableNode",this.operation)
             this.operation.selectionNode = appendNodes[0] //设置新增节点为选中状态
         }
     }
@@ -243,9 +244,9 @@ export class TreeNode {
             componentName: this.componentName,
             schema: _.cloneDeep(this.schema), //一定要深拷贝，否则数据会干扰，都是直接用的source组件的数据
             parent: parent,
-            root: this.root,
+            root: parent.root,
             isSourceNode: false,
-            operation: this.operation
+            operation: parent.operation
         })
         return newNode
     }

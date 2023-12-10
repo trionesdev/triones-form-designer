@@ -59,6 +59,7 @@ export class EventManager {
         console.log("onMouseUp ", e)
         this.operation.startEvent = null
         this.operation.onMouseDownAt = 0
+        debugger
         if (this.operation.dragging) {
             dragEndEffect(e, this.operation);
         }

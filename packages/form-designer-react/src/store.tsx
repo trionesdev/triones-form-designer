@@ -19,10 +19,15 @@ export namespace GlobalStore {
     //endregion
 
     export function registerDesignerResources(components: Record<string, JSX.Element>) {
+        // const resources  = _.reduce(components, (result, component, ) => {
+        //     result[key] = component
+        //     return result
+        // }, {})
         Object.assign(DESIGNER_RESOURCES_STORE, components)
     }
 
     export function getDesignerResource(componentName: string) {
+        debugger
         return DESIGNER_RESOURCES_STORE[componentName]
     }
 
