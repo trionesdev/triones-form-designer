@@ -11,21 +11,21 @@ const SourceItemStyled = styled('div')({
     gridColumnStart: 'span 1',
     userSelect: 'none',
     cursor: 'move',
-    padding: '4px 12px',
+    padding: '6px 16px',
     display: 'flex',
     alignItems: 'center',
-    gap: '4px',
+    gap: '8px',
     borderRadius: '4px',
     border: '1px solid #f0f0f0',
     backgroundColor: 'white',
-    fontSize: '12px',
+    fontSize: '14px',
     '.icon': {
         display: 'inline-block',
         alignItems: 'center',
         lineHeight: '0',
         'svg': {
-            width: '1rem',
-            height: '1rem',
+            width: '1.25rem',
+            height: '1.25rem',
         }
     },
     '&:hover': {

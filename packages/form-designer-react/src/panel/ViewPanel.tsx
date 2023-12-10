@@ -1,6 +1,6 @@
 import React, {FC, useLayoutEffect, useMemo, useRef} from "react"
 import {AuxToolsWidget} from "../widget";
-import {useOperation} from "../hooks/useOperation";
+import {useOperation} from "../hooks";
 import styled from "@emotion/styled";
 import {ViewportContext} from "../context";
 import {Viewport} from "../model";

@@ -92,4 +92,4 @@ export const Field: TdFC<FieldProps> = observer((props) => {
 
     return <FormilyField {...fieldProps} name={_.get(props, nodeIdAttrName)}/>
 })
-Field.Resource = [{}]
+Field.Resource = []

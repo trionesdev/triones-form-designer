@@ -30,7 +30,7 @@ export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
         console.log("ss")
         // @ts-ignore
         console.log(hoverNode)
-        if (!ref.current) {
+        if (!ref.current && hoverNode) {
             return
         }
         const hoverNodeEl = document.querySelector(`*[${nodeIdAttrName}=${hoverNode?.id}]`)

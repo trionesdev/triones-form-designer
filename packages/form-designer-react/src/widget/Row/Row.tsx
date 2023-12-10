@@ -23,25 +23,20 @@ export const Row: FC<RowProps> = ({
                                   }) => {
     let rowGap: number = 0;
     let columnGap: number = 0;
+    let margin: number = 0;
     if (_.isArray(gutter)) {
-        columnGap = gutter[0]
-        rowGap = gutter[1]
+        columnGap = gutter[0] / 2
+        rowGap = gutter[1] / 2
+        margin = 0 - gutter[0] / 2
     } else if (typeof gutter === "number") {
-        rowGap = gutter
-        rowGap = gutter
+        rowGap = gutter / 2
+        rowGap = gutter / 2
+        margin = 0 - gutter / 2
     }
 
     const handleRender = (children: React.ReactNode) => {
         const childArray = React.Children.toArray(children);
         return childArray.map((child: React.ReactElement) => {
-            console.log(child)
-            console.log("Row", _.merge({}, child.props, {
-                style: {
-                    background: "white",
-                    ...child.props.style,
-                    paddingLeft: columnGap, paddingRight: columnGap
-                }, ...child.props
-            }))
             return React.cloneElement(child, _.merge({}, child.props, {
                 style: {
                     background: "white",
@@ -52,5 +47,9 @@ export const Row: FC<RowProps> = ({
         })
     }
 
-    return <RowStyled className={className} style={{rowGap, ...style}}>{handleRender(children)}</RowStyled>
+    return <RowStyled className={className} style={{
+        rowGap,
+        marginLeft: margin,
+        marginRight: margin, ...style
+    }}>{handleRender(children)}</RowStyled>
 }

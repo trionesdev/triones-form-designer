@@ -11,7 +11,8 @@ type ComponentWidgetProps = {
 export const TreeNodeWidget: FC<ComponentWidgetProps> = observer(({treeNode}) => {
     const {nodeIdAttrName} = useFormDesigner()
     const components = useComponents()
-    console.log('TreeNodeWidget {}', treeNode)
+    console.log('TreeNodeWidget treeNode {}', treeNode)
+    console.log('TreeNodeWidget components {}', components)
     const handleRender = () => {
         const Component = components?.[treeNode.componentName];
 

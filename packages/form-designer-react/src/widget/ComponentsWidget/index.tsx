@@ -2,8 +2,8 @@ import React, {FC, useEffect} from "react"
 import {TreeNodeWidget} from "./TreeNodeWidget";
 import {observer} from "@formily/react";
 import {IComponents} from "../../types";
-import {useFormDesigner} from "../../hooks/useFormDesigner";
-import {useTree} from "../../hooks/useTree";
+import {useFormDesigner} from "../../hooks";
+import {useTree} from "../../hooks";
 import _ from "lodash";
 import {Field} from "../Field";
 import {GlobalStore} from "../../store";
@@ -22,20 +22,21 @@ export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(({children, 
         dataId[nodeIdAttrName] = tree.id
     }
 
-    useEffect(() => {
-        registerComponents(_.assign({Field}, components))
-    }, [components])
+    // useEffect(() => {
+    //     registerComponents(_.assign({Field}, components))
+    // }, [components])
 
     useEffect(() => {
         console.log("treeNode {}", tree)
     }, [tree])
+    const componentsMap = _.assign({Field}, components)
 
     useEffect(() => {
-        GlobalStore.registerDesignerResources(_.assign({Field}, components))
+        GlobalStore.registerDesignerResources(componentsMap)
     }, [])
 
     return <>
-        <DesignerComponentsContext.Provider value={components}>
+        <DesignerComponentsContext.Provider value={componentsMap}>
             <div {...dataId} style={{width: '100%', height: '100%'}}><TreeNodeWidget treeNode={tree}/></div>
         </DesignerComponentsContext.Provider>
     </>

@@ -96,9 +96,9 @@ export class TreeNode {
 
     }
 
-    get sourceComponent() {
-        return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))
-    }
+    // get sourceComponent() {
+    //     return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))
+    // }
 
     get designerProps() {
         return GlobalStore.getDesignerResourceByNode(this)?.designerProps?.propsSchema || {}
@@ -127,7 +127,7 @@ export class TreeNode {
      */
     append(...nodes: TreeNode[]) {
         const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
-        console.log("droppableNode", droppableNode)
+        console.log("dragEndEffect operation droppableNode", droppableNode)
         if (droppableNode) {
             const appendNodes = this.restNodes(nodes, droppableNode);
             droppableNode.children = _.concat(droppableNode.children, appendNodes)
