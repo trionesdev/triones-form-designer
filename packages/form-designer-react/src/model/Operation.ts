@@ -3,6 +3,7 @@ import {FormDesignerEngine} from "./FormDesignerEngine";
 import {action, autorun, define, markObservable, observable, observe, reaction, toJS} from "@formily/reactive";
 import React from "react";
 import {EventManager} from "../event/event";
+import {Cursor} from "./Cursor";
 
 export enum ClosestPosition {
     BEFORE = 'BEFORE',
@@ -12,12 +13,13 @@ export enum ClosestPosition {
 
 interface IOperation {
     engine: FormDesignerEngine;
-    onChange:(tree:TreeNode)=>void
+    onChange: (tree: TreeNode) => void
 }
 
 export class Operation {
     engine: FormDesignerEngine;
     tree: TreeNode
+    cursor: Cursor
     dragging: boolean //是否在拖拽
     onMouseDownAt: number //鼠标按下时间
     startEvent: any //开始事件
@@ -29,12 +31,12 @@ export class Operation {
     closestNode?: TreeNode //最近节点
     eventManager: EventManager
     mouseEvent: any
-    onChange: ()=>void
+    onChange: () => void
 
     constructor(args: IOperation) {
         this.engine = args.engine
-        this.onChange = ()=>{
-            console.log("[TreeInfo]","tree change sssse", this.tree)
+        this.onChange = () => {
+            console.log("[TreeInfo]", "tree change sssse", this.tree)
             args.onChange?.(this.tree)
         }
         this.tree = new TreeNode({
@@ -42,6 +44,9 @@ export class Operation {
             isSourceNode: false,
             operation: this,
             schema: {},
+        })
+        this.cursor = new Cursor({
+            engine: this.engine,
         })
         this.dragging = false
         this.onMouseDownAt = 0
@@ -57,7 +62,7 @@ export class Operation {
 
     makeObservable() {
         define(this, {
-            tree:observable,
+            tree: observable,
             dragging: observable.ref,
             hoverNode: observable.ref,
             selectionNode: observable,
@@ -68,7 +73,7 @@ export class Operation {
             mouseEvent: observable.ref,
         })
 
-        observe(this.tree,()=>{
+        observe(this.tree, () => {
             console.log("[TreeInfo]", "operation tree changed")
         })
 
@@ -81,7 +86,7 @@ export class Operation {
     /**
      * 清除拖拽状态
      */
-    cleanDragging(){
+    cleanDragging() {
         this.dragging = false
         this.onMouseDownAt = 0
         this.draggingNode = null

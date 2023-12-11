@@ -28,6 +28,16 @@ export class Viewport {
         this.viewportElement = element
     }
 
+    get rect() {
+        const viewportElement = this.viewportElement
+        if (viewportElement) return viewportElement.getBoundingClientRect()
+    }
+
+    get innerRect() {
+        const rect = this.rect
+        return new DOMRect(0, 0, rect?.width, rect?.height);
+    }
+
     viewportNodeRect(nodeHtml: Element) {
         if (!nodeHtml) {
             return null
