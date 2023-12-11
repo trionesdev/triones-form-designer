@@ -17,8 +17,6 @@ export class FormDesignerEngine {
     rootComponentName: string
     nodeIdAttrName?: string
     sourceIdAttrName?: string
-    components: IComponents
-    sourceComponents?: DesignerComponent[]
     operation?: Operation
 
 
@@ -26,7 +24,6 @@ export class FormDesignerEngine {
         this.rootComponentName = args.rootComponentName || 'Form'
         this.nodeIdAttrName = args.nodeIdAttrName || TD_DESIGNER_NODE_ID
         this.sourceIdAttrName = args.sourceIdAttrName || TD_DESIGNER_SOURCE_ID
-        this.sourceComponents = []
         this.operation = new Operation({engine: this,onChange:(tree )=>{
             console.log("treeeee",tree)
             }})
@@ -37,32 +34,10 @@ export class FormDesignerEngine {
     makeObservable() {
         define(this, {
             nodeIdAttrName: observable.ref,
-            components: observable.ref,
-            sourceComponents: observable.ref,
-            componentResources: observable.computed,
         })
 
     }
 
-    get componentResources() {
-        return _.reduce(_.values(this.components), (a, b) => {
-            console.log("a", a)
-            return _.concat(a, b ? b.Resource : [])
-        }, [])
-    }
 
-    registerSourceComponents = (value: DesignerComponent[]) => {
-        this.sourceComponents = _.concat(this.sourceComponents, value)
-    }
-
-    registerComponents = (components: IComponents) => {
-        this.components = components
-    }
-
-    findSourceComponent(name: string) {
-        return _.find(this.componentResources, (item: IResource) => {
-            return item.name === name
-        })
-    }
 
 }

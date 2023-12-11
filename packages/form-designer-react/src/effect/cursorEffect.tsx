@@ -1,4 +1,4 @@
-import {Operation} from "../model/Operation";
+import {Operation} from "../model";
 
 /**
  * 鼠标按下
@@ -54,17 +54,24 @@ export const mouseLeaveEffect = (e, operation: Operation) => {
 export const mouseClickEffect = (e, operation: Operation) => {
     const engine = operation.engine
     const target = e.target as HTMLElement
+    console.log("mouseClickEffect operation ",target)
     const el = target?.closest(`
        *[${engine.nodeIdAttrName}]
       `)
+    console.log("mouseClickEffect operation el",target)
     if (!el?.getAttribute) {
         return
     }
     const nodeId = el.getAttribute(engine.nodeIdAttrName)
     if (nodeId) {
-        const hoverNode = operation.findNodeById(nodeId)
-        if (hoverNode) {
-            operation.selectionNode = hoverNode
+        const selectionNode = operation.findNodeById(nodeId)
+        console.log("mouseClickEffect operation selectionNode",selectionNode)
+        if (selectionNode) {
+            // if (operation.selectionNode == selectionNode){
+            //     console.log("mouseClickEffect operation selectionNode equal",operation.selectionNode == selectionNode)
+            //     operation.selectionNode = undefined
+            // }
+            operation.selectionNode = selectionNode
         }
     }
 }

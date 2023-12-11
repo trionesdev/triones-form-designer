@@ -1,6 +1,6 @@
 import React, {FC, useLayoutEffect, useMemo, useRef} from "react"
 import {AuxToolsWidget} from "../widget";
-import {useOperation} from "../hooks";
+import {useFormDesigner, useOperation} from "../hooks";
 import styled from "@emotion/styled";
 import {ViewportContext} from "../context";
 import {Viewport} from "../model";
@@ -15,20 +15,24 @@ type ViewPanelProps = {
 }
 export const ViewPanel: FC<ViewPanelProps> = ({children}) => {
     const ref = useRef<HTMLDivElement>()
+    const engine = useFormDesigner()
     const {eventManager} = useOperation()
 
     const viewport = useMemo(() => {
         console.log('ref.current', ref.current)
 
-        return new Viewport({viewportElement: ref.current})
-    }, [ref,ref.current]);
+        return new Viewport({
+            engine: engine,
+            viewportElement: ref.current
+        })
+    }, [ref, ref.current]);
 
 
-    useLayoutEffect(()=>{
-        if (ref.current){
+    useLayoutEffect(() => {
+        if (ref.current) {
             viewport.onMoment(ref.current)
         }
-    },[])
+    }, [])
 
 
     return <ViewportContext.Provider value={viewport}>

@@ -121,6 +121,16 @@ export class TreeNode {
         return TreeNodes.get(id)
     }
 
+    get index() {
+        if (this.parent === this || !this.parent) return 0
+        return this.parent.children.indexOf(this)
+    }
+
+    get next() {
+        if (this.parent === this || !this.parent) return
+        return this.parent.children[this.index + 1]
+    }
+
     /**
      * 在当前节点内添加节点
      * @param nodes
@@ -148,9 +158,12 @@ export class TreeNode {
             return
         }
         const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
+        console.log("dragEndEffect operation droppableNode", droppableNode)
         if (droppableNode) {
             const dropNodes = this.restNodes(insertNodes, droppableNode);
+            console.log("dragEndEffect operation dropNodes", dropNodes)
             const index = droppableNode.children.indexOf(this)
+            console.log("dragEndEffect operation index", index)
             const dropNodesIds = _.map(dropNodes, (node: TreeNode) => {
                 return node.id
             })

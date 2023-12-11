@@ -60,7 +60,7 @@ export class Operation {
             tree:observable,
             dragging: observable.ref,
             hoverNode: observable.ref,
-            selectionNode: observable.ref,
+            selectionNode: observable,
             draggingNode: observable.ref,
             draggingHoverNode: observable.ref,
             closestPosition: observable.ref,

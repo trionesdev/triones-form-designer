@@ -1,10 +1,12 @@
 import styled from "@emotion/styled";
-import React, {useEffect, useRef} from "react";
+import React, {CSSProperties} from "react";
 import {FC} from "react";
-import {useFormDesigner} from "../../hooks/useFormDesigner";
-import {useOperation} from "../../hooks/useOperation";
+import {useOperation, useValidNodeOffsetRect, useViewport} from "../../hooks";
 import {observer} from "@formily/react";
-import {useViewport} from "../../hooks/useViewport";
+
+/**
+ *  hoverNode 不要用useEffect监听
+ */
 
 const DashedBoxStyled = styled('div')({
     position: 'absolute',
@@ -20,50 +22,49 @@ const DashedBoxStyled = styled('div')({
 
 type DashedBoxProps = {}
 export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
-    const ref = useRef<HTMLDivElement>()
-    const spanRef = useRef<HTMLDivElement>()
-    const {nodeIdAttrName} = useFormDesigner()
     const {dragging, hoverNode, selectionNode} = useOperation()
-    const viewport = useViewport()
+    const rect = useValidNodeOffsetRect(hoverNode)
 
-    useEffect(() => {
-        console.log("ss")
-        // @ts-ignore
-        console.log(hoverNode)
-        if (!ref.current && hoverNode) {
-            return
+    const handleBoxStyles = (): React.CSSProperties => {
+        const boxStyles: React.CSSProperties = {
+            top: 0,
+            left: 0,
+            pointerEvents: 'none',
+            boxSizing: 'border-box',
+            visibility: 'hidden',
+            zIndex: 2,
         }
-        const hoverNodeEl = document.querySelector(`*[${nodeIdAttrName}=${hoverNode?.id}]`)
-        console.log(hoverNode)
+        if (rect) {
+            boxStyles.height = `${rect.height}px`
+            boxStyles.width = `${rect.width}px`
+            boxStyles.border = `1px dashed #1890FF`
+            boxStyles.transform = `perspective(1px) translate3d(0px, ${rect.top}px, 0px)`
+            boxStyles.visibility = 'visible'
+        }
+        return boxStyles
+    }
 
-        if (hoverNodeEl) {
-            console.log("node: {} {}", hoverNodeEl.clientWidth, hoverNodeEl.clientHeight)
-            const rect = viewport.viewportNodeRect(hoverNodeEl)
-            console.log(rect)
-            ref.current.style.height = `${rect.height}px`
-            ref.current.style.width = `${rect.width}px`
-            ref.current.style.border = `1px dashed #1890FF`
-            ref.current.style.transform = `perspective(1px) translate3d(0px, ${rect.top}px, 0px)`
+    const handleSpanStyles = (): CSSProperties => {
+        const spanStyles: CSSProperties = {}
+        if (hoverNode == hoverNode.root) {
 
-            if (spanRef.current) {
-                if (hoverNode == hoverNode.root) {
-
-                } else {
-                    if (rect.top > 10) {
-                        spanRef.current.style.top = 'auto';
-                        spanRef.current.style.bottom = '100%';
-                    } else {
-                        spanRef.current.style.top = '100%';
-                        spanRef.current.style.bottom = 'auto';
-                    }
-                }
+        } else {
+            if (rect.top > 10) {
+                spanStyles.top = 'auto';
+                spanStyles.bottom = '100%';
+            } else {
+                spanStyles.top = '100%';
+                spanStyles.bottom = 'auto';
             }
         }
-    }, [dragging, hoverNode, selectionNode]);
+        return spanStyles
+    }
+
 
     return <>
-        {!dragging && hoverNode && (hoverNode != selectionNode) && <DashedBoxStyled ref={ref}>
-            {hoverNode != hoverNode.root && <span ref={spanRef} className={`td-aux-dashed-box-title`}>{hoverNode?.title}</span>}
+        {!dragging && hoverNode && (hoverNode != selectionNode) && <DashedBoxStyled style={handleBoxStyles()}>
+            {hoverNode != hoverNode.root &&
+                <span className={`td-aux-dashed-box-title`} style={handleSpanStyles()}>{hoverNode?.title}</span>}
         </DashedBoxStyled>}
     </>
 })

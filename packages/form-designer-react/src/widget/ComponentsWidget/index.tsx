@@ -14,7 +14,7 @@ type ComponentsWidgetProps = {
     components?: IComponents
 }
 export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(({children, components}) => {
-    const {nodeIdAttrName, registerComponents} = useFormDesigner()
+    const {nodeIdAttrName} = useFormDesigner()
     const tree = useTree()
 
     const dataId = {}

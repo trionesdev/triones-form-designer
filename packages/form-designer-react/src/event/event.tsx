@@ -31,6 +31,7 @@ export class EventManager {
 
     onMouseMove(e: React.MouseEvent) {
         console.log("[MouseEvent]","onMouseMove ", e)
+        console.log("[MouseEvent]","onMouseMove ", this.operation)
         if (!e.bubbles){ //如果鼠标没有按住，则清除拖拽状态
             this.operation.cleanDragging()
         }
