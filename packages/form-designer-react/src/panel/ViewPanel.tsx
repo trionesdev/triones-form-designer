@@ -6,8 +6,9 @@ import {ViewportContext} from "../context";
 import {Viewport} from "../model";
 
 const ViewPanelStyled = styled('div')({
-    height: '100%',
-    position: 'relative'
+    position: 'relative',
+    overflowY: 'auto',
+    minHeight: '100%',
 })
 
 type ViewPanelProps = {

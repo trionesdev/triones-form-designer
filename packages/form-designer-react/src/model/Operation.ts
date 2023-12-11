@@ -1,9 +1,9 @@
 import {TreeNode} from "./TreeNode";
 import {FormDesignerEngine} from "./FormDesignerEngine";
-import {action, autorun, define, markObservable, observable, observe, reaction, toJS} from "@formily/reactive";
-import React from "react";
+import {autorun, define, observable, observe} from "@formily/reactive";
 import {EventManager} from "../event/event";
-import {Cursor} from "./Cursor";
+import {Cursor, CursorStatus} from "./Cursor";
+import {requestIdle} from "../request-idle";
 
 export enum ClosestPosition {
     BEFORE = 'BEFORE',
@@ -20,7 +20,6 @@ export class Operation {
     engine: FormDesignerEngine;
     tree: TreeNode
     cursor: Cursor
-    dragging: boolean //是否在拖拽
     onMouseDownAt: number //鼠标按下时间
     startEvent: any //开始事件
     hoverNode?: TreeNode //悬浮节点
@@ -48,7 +47,6 @@ export class Operation {
         this.cursor = new Cursor({
             engine: this.engine,
         })
-        this.dragging = false
         this.onMouseDownAt = 0
         this.closestPosition = null
         this.eventManager = new EventManager(this)
@@ -63,7 +61,7 @@ export class Operation {
     makeObservable() {
         define(this, {
             tree: observable,
-            dragging: observable.ref,
+            dragging: observable.computed,
             hoverNode: observable.ref,
             selectionNode: observable,
             draggingNode: observable.ref,
@@ -83,13 +81,24 @@ export class Operation {
         return this.tree.findNodeById(id)
     }
 
-    /**
-     * 清除拖拽状态
-     */
-    cleanDragging() {
-        this.dragging = false
+    get dragging(){
+        return this.cursor.status == CursorStatus.DRAGGING || this.cursor.status == CursorStatus.DRAG_START
+    }
+
+    dragStart(){
+        this.cursor.setStatus(CursorStatus.DRAG_START)
+    }
+
+    dragMove(){
+        this.cursor.setStatus(CursorStatus.DRAGGING)
+    }
+
+    dragStop(){
+        this.cursor.setStatus(CursorStatus.DRAG_STOP)
         this.onMouseDownAt = 0
-        this.draggingNode = null
+        requestIdle(()=>{
+            this.cursor.setStatus(CursorStatus.NORMAL)
+        })
     }
 
     /**

@@ -33,7 +33,7 @@ export class EventManager {
         console.log("[MouseEvent]","onMouseMove ", e)
         console.log("[MouseEvent]","onMouseMove ", this.operation)
         if (!e.bubbles){ //如果鼠标没有按住，则清除拖拽状态
-            this.operation.cleanDragging()
+            this.operation.dragStop()
         }
         if (this.operation.dragging) {
             dragMoveEffect(e, this.operation)

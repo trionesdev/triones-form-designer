@@ -37,7 +37,7 @@ export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(({children, 
 
     return <>
         <DesignerComponentsContext.Provider value={componentsMap}>
-            <div {...dataId} style={{width: '100%', height: '100%'}}><TreeNodeWidget treeNode={tree}/></div>
+            <div {...dataId} style={{minWidth: '100%', minHeight: '100%'}}><TreeNodeWidget treeNode={tree}/></div>
         </DesignerComponentsContext.Provider>
     </>
 })

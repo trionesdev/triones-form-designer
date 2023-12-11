@@ -24,14 +24,14 @@ export const dragStartEffect = (e, operation: Operation) => {
             return;
         }
         if (node) {
-            operation.dragging = true
+            operation.dragStart()
             operation.draggingNode = node
         }
     } else if (sourceId) {
         const sourceNode = operation.findNodeById(sourceId)
         console.log("dragStartEffect sourceNode", sourceNode)
         if (sourceNode) {
-            operation.dragging = true
+            operation.dragStart()
             operation.draggingNode = sourceNode
         }
     }
@@ -48,6 +48,7 @@ export const dragMoveEffect = (e, operation: Operation) => {
         operation.cleanDraggingHover()
         return
     }
+    operation.dragMove()
     const nodeId = el.getAttribute(engine.nodeIdAttrName)
     if (nodeId) {
         operation.draggingHoverNode = operation.findNodeById(nodeId)
@@ -59,7 +60,6 @@ export const dragMoveEffect = (e, operation: Operation) => {
 
 export const dragEndEffect = (e, operation: Operation) => {
     console.log("dragEndEffect", e)
-    const engine = operation.engine
     const closestNode = operation.closestNode
     const closestPosition = operation.closestPosition
     console.log("dragEndEffect operation", operation,operation.draggingNode)
@@ -77,6 +77,5 @@ export const dragEndEffect = (e, operation: Operation) => {
             closestNode.insertAfter(operation.draggingNode)
         }
     }
-    operation.dragging = false
-    operation.draggingNode = null
+    operation.dragStop();
 }

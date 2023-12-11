@@ -13,6 +13,8 @@ const ViewportPanelStyled = styled('div')({
     flex: '1 auto',
     minWidth: 0,
     position: 'relative',
+    minHeight: 0,
+    overflow: 'hidden',
     '.ant-formily-item-label,.ant-formily-item-control': {
         userSelect: 'none',
         pointerEvents: 'none'
@@ -21,7 +23,7 @@ const ViewportPanelStyled = styled('div')({
 
 export const ViewportPanel: FC<ViewportPanelProps> = ({children}) => {
 
-    return <ViewportPanelStyled >
+    return <ViewportPanelStyled className={`td-viewport-panel`}>
         <Simulator>{children}</Simulator>
     </ViewportPanelStyled>
 }

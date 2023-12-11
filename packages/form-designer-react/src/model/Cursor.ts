@@ -2,10 +2,10 @@ import {FormDesignerEngine} from "./FormDesignerEngine";
 import {define, observable} from "@formily/reactive";
 
 export enum CursorStatus {
-    Normal = 'NORMAL',
-    DragStart = 'DRAG_START',
-    Dragging = 'DRAGGING',
-    DragStop = 'DRAG_STOP',
+    NORMAL = 'NORMAL',
+    DRAG_START = 'DRAG_START',
+    DRAGGING = 'DRAGGING',
+    DRAG_STOP = 'DRAG_STOP',
 }
 
 interface ICursor {
@@ -14,7 +14,7 @@ interface ICursor {
 
 export class Cursor {
     engine: FormDesignerEngine
-    status: CursorStatus = CursorStatus.Normal
+    status: CursorStatus = CursorStatus.NORMAL
 
     constructor(args: ICursor) {
         this.engine = args.engine

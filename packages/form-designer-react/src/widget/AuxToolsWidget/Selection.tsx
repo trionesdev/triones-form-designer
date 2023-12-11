@@ -1,10 +1,10 @@
-import React, {CSSProperties, FC, useEffect, useRef} from "react"
+import React, {CSSProperties, FC, useEffect} from "react"
 import styled from "@emotion/styled";
 import {DragHandler} from "./DragHandler";
 import {useFormDesigner, useOperation, useValidNodeOffsetRect, useViewport} from "../../hooks";
 import {observer} from "@formily/react";
 import {DeleteIcon} from "../../Icon";
-import {TreeNode} from "../../model";
+import {CursorStatus, TreeNode} from "../../model";
 
 
 const SelectionBoxStyled = styled('div')({
@@ -108,12 +108,13 @@ export const SelectionBox: FC<SelectionBoxProps> = ({
 
 export const Selection = observer(() => {
     const operation = useOperation()
-    const {dragging, selectionNode, tree} = operation
-    console.log("mouseClickEffect operation SelectionBox 22222222222222222222222222", selectionNode)
+    const {selectionNode, tree, cursor} = operation
+    console.log("mouseClickEffect operation Selection selectionNode", selectionNode)
+    console.log("mouseClickEffect operation Selection cursor.status", cursor.status)
 
-    useEffect(() => {
-        console.log("mouseClickEffect operation SelectionBox 33333333333333", selectionNode)
-    }, [selectionNode, tree])
+    if (cursor.status != CursorStatus.NORMAL) {
+        return null
+    }
 
     return <>
         {selectionNode && <SelectionBox node={selectionNode}/>}
