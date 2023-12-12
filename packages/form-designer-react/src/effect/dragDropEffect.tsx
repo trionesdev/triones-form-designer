@@ -1,4 +1,5 @@
 import {ClosestPosition, Operation} from "../model";
+import React from "react";
 
 /**
  * 开始拖拽
@@ -6,7 +7,6 @@ import {ClosestPosition, Operation} from "../model";
  * @param operation
  */
 export const dragStartEffect = (e, operation: Operation) => {
-    console.log("dragStartEffect", e)
     const engine = operation.engine
     const target = e.target as HTMLElement
     const el = target?.closest(`
@@ -25,20 +25,28 @@ export const dragStartEffect = (e, operation: Operation) => {
         }
         if (node) {
             operation.dragStart()
-            operation.draggingNode = node
+            operation.setDraggingNode(node)
         }
     } else if (sourceId) {
         const sourceNode = operation.findNodeById(sourceId)
-        console.log("dragStartEffect sourceNode", sourceNode)
         if (sourceNode) {
             operation.dragStart()
-            operation.draggingNode = sourceNode
+            operation.setDraggingNode(sourceNode)
         }
     }
 }
 
 export const dragMoveEffect = (e, operation: Operation) => {
-    console.log("dragMoveEffect", e)
+    operation.cursor.setPosition({
+        pageX: e.pageX,
+        pageY: e.pageY,
+        clientX: e.clientX,
+        clientY: e.clientY,
+        topPageX: e.pageX,
+        topPageY: e.pageY,
+        topClientX: e.clientX,
+        topClientY: e.clientY,
+    })
     const engine = operation.engine
     const target = e.target as HTMLElement
     const el = target?.closest(`
@@ -58,17 +66,17 @@ export const dragMoveEffect = (e, operation: Operation) => {
     }
 }
 
-export const dragEndEffect = (e, operation: Operation) => {
-    console.log("dragEndEffect", e)
+export const dragEndEffect = (e: React.MouseEvent, operation: Operation) => {
+
     const closestNode = operation.closestNode
     const closestPosition = operation.closestPosition
-    console.log("dragEndEffect operation", operation,operation.draggingNode)
+    console.log("dragEndEffect operation", operation, operation.draggingNode)
     if (operation.draggingNode) {
 
-        console.log("dragEndEffect operation draggingNode",operation.draggingNode)
-        console.log("dragEndEffect operation closestNode",closestNode)
-        console.log("dragEndEffect operation closestPosition",closestPosition)
-        console.log("dragEndEffect operation draggingHoverNode",operation.draggingHoverNode)
+        console.log("dragEndEffect operation draggingNode", operation.draggingNode)
+        console.log("dragEndEffect operation closestNode", closestNode)
+        console.log("dragEndEffect operation closestPosition", closestPosition)
+        console.log("dragEndEffect operation draggingHoverNode", operation.draggingHoverNode)
         if (ClosestPosition.INNER === closestPosition) {
             closestNode.append(operation.draggingNode)
         } else if (ClosestPosition.BEFORE === closestPosition) {

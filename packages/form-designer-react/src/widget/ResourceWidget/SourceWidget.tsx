@@ -43,7 +43,6 @@ type SourceItemProps = {
 
 export const SourceWidget: FC<SourceItemProps> = ({source, ...props}) => {
 
-    // console.log(A)
     return <SourceItemStyled {...{[TD_DESIGNER_SOURCE_ID]: source?.node.id}}>
         <IconWidget icon={GlobalStore.getIcon(source.icon)}/>
         <span>{source.title}</span>

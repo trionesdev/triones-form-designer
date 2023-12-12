@@ -17,7 +17,7 @@ const AuxToolsWidgetStyled = styled('div')({
 export const AuxToolsWidget = () => {
     return <AuxToolsWidgetStyled className={`aux-tools`}>
         <Insertion/>
-        {/*<DashedBox/>*/}
+        <DashedBox/>
         <Selection/>
     </AuxToolsWidgetStyled>
 }

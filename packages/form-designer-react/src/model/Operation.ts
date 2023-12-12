@@ -109,4 +109,8 @@ export class Operation {
         this.closestPosition = null
     }
 
+    setDraggingNode(node: TreeNode) {
+        this.draggingNode = node
+    }
+
 }

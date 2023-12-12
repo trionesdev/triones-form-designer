@@ -54,7 +54,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = observer(({
             }
         })
     }, [selectionNode, selectionNode?.id])
-    debugger
 
     /**
      * 如果有Form组件，则使用Form组件包裹，如果没有则使用FormProvider包裹

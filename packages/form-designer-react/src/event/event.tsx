@@ -24,14 +24,11 @@ export class EventManager {
     }
 
     onMouseDown(e: React.MouseEvent) {
-        console.log("onMouseDown ", e)
         this.operation.startEvent = e
         this.operation.onMouseDownAt = new Date().getTime()
     }
 
     onMouseMove(e: React.MouseEvent) {
-        console.log("[MouseEvent]","onMouseMove ", e)
-        console.log("[MouseEvent]","onMouseMove ", this.operation)
         if (!e.bubbles){ //如果鼠标没有按住，则清除拖拽状态
             this.operation.dragStop()
         }
@@ -40,7 +37,6 @@ export class EventManager {
         } else {
             const {startEvent, onMouseDownAt} = this.operation
             if (onMouseDownAt > 0) {
-                console.log("onMouseDownAt", onMouseDownAt)
                 const distance = Math.sqrt(
                     Math.pow(e.pageX - startEvent.pageX, 2) +
                     Math.pow(e.pageY - startEvent.pageY, 2)
@@ -57,17 +53,15 @@ export class EventManager {
     }
 
     onMouseUp(e: React.MouseEvent) {
-        console.log("onMouseUp ", e)
         this.operation.startEvent = null
         this.operation.onMouseDownAt = 0
-        debugger
+         
         if (this.operation.dragging) {
             dragEndEffect(e, this.operation);
         }
     }
 
     onMouseClick(e: React.MouseEvent) {
-        console.log("onMouseClick ", e)
         mouseClickEffect(e, this.operation)
     }
 }

@@ -9,6 +9,7 @@ const ViewPanelStyled = styled('div')({
     position: 'relative',
     overflowY: 'auto',
     minHeight: '100%',
+    height: '100%',
 })
 
 type ViewPanelProps = {
@@ -20,8 +21,6 @@ export const ViewPanel: FC<ViewPanelProps> = ({children}) => {
     const {eventManager} = useOperation()
 
     const viewport = useMemo(() => {
-        console.log('ref.current', ref.current)
-
         return new Viewport({
             engine: engine,
             viewportElement: ref.current

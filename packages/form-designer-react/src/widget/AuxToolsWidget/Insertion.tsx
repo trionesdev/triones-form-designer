@@ -56,9 +56,7 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
                 let closestElement = draggingHoverNode;
                 _.forEach(draggingHoverNode.children, (node: TreeNode) => {
                     const rect = document.querySelector(`*[${nodeIdAttrName}=${node.id}]`).getBoundingClientRect()
-                    console.log("rect2222", rect)
                     const distance = handleComputePointDistance(rect)
-                    console.log("distance", distance)
                      
                     if (distance < minDistance) {
                         minDistance = distance

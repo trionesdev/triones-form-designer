@@ -27,7 +27,7 @@ export const Col: FC<ColProps> = ({
                                       style,
                                       span
                                   }) => {
-    console.log("Col Props",style)
+
     return <ColStyled className={classnames(className, `td-col`, `td-col-${span}`)} style={style} span={span}>
         <div>{children}</div>
     </ColStyled>

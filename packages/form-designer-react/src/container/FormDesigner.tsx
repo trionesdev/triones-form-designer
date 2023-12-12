@@ -1,7 +1,8 @@
 import React from "react";
 import {FC} from "react";
 import {FormDesignerContext} from "../context";
-import {FormDesignerEngine} from "../model/FormDesignerEngine";
+import {FormDesignerEngine} from "../model";
+import {GhostWidget} from "../widget/GhostWidget";
 
 
 type FormDesignerProps = {
@@ -18,5 +19,6 @@ export const FormDesigner: FC<FormDesignerProps> = ({children, engine}) => {
 
     return <FormDesignerContext.Provider value={scopeEngine}>
         {children}
+        <GhostWidget/>
     </FormDesignerContext.Provider>
 }

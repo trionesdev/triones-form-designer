@@ -8,6 +8,11 @@ import _ from "lodash";
 import {Field} from "../Field";
 import {GlobalStore} from "../../store";
 import {DesignerComponentsContext} from "../../context";
+import styled from "@emotion/styled";
+
+const ComponentsWidgetStyled = styled('div')({
+    minWidth: '100%', minHeight: '100%', height: '100%'
+})
 
 type ComponentsWidgetProps = {
     children?: React.ReactNode,
@@ -22,10 +27,6 @@ export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(({children, 
         dataId[nodeIdAttrName] = tree.id
     }
 
-    // useEffect(() => {
-    //     registerComponents(_.assign({Field}, components))
-    // }, [components])
-
     useEffect(() => {
         console.log("treeNode {}", tree)
     }, [tree])
@@ -37,7 +38,7 @@ export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(({children, 
 
     return <>
         <DesignerComponentsContext.Provider value={componentsMap}>
-            <div {...dataId} style={{minWidth: '100%', minHeight: '100%'}}><TreeNodeWidget treeNode={tree}/></div>
+            <ComponentsWidgetStyled {...dataId} ><TreeNodeWidget treeNode={tree}/></ComponentsWidgetStyled>
         </DesignerComponentsContext.Provider>
     </>
 })

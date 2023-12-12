@@ -43,7 +43,7 @@ export namespace GlobalStore {
     }
 
     export function getDesignerResource(componentName: string) {
-        debugger
+         
         return DESIGNER_RESOURCES_STORE[componentName]
     }
 

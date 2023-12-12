@@ -108,7 +108,11 @@ export class TreeNode {
         return GlobalStore.getDesignerResourceByNode(this)?.title
     }
 
-    get icon(){
+    get displayName() {
+        return _.get(this.schema, 'title', GlobalStore.getDesignerResourceByNode(this)?.title)
+    }
+
+    get icon() {
         return GlobalStore.getDesignerResourceByNode(this)?.icon
     }
 
@@ -141,7 +145,7 @@ export class TreeNode {
         if (droppableNode) {
             const appendNodes = this.restNodes(nodes, droppableNode);
             droppableNode.children = _.concat(droppableNode.children, appendNodes)
-            console.log("droppableNode",this.operation)
+            console.log("droppableNode", this.operation)
             this.operation.selectionNode = appendNodes[0] //设置新增节点为选中状态
         }
     }
