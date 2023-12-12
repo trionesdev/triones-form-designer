@@ -2,14 +2,19 @@ import {TreeNode} from "./TreeNode";
 import {FormDesignerEngine} from "./FormDesignerEngine";
 import {autorun, define, observable, observe} from "@formily/reactive";
 import {EventManager} from "../event/event";
-import {Cursor, CursorStatus} from "./Cursor";
+import {Cursor, CursorStatus, ICursorPosition} from "./Cursor";
 import {requestIdle} from "../request-idle";
 import {Viewport} from "./Viewport";
+import {IPoint, isNearAfter, isPointInRect, Point} from "../coordinate";
 
 export enum ClosestPosition {
     BEFORE = 'BEFORE',
     AFTER = 'AFTER',
+    UPPER = 'UPPER',
+    UNDER = 'UNDER',
     INNER = 'INNER',
+    INNER_BEFORE = 'INNER_BEFORE',
+    INNER_AFTER = 'INNER_AFTER',
 }
 
 interface IOperation {
@@ -107,8 +112,14 @@ export class Operation {
         this.cursor.setStatus(CursorStatus.DRAG_START)
     }
 
-    dragMove() {
+    /**
+     * 拖拽移动
+     * @param position
+     */
+    dragMove(position: ICursorPosition) {
+        this.cursor.setPosition(position)
         this.cursor.setStatus(CursorStatus.DRAGGING)
+        this.calcClosestPosition(new Point(position.topClientX, position.topClientY))
     }
 
     dragStop() {
@@ -129,6 +140,44 @@ export class Operation {
 
     setDraggingNode(node: TreeNode) {
         this.draggingNode = node
+    }
+
+    /**
+     * 计算鼠标相对于最近节点的位置
+     * @param point
+     */
+    calcClosestPosition(point: IPoint) {
+        const closestNode = this.closestNode
+        const closestRect = this.viewport.getValidNodeRect(closestNode)
+
+        if (!closestRect) {
+            return
+        }
+        const isInline = this.viewport.getValidNodeLayout(closestNode) == 'horizontal'
+        const isAfter = isNearAfter(
+            point,
+            closestRect,
+            isInline
+        )
+        if (isPointInRect(point, closestRect, true)) { //点在矩形内
+            if (closestNode.droppable) {
+                return ClosestPosition.INNER
+            } else {
+                if (isInline) {
+                    return isAfter ? ClosestPosition.AFTER : ClosestPosition.BEFORE
+                } else {
+                    return isAfter ? ClosestPosition.UNDER : ClosestPosition.UPPER
+                }
+            }
+        } else if (closestNode === closestNode.root) { //最近的是根节点
+            return isAfter ? ClosestPosition.INNER_AFTER : ClosestPosition.INNER_BEFORE
+        } else {//点在矩形外
+            if (isInline) {
+                return isAfter ? ClosestPosition.AFTER : ClosestPosition.BEFORE
+            } else {
+                return isAfter ? ClosestPosition.UNDER : ClosestPosition.UPPER
+            }
+        }
     }
 
 }

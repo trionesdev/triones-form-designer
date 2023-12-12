@@ -48,25 +48,35 @@ export class Viewport {
         return new DOMRect(0, 0, rect?.width, rect?.height);
     }
 
-    viewportNodeRect(nodeHtml: Element) {
-        if (!nodeHtml) {
-            return null
-        }
-        const viewportRect = this.viewportElement.getBoundingClientRect();
-        const nodeRect = nodeHtml.getBoundingClientRect()
-        return new DOMRect(
-            nodeRect.left - viewportRect.left,
-            nodeRect.top - viewportRect.top,
-            nodeRect.width,
-            nodeRect.height
-        )
-    }
+    // viewportNodeRect(nodeHtml: Element) {
+    //     if (!nodeHtml) {
+    //         return null
+    //     }
+    //     const viewportRect = this.viewportElement.getBoundingClientRect();
+    //     const nodeRect = nodeHtml.getBoundingClientRect()
+    //     return new DOMRect(
+    //         nodeRect.left - viewportRect.left,
+    //         nodeRect.top - viewportRect.top,
+    //         nodeRect.width,
+    //         nodeRect.height
+    //     )
+    // }
 
     findElementById(id: string) {
         if (!id) {
             return null
         }
         return this.viewportElement.querySelector(`[${this.engine.nodeIdAttrName}="${id}"]`)
+    }
+
+    getValidNodeRect(node: TreeNode) {
+        if (!node) return
+        const rect = this.getElementRectById(node.id)
+        return rect;
+    }
+
+    getElementRectById(id: string) {
+        return this.findElementById(id)?.getBoundingClientRect()
     }
 
     getElementOffsetRectById(nodeId: string) {
@@ -109,6 +119,10 @@ export class Viewport {
             rect.bottom <= viewportRect.bottom;
     }
 
+    /**
+     * 计算节点在视口中的位置
+     * @param node
+     */
     getValidNodeOffsetRect(node: TreeNode) {
         if (!node) {
             return
@@ -116,6 +130,9 @@ export class Viewport {
         return this.getElementOffsetRectById(node.id)
     }
 
+    /**
+     * 计算视口
+     */
     digestViewport() {
         if (this.viewportElement) {
             const data = {
@@ -126,5 +143,13 @@ export class Viewport {
             }
             _.assign(this, data)
         }
+    }
+
+    getValidNodeLayout(node: TreeNode) {
+        if (!node) {
+            return 'vertical'
+        }
+        //TODO 根据组件类型获取布局
+        return 'vertical'
     }
 }

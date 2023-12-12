@@ -1,5 +1,6 @@
 import {ClosestPosition, Operation} from "../model";
 import React from "react";
+import {Point} from "../coordinate";
 
 /**
  * 开始拖拽
@@ -37,7 +38,7 @@ export const dragStartEffect = (e, operation: Operation) => {
 }
 
 export const dragMoveEffect = (e, operation: Operation) => {
-    operation.cursor.setPosition({
+    const position = {
         pageX: e.pageX,
         pageY: e.pageY,
         clientX: e.clientX,
@@ -46,7 +47,8 @@ export const dragMoveEffect = (e, operation: Operation) => {
         topPageY: e.pageY,
         topClientX: e.clientX,
         topClientY: e.clientY,
-    })
+    }
+    operation.cursor.setPosition()
     const engine = operation.engine
     const target = e.target as HTMLElement
     const el = target?.closest(`
@@ -56,7 +58,8 @@ export const dragMoveEffect = (e, operation: Operation) => {
         operation.cleanDraggingHover()
         return
     }
-    operation.dragMove()
+    operation.dragMove(position)
+    operation.calcClosestPosition(new Point(e.clientX, e.clientX))
     const nodeId = el.getAttribute(engine.nodeIdAttrName)
     if (nodeId) {
         operation.draggingHoverNode = operation.findNodeById(nodeId)
