@@ -55,7 +55,7 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
                 let minDistance = Number.MAX_VALUE;
                 let closestElement = draggingHoverNode;
                 _.forEach(draggingHoverNode.children, (node: TreeNode) => {
-                    const rect = document.querySelector(`*[${nodeIdAttrName}=${node.id}]`).getBoundingClientRect()
+                    const rect = viewport.getValidNodeOffsetRect(node)
                     const distance = handleComputePointDistance(rect)
                      
                     if (distance < minDistance) {
@@ -74,12 +74,13 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
         if (closestNode?.droppable) {
             return ClosestPosition.INNER
         }
-        const closestNodeEl = document.querySelector(`*[${nodeIdAttrName}=${closestNode?.id}]`)
-        const closestRect = viewport.viewportNodeRect(closestNodeEl)
+        const closestRect = viewport.getValidNodeOffsetRect(closestNode)
         const point = {
             x: mouseEvent.clientX,
             y: mouseEvent.clientY
         }
+        console.log("Insertion",closestRect)
+        console.log("Insertion",point)
         const rectCenter = {
             x: closestRect.left + closestRect.width / 2,
             y: closestRect.top + closestRect.height / 2,

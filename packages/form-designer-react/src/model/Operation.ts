@@ -91,6 +91,10 @@ export class Operation {
         this.closestPosition = closestPosition
     }
 
+    setSelectionNode(node: TreeNode) {
+        this.selectionNode = node
+    }
+
     findNodeById(id: string) {
         return this.tree.findNodeById(id)
     }
