@@ -1,6 +1,7 @@
 import {action, define, observable} from "@formily/reactive";
 import {FormDesignerEngine} from "./FormDesignerEngine";
 import {TreeNode} from "./TreeNode";
+import _ from "lodash"
 
 interface IViewport {
     engine: FormDesignerEngine;
@@ -10,6 +11,10 @@ interface IViewport {
 export class Viewport {
     engine: FormDesignerEngine;
     viewportElement: HTMLElement
+    scrollX = 0
+    scrollY = 0
+    width = 0
+    height = 0
 
     constructor(args: IViewport) {
         this.engine = args.engine
@@ -26,6 +31,11 @@ export class Viewport {
 
     onMoment(element: HTMLElement) {
         this.viewportElement = element
+        this.engine.operation.setViewport(this)
+    }
+
+    onUnmount() {
+        this.engine.operation.setViewport(null)
     }
 
     get rect() {
@@ -69,18 +79,52 @@ export class Viewport {
         }
         const viewportRect = this.viewportElement.getBoundingClientRect();
         const nodeRect = nodeHtml.getBoundingClientRect()
-        return new DOMRect(
-            nodeRect.left - viewportRect.left,
-            nodeRect.top - viewportRect.top,
-            nodeRect.width,
-            nodeRect.height
-        )
+
+        console.log(" Viewport viewportRect", viewportRect)
+        console.log("Viewport nodeRect", nodeRect)
+        console.log("Viewport vietport", this)
+        if (this.isInPosition(nodeRect)) {
+            return new DOMRect(
+                nodeRect.left - viewportRect.left + this.scrollX,
+                nodeRect.top - viewportRect.top + this.scrollY,
+                nodeRect.width,
+                nodeRect.height
+            )
+        } else {
+            return new DOMRect(
+                nodeRect.left - viewportRect.left + this.scrollX,
+                nodeRect.top - viewportRect.top + this.scrollY,
+                nodeRect.width,
+                nodeRect.height
+            )
+        }
+
+    }
+
+    isInPosition(rect: DOMRect) {
+        const viewportRect = this.viewportElement.getBoundingClientRect();
+        return rect.left >= viewportRect.left &&
+            rect.top >= viewportRect.top &&
+            rect.right <= viewportRect.right &&
+            rect.bottom <= viewportRect.bottom;
     }
 
     getValidNodeOffsetRect(node: TreeNode) {
-        if (!node){
+        if (!node) {
             return
         }
         return this.getElementOffsetRectById(node.id)
+    }
+
+    digestViewport() {
+        if (this.viewportElement) {
+            const data = {
+                scrollX: this.viewportElement.scrollLeft,
+                scrollY: this.viewportElement.scrollTop,
+                width: this.viewportElement.clientWidth,
+                height: this.viewportElement.clientHeight
+            }
+            _.assign(this, data)
+        }
     }
 }

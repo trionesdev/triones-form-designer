@@ -7,14 +7,8 @@ import {
     mouseMoveEffect
 } from "../effect";
 import {Operation} from "../model";
+import {ViewportEffect} from "../effect";
 
-export const Events = {
-    MOUSE_DOWN: "mouseDown",
-    MOUSE_UP: "mouseUp",
-    MOUSE_MOVE: "mouseMove",
-    DRAG_START: "dragStart",
-    DRAG_END: "dragEnd",
-}
 
 export class EventManager {
     operation: Operation;
@@ -29,7 +23,7 @@ export class EventManager {
     }
 
     onMouseMove(e: React.MouseEvent) {
-        if (!e.bubbles){ //如果鼠标没有按住，则清除拖拽状态
+        if (!e.bubbles) { //如果鼠标没有按住，则清除拖拽状态
             this.operation.dragStop()
         }
         if (this.operation.dragging) {
@@ -55,7 +49,7 @@ export class EventManager {
     onMouseUp(e: React.MouseEvent) {
         this.operation.startEvent = null
         this.operation.onMouseDownAt = 0
-         
+
         if (this.operation.dragging) {
             dragEndEffect(e, this.operation);
         }
@@ -63,5 +57,14 @@ export class EventManager {
 
     onMouseClick(e: React.MouseEvent) {
         mouseClickEffect(e, this.operation)
+    }
+
+    onViewportScroll(e: React.UIEvent) {
+        console.log("onViewportScroll",e)
+        ViewportEffect.viewportScrollEffect(e, this.operation)
+    }
+
+    onViewportResize(e: React.SyntheticEvent) {
+        ViewportEffect.viewportResizeEffect(e, this.operation)
     }
 }

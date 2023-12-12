@@ -7,9 +7,10 @@ import {Viewport} from "../model";
 
 const ViewPanelStyled = styled('div')({
     position: 'relative',
-    overflowY: 'auto',
+    overflow: 'overlay',
     minHeight: '100%',
     height: '100%',
+    overflowX: 'hidden',
 })
 
 type ViewPanelProps = {
@@ -32,11 +33,18 @@ export const ViewPanel: FC<ViewPanelProps> = ({children}) => {
         if (ref.current) {
             viewport.onMoment(ref.current)
         }
+        return () => {
+            viewport.onUnmount()
+        }
     }, [])
 
 
     return <ViewportContext.Provider value={viewport}>
-        <ViewPanelStyled ref={ref} className={`td-view-panel`} onClick={(e) => eventManager.onMouseClick(e)}>
+        <ViewPanelStyled ref={ref} className={`td-view-panel`}
+                         onClick={(e) => eventManager.onMouseClick(e)}
+                         onScroll={(e) => eventManager.onViewportScroll(e)}
+                         onResize={(e) => eventManager.onViewportResize(e)}
+        >
             {children}
             <AuxToolsWidget/>
         </ViewPanelStyled>

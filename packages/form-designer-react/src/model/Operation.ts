@@ -4,6 +4,7 @@ import {autorun, define, observable, observe} from "@formily/reactive";
 import {EventManager} from "../event/event";
 import {Cursor, CursorStatus} from "./Cursor";
 import {requestIdle} from "../request-idle";
+import {Viewport} from "./Viewport";
 
 export enum ClosestPosition {
     BEFORE = 'BEFORE',
@@ -18,6 +19,7 @@ interface IOperation {
 
 export class Operation {
     engine: FormDesignerEngine;
+    viewport: Viewport
     tree: TreeNode
     cursor: Cursor
     onMouseDownAt: number //鼠标按下时间
@@ -77,26 +79,38 @@ export class Operation {
 
     }
 
+    setViewport(viewport: Viewport) {
+        this.viewport = viewport
+    }
+
+    setClosetNode(node: TreeNode) {
+        this.closestNode = node
+    }
+
+    setClosestPosition(closestPosition: ClosestPosition) {
+        this.closestPosition = closestPosition
+    }
+
     findNodeById(id: string) {
         return this.tree.findNodeById(id)
     }
 
-    get dragging(){
+    get dragging() {
         return this.cursor.status == CursorStatus.DRAGGING || this.cursor.status == CursorStatus.DRAG_START
     }
 
-    dragStart(){
+    dragStart() {
         this.cursor.setStatus(CursorStatus.DRAG_START)
     }
 
-    dragMove(){
+    dragMove() {
         this.cursor.setStatus(CursorStatus.DRAGGING)
     }
 
-    dragStop(){
+    dragStop() {
         this.cursor.setStatus(CursorStatus.DRAG_STOP)
         this.onMouseDownAt = 0
-        requestIdle(()=>{
+        requestIdle(() => {
             this.cursor.setStatus(CursorStatus.NORMAL)
         })
     }

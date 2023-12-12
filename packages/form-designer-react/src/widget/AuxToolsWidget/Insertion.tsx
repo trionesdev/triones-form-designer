@@ -112,8 +112,7 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
             operation.closestNode = closestNode
             let closestPosition = handleClosestPosition(closestNode)
             operation.closestPosition = closestPosition
-            const closestNodeEl = document.querySelector(`*[${nodeIdAttrName}=${closestNode?.id}]`)
-            const closestRect = viewport.viewportNodeRect(closestNodeEl)
+            const closestRect = viewport.getValidNodeOffsetRect(closestNode)
             if (closestPosition == ClosestPosition.BEFORE) {
                 ref.current.style.height = `2px`
                 ref.current.style.width = `${closestRect.width}px`

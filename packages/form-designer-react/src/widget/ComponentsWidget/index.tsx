@@ -11,7 +11,7 @@ import {DesignerComponentsContext} from "../../context";
 import styled from "@emotion/styled";
 
 const ComponentsWidgetStyled = styled('div')({
-    minWidth: '100%', minHeight: '100%', height: '100%'
+    minWidth: '100%', minHeight: '100%'
 })
 
 type ComponentsWidgetProps = {
