@@ -5,7 +5,8 @@ import {EventManager} from "../event/event";
 import {Cursor, CursorStatus, ICursorPosition} from "./Cursor";
 import {requestIdle} from "../request-idle";
 import {Viewport} from "./Viewport";
-import {IPoint, isNearAfter, isPointInRect, Point} from "../coordinate";
+import {calcPointToRectDistance, IPoint, isNearAfter, isPointInRect, Point} from "../coordinate";
+import _ from "lodash"
 
 export enum ClosestPosition {
     BEFORE = 'BEFORE',
@@ -35,6 +36,7 @@ export class Operation {
     draggingHoverNode?: TreeNode //拖拽悬浮节点
     closestPosition: ClosestPosition //与最近可托入节点的位置
     closestNode?: TreeNode //最近节点
+    closestNodeRect?: DOMRect //最近节点
     eventManager: EventManager
     mouseEvent: any
     onChange: () => void
@@ -96,6 +98,10 @@ export class Operation {
         this.closestPosition = closestPosition
     }
 
+    setClosestNodeRect(rect: DOMRect) {
+        this.closestNodeRect = rect
+    }
+
     setSelectionNode(node: TreeNode) {
         this.selectionNode = node
     }
@@ -119,7 +125,11 @@ export class Operation {
     dragMove(position: ICursorPosition) {
         this.cursor.setPosition(position)
         this.cursor.setStatus(CursorStatus.DRAGGING)
-        this.calcClosestPosition(new Point(position.topClientX, position.topClientY))
+        requestIdle(() => {
+            this.setClosetNode(this.calcClosestNode())
+            this.setClosestPosition(this.calcClosestPosition(new Point(position.topClientX, position.topClientY)))
+            this.setClosestNodeRect(this.calcClosestNodeRect())
+        })
     }
 
     dragStop() {
@@ -140,6 +150,34 @@ export class Operation {
 
     setDraggingNode(node: TreeNode) {
         this.draggingNode = node
+    }
+
+
+    /**
+     * 计算最近节点
+     */
+    calcClosestNode() {
+        if (this.draggingHoverNode?.droppable) {//当前节点为可拖入节点
+            if (_.isEmpty(this.draggingHoverNode.children)) { //如果没有子节点，则该节点为最近节点
+                return this.draggingHoverNode;
+            } else {
+                let minDistance = Number.MAX_VALUE;
+                let closestElement = null;
+                _.forEach(this.draggingHoverNode.children, (node: TreeNode) => {
+                    const rect = this.viewport.getValidNodeOffsetRect(node)
+                    const position = this.cursor.position
+                    const distance = calcPointToRectDistance(new Point(position.topClientX, position.topClientY), rect)
+
+                    if (distance < minDistance) {
+                        minDistance = distance
+                        closestElement = node
+                    }
+                })
+                return closestElement
+            }
+        } else { //当前节点不可拖入，则该节点为最近节点
+            return this.draggingHoverNode;
+        }
     }
 
     /**
@@ -178,6 +216,17 @@ export class Operation {
                 return isAfter ? ClosestPosition.UNDER : ClosestPosition.UPPER
             }
         }
+    }
+
+
+    /**
+     * 计算最近节点的rect
+     */
+    calcClosestNodeRect() {
+        if (!this.closestNode) {
+            return
+        }
+        return this.viewport.getValidNodeOffsetRect(this.closestNode)
     }
 
 }

@@ -1,6 +1,7 @@
 import React, {FC} from "react";
 import styled from "@emotion/styled";
-import {useOperation} from "../hooks/useOperation";
+import {useOperation} from "../hooks";
+import {css, Global} from "@emotion/react";
 
 type StudioPanelProps = {
     children?: React.ReactNode
@@ -18,7 +19,7 @@ const StudioPanelStyled = styled('div')({
             width: '1rem',
             height: '1rem',
         }
-    },
+    }
 })
 
 export const StudioPanel: FC<StudioPanelProps> = ({
@@ -32,6 +33,22 @@ export const StudioPanel: FC<StudioPanelProps> = ({
         onMouseUp={(e) => eventManager.onMouseUp(e)}
         onMouseMove={(e) => eventManager.onMouseMove(e)}
     >
+        <Global styles={css`
+            ::-webkit-scrollbar {
+                width: 5px;
+                height: 5px
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: #d9d9d9;
+                border-radius: 0;
+                transition: all 0.25s ease-in-out
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: #f0f0f0
+            }
+        `}/>
         {children}
     </StudioPanelStyled>
 }

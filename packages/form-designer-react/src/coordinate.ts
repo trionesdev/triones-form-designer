@@ -83,3 +83,26 @@ export function isPointInRect(point: IPoint, rect: IRect, sensitive = true) {
         point.y <= rect.y + rect.height - boundSensor(rect.height)
     )
 }
+
+//计算鼠标与元素的距离
+export const calcPointToRectDistance = (point: IPoint, rect: DOMRect) => {
+    if (point.x <= rect.left && point.y <= rect.top) { //鼠标在元素左上角
+        return Math.sqrt(Math.pow(rect.left - point.x, 2) + Math.pow(rect.top - point.y, 2));
+    } else if (point.x <= rect.left && point.y >= rect.bottom) { //鼠标在元素左下角
+        return Math.sqrt(Math.pow(rect.left - point.x, 2) + Math.pow(point.y - rect.bottom, 2));
+    } else if (point.x >= rect.right && point.y <= rect.top) {//鼠标在元素右上角
+        return Math.sqrt(Math.pow(point.x - rect.right, 2) + Math.pow(rect.top - point.y, 2));
+    } else if (point.x >= rect.right && point.y >= rect.bottom) {//鼠标在元素右上角
+        return Math.sqrt(Math.pow(point.x - rect.right, 2) + Math.pow(point.y - rect.bottom, 2));
+    } else if ((point.x >= rect.left && point.x <= rect.right) && point.y <= rect.top) { //上方
+        return rect.top - point.y;
+    } else if ((point.x >= rect.left && point.x <= rect.right) && point.y >= rect.bottom) { //下方
+        return point.x - rect.bottom;
+    } else if (point.x <= rect.left && (point.y >= rect.top && point.y <= rect.bottom)) { //左边
+        return rect.left - point.x;
+    } else if (point.x >= rect.right && (point.y >= rect.top && point.y <= rect.bottom)) { //右边
+        return point.x - rect.right;
+    } else {
+        return 0;
+    }
+}

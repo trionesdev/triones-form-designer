@@ -16,7 +16,8 @@ const DashedBoxStyled = styled('div')({
         position: 'absolute',
         left: 0,
         fontSize: '12px',
-        userSelect: 'none'
+        userSelect: 'none',
+        visibility: 'hidden'
     }
 })
 
@@ -63,7 +64,7 @@ export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
 
     return <>
         {!dragging && hoverNode && (hoverNode != selectionNode) && <DashedBoxStyled style={handleBoxStyles()}>
-            {hoverNode != hoverNode.root &&
+            {hoverNode && hoverNode != hoverNode.root &&
                 <span className={`td-aux-dashed-box-title`} style={handleSpanStyles()}>{hoverNode?.title}</span>}
         </DashedBoxStyled>}
     </>

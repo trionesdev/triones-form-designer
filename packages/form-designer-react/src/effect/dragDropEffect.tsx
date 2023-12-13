@@ -82,9 +82,9 @@ export const dragEndEffect = (e: React.MouseEvent, operation: Operation) => {
         console.log("dragEndEffect operation draggingHoverNode", operation.draggingHoverNode)
         if (ClosestPosition.INNER === closestPosition) {
             closestNode.append(operation.draggingNode)
-        } else if (ClosestPosition.BEFORE === closestPosition) {
+        } else if (ClosestPosition.BEFORE === closestPosition || ClosestPosition.UPPER === closestPosition) {
             closestNode.insertBefore(operation.draggingNode)
-        } else if (ClosestPosition.AFTER === closestPosition) {
+        } else if (ClosestPosition.AFTER === closestPosition || ClosestPosition.UNDER === closestPosition) {
             closestNode.insertAfter(operation.draggingNode)
         }
     }

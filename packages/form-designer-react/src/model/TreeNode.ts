@@ -146,7 +146,7 @@ export class TreeNode {
             const appendNodes = this.restNodes(nodes, droppableNode);
             droppableNode.children = _.concat(droppableNode.children, appendNodes)
             console.log("droppableNode", this.operation)
-            this.operation.selectionNode = appendNodes[0] //设置新增节点为选中状态
+            this.operation.setSelectionNode(appendNodes[0]) //设置新增节点为选中状态
         }
     }
 
@@ -161,12 +161,15 @@ export class TreeNode {
         if (_.isEmpty(insertNodes)) {
             return
         }
+        debugger
         const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
         console.log("dragEndEffect operation droppableNode", droppableNode)
         if (droppableNode) {
             const dropNodes = this.restNodes(insertNodes, droppableNode);
             console.log("dragEndEffect operation dropNodes", dropNodes)
-            const index = droppableNode.children.indexOf(this)
+            const index = _.findIndex(droppableNode.children, (node: TreeNode) => {
+                return node.id === this.id
+            })
             console.log("dragEndEffect operation index", index)
             const dropNodesIds = _.map(dropNodes, (node: TreeNode) => {
                 return node.id
@@ -178,7 +181,7 @@ export class TreeNode {
                 return !_.includes(dropNodesIds, node.id)
             });
             droppableNode.children = _.concat(beforeNodes, dropNodes, afterNodes)
-            this.operation.selectionNode = dropNodes[0]
+            this.operation.setSelectionNode(dropNodes[0])
         }
     }
 
@@ -196,7 +199,9 @@ export class TreeNode {
         const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
         if (droppableNode) {
             const dropNodes = this.restNodes(insertNodes, droppableNode);
-            const index = droppableNode.children.indexOf(this)
+            const index = _.findIndex(droppableNode.children, (node: TreeNode) => {
+                return node.id === this.id
+            })
             const dropNodesIds = _.map(dropNodes, (node: TreeNode) => {
                 return node.id
             })
@@ -207,7 +212,7 @@ export class TreeNode {
                 return !_.includes(dropNodesIds, node.id)
             });
             droppableNode.children = _.concat(beforeNodes, dropNodes, afterNodes)
-            this.operation.selectionNode = dropNodes[0]
+            this.operation.setSelectionNode(dropNodes[0])
         }
     }
 
@@ -249,7 +254,9 @@ export class TreeNode {
             if (node.isSourceNode) {
                 return node.clone(parentNode);
             } else {
-                node.parent = parentNode
+                if (!node.parent){
+                    node.parent = parentNode
+                }
                 return node
             }
 
