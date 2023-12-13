@@ -1,4 +1,5 @@
 import {TreeNode} from "./model";
+import _ from "lodash"
 
 export interface IPoint {
     x: number
@@ -110,10 +111,27 @@ export const calcPointToRectDistance = (point: IPoint, rect: DOMRect) => {
 }
 
 
-export const treeNodeToFormilyJson = (tree: TreeNode) => {
+export const transformToSchema = (tree: TreeNode) => {
+    if (tree != tree.root) {
+        return tree.schema
+    }
 
+    const createSchema = (node: TreeNode) => {
+        const schema = _.cloneDeep(node.schema)
+        schema['id'] = node.id
+        if (!_.isEmpty(node.children)){
+            _.forEach(node.children, (child: TreeNode,index:number) => {
+                const key = _.get(child,['schema','name'],node.id)
+                schema.properties = schema.properties || {}
+                schema.properties[key] = createSchema(child)
+                schema.properties[key]['x-index'] = index
+            })
+        }
+        return schema
+    }
+    return createSchema(tree)
 }
 
-export const treeNodeFromFormilyJson = (data: any) => {
+export const transformToTreeNode = (data: any) => {
 
 }
