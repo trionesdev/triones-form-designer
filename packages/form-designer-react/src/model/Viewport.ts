@@ -1,4 +1,4 @@
-import {action, define, observable} from "@formily/reactive";
+import {define, observable} from "@formily/reactive";
 import {FormDesignerEngine} from "./FormDesignerEngine";
 import {TreeNode} from "./TreeNode";
 import _ from "lodash"

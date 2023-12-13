@@ -65,10 +65,8 @@ export class TreeNode {
         reaction(() => {
             return this.children
         }, () => {
-            console.log("[TreeInfo]", "children changed")
             if (!this.isSourceNode) {
-                this.operation.onChange()
-                console.log("[TreeInfo] children", this.schema)
+                this.operation.onChange(`${this.id} children changed`)
             }
         })
         //
@@ -79,10 +77,8 @@ export class TreeNode {
         // })
 
         observe(this.schema, (change) => {
-            console.log("[TreeInfo]", "observe schema changed")
             if (!this.isSourceNode) {
-                this.operation.onChange()
-                console.log("[TreeInfo] observe", this.schema)
+                this.operation.onChange(`${this.id} schema changed`)
             }
         })
 
@@ -117,7 +113,6 @@ export class TreeNode {
     }
 
     get droppable() {
-        console.log("droppable", GlobalStore.getDesignerResource(_.get(this.schema, 'x-component', this.componentName)))
         return GlobalStore.getDesignerResourceByNode(this)?.droppable || false
     }
 
@@ -141,11 +136,9 @@ export class TreeNode {
      */
     append(...nodes: TreeNode[]) {
         const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
-        console.log("dragEndEffect operation droppableNode", droppableNode)
         if (droppableNode) {
             const appendNodes = this.restNodes(nodes, droppableNode);
             droppableNode.children = _.concat(droppableNode.children, appendNodes)
-            console.log("droppableNode", this.operation)
             this.operation.setSelectionNode(appendNodes[0]) //设置新增节点为选中状态
         }
     }
@@ -161,16 +154,12 @@ export class TreeNode {
         if (_.isEmpty(insertNodes)) {
             return
         }
-        debugger
         const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
-        console.log("dragEndEffect operation droppableNode", droppableNode)
         if (droppableNode) {
             const dropNodes = this.restNodes(insertNodes, droppableNode);
-            console.log("dragEndEffect operation dropNodes", dropNodes)
             const index = _.findIndex(droppableNode.children, (node: TreeNode) => {
                 return node.id === this.id
             })
-            console.log("dragEndEffect operation index", index)
             const dropNodesIds = _.map(dropNodes, (node: TreeNode) => {
                 return node.id
             })

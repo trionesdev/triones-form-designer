@@ -11,11 +11,12 @@ type FormDesignerProps = {
     value?: any
     onChange?: (value: any) => void
 }
-export const FormDesigner: FC<FormDesignerProps> = ({children, engine}) => {
+export const FormDesigner: FC<FormDesignerProps> = ({children, engine,onChange}) => {
     let scopeEngine = engine
     if (!scopeEngine) {
         scopeEngine = new FormDesignerEngine({rootComponentName: 'Form'})
     }
+    scopeEngine?.setOnchange(onChange)
 
     return <FormDesignerContext.Provider value={scopeEngine}>
         {children}

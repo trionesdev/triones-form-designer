@@ -1,8 +1,7 @@
 import React, {FC} from "react"
-import {useOperation} from "../hooks/useOperation";
 import styled from "@emotion/styled";
-import {AuxToolsWidget} from "../widget";
 import {Simulator} from "../container";
+import {MobileSimulator} from "../simulator";
 
 type ViewportPanelProps = {
     children?: React.ReactNode;
@@ -15,6 +14,7 @@ const ViewportPanelStyled = styled('div')({
     position: 'relative',
     minHeight: 0,
     overflow: 'hidden',
+    display:'flex',
     '.ant-formily-item-label,.ant-formily-item-control': {
         userSelect: 'none',
         pointerEvents: 'none'
@@ -24,6 +24,7 @@ const ViewportPanelStyled = styled('div')({
 export const ViewportPanel: FC<ViewportPanelProps> = ({children}) => {
 
     return <ViewportPanelStyled className={`td-viewport-panel`}>
-        <Simulator>{children}</Simulator>
+        {/*<Simulator>{children}</Simulator>*/}
+        <MobileSimulator>{children}</MobileSimulator>
     </ViewportPanelStyled>
 }

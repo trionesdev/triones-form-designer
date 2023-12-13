@@ -1,6 +1,6 @@
 import {TreeNode} from "./TreeNode";
 import {FormDesignerEngine} from "./FormDesignerEngine";
-import {autorun, define, observable, observe} from "@formily/reactive";
+import {action, autorun, define, observable, observe} from "@formily/reactive";
 import {EventManager} from "../event/event";
 import {Cursor, CursorStatus, ICursorPosition} from "./Cursor";
 import {requestIdle} from "../request-idle";
@@ -20,7 +20,6 @@ export enum ClosestPosition {
 
 interface IOperation {
     engine: FormDesignerEngine;
-    onChange: (tree: TreeNode) => void
 }
 
 export class Operation {
@@ -39,14 +38,10 @@ export class Operation {
     closestNodeRect?: DOMRect //最近节点
     eventManager: EventManager
     mouseEvent: any
-    onChange: () => void
 
     constructor(args: IOperation) {
         this.engine = args.engine
-        this.onChange = () => {
-            console.log("[TreeInfo]", "tree change sssse", this.tree)
-            args.onChange?.(this.tree)
-        }
+
         this.tree = new TreeNode({
             componentName: args.engine.rootComponentName,
             isSourceNode: false,
@@ -62,9 +57,7 @@ export class Operation {
 
         this.makeObservable()
 
-        autorun(() => {
-            console.log("[TreeInfo]", "sssssssssss")
-        })
+
     }
 
     makeObservable() {
@@ -78,12 +71,18 @@ export class Operation {
             closestPosition: observable.ref,
             closestNode: observable.ref,
             mouseEvent: observable.ref,
+            onChange:action
         })
 
-        observe(this.tree, () => {
-            console.log("[TreeInfo]", "operation tree changed")
+        autorun(() => {
+            console.log("[TreeInfo]", "sssssssssss")
         })
 
+    }
+
+    onChange = (msg) => {
+        console.log("[TreeInfo]", "tree change sssse",msg, this.tree)
+        this.engine.onChange?.(msg)
     }
 
     setViewport(viewport: Viewport) {

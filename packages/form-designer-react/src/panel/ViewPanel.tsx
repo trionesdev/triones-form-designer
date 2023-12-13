@@ -1,9 +1,11 @@
-import React, {FC, useLayoutEffect, useMemo, useRef} from "react"
-import {AuxToolsWidget} from "../widget";
+import React, {FC, useEffect, useLayoutEffect, useMemo, useRef} from "react"
 import {useFormDesigner, useOperation} from "../hooks";
 import styled from "@emotion/styled";
 import {ViewportContext} from "../context";
-import {Viewport} from "../model";
+import {DesignerType, Viewport} from "../model";
+import {AuxToolsWidget} from "../widget";
+import {MobileAuxToolsWidget} from "../widget/MobileAuxToolsWidget";
+import {observer} from "@formily/react";
 
 const ViewPanelStyled = styled('div')({
     position: 'relative',
@@ -15,8 +17,9 @@ const ViewPanelStyled = styled('div')({
 
 type ViewPanelProps = {
     children?: React.ReactNode
+    type?: DesignerType
 }
-export const ViewPanel: FC<ViewPanelProps> = ({children}) => {
+export const ViewPanel: FC<ViewPanelProps> = observer(({children, type}) => {
     const ref = useRef<HTMLDivElement>()
     const engine = useFormDesigner()
     const {eventManager} = useOperation()
@@ -28,11 +31,18 @@ export const ViewPanel: FC<ViewPanelProps> = ({children}) => {
         })
     }, [ref, ref.current]);
 
+    useEffect(() => {
+        if (type) {
+            engine.setDesignerType(type)
+        }
+    }, [type]);
+
 
     useLayoutEffect(() => {
         if (ref.current) {
             viewport.onMoment(ref.current)
         }
+
         return () => {
             viewport.onUnmount()
         }
@@ -46,7 +56,8 @@ export const ViewPanel: FC<ViewPanelProps> = ({children}) => {
                          onResize={(e) => eventManager.onViewportResize(e)}
         >
             {children}
-            <AuxToolsWidget/>
+            {engine.type == 'PC' && <AuxToolsWidget/>}
+            {engine.type == 'MOBILE' && <MobileAuxToolsWidget/>}
         </ViewPanelStyled>
     </ViewportContext.Provider>
-}
+})

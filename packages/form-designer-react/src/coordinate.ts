@@ -1,3 +1,5 @@
+import {TreeNode} from "./model";
+
 export interface IPoint {
     x: number
     y: number
@@ -105,4 +107,13 @@ export const calcPointToRectDistance = (point: IPoint, rect: DOMRect) => {
     } else {
         return 0;
     }
+}
+
+
+export const treeNodeToFormilyJson = (tree: TreeNode) => {
+
+}
+
+export const treeNodeFromFormilyJson = (data: any) => {
+
 }
