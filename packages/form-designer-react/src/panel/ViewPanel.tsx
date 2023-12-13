@@ -1,0 +1,52 @@
+import React, {FC, useLayoutEffect, useMemo, useRef} from "react"
+import {AuxToolsWidget} from "../widget";
+import {useFormDesigner, useOperation} from "../hooks";
+import styled from "@emotion/styled";
+import {ViewportContext} from "../context";
+import {Viewport} from "../model";
+
+const ViewPanelStyled = styled('div')({
+    position: 'relative',
+    overflow: 'overlay',
+    minHeight: '100%',
+    height: '100%',
+    overflowX: 'hidden',
+})
+
+type ViewPanelProps = {
+    children?: React.ReactNode
+}
+export const ViewPanel: FC<ViewPanelProps> = ({children}) => {
+    const ref = useRef<HTMLDivElement>()
+    const engine = useFormDesigner()
+    const {eventManager} = useOperation()
+
+    const viewport = useMemo(() => {
+        return new Viewport({
+            engine: engine,
+            viewportElement: ref.current
+        })
+    }, [ref, ref.current]);
+
+
+    useLayoutEffect(() => {
+        if (ref.current) {
+            viewport.onMoment(ref.current)
+        }
+        return () => {
+            viewport.onUnmount()
+        }
+    }, [])
+
+
+    return <ViewportContext.Provider value={viewport}>
+        <ViewPanelStyled ref={ref} className={`td-view-panel`}
+                         onClick={(e) => eventManager.onMouseClick(e)}
+                         onScroll={(e) => eventManager.onViewportScroll(e)}
+                         onResize={(e) => eventManager.onViewportResize(e)}
+        >
+            {children}
+            <AuxToolsWidget/>
+        </ViewPanelStyled>
+    </ViewportContext.Provider>
+}
