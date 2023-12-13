@@ -1,37 +1,36 @@
 import React from 'react';
 import './App.css';
 import {
+    ComponentsWidget,
     CompositePanel,
-    FormDesigner,
-    ResourceWidget,
-    StudioPanel,
+    FormDesigner, GlobalStore,
+    ResourceWidget, StudioPanel, ViewPanel, ViewportPanel,
     WorkspacePanel
 } from "@trionesdev/form-designer-react";
-import {Input} from "./components";
-import {FormItem} from "@formily/antd-v5";
+import {Form, Input, Select} from "./components";
+import {AntdSettingsPanel} from "./AntdSettingsPanel";
+import * as icons from "./Icons";
 
 function App() {
+
+    GlobalStore.registerIcons(icons)
+
     return (
         <div className="App">
             <FormDesigner>
                 <StudioPanel>
-                    <CompositePanel style={{width:300}}>
-                        <ResourceWidget sources={[Input]}/>
+                    <CompositePanel style={{width: 300}}>
+                        <ResourceWidget sources={[Input, Select]}/>
                     </CompositePanel>
                     <WorkspacePanel>
-                        <div td-designer-node-id={`sss`} style={{height:'100%',boxSizing:'border-box'}}>
-                            <div td-designer-node-id={`ssds223232`}>
-                                <FormItem label={`sss`}>
-                                    <Input/>
-                                </FormItem>
-                            </div>
-                            <div td-designer-node-id={`ssds22333232222`}>
-                                <FormItem label={`s是是是ss`}>
-                                    <Input/>
-                                </FormItem>
-                            </div>
-                        </div>
+                        <div>ssss</div>
+                        <ViewportPanel>
+                            <ViewPanel>
+                                <ComponentsWidget components={{Form, Input, Select}}/>
+                            </ViewPanel>
+                        </ViewportPanel>
                     </WorkspacePanel>
+                    <AntdSettingsPanel/>
                 </StudioPanel>
             </FormDesigner>
         </div>
