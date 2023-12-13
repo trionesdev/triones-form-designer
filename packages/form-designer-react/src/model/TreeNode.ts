@@ -283,11 +283,9 @@ export class TreeNode {
         const newNode = new TreeNode({
             componentName: this.componentName,
             schema: _.cloneDeep(this.schema), //一定要深拷贝，否则数据会干扰，都是直接用的source组件的数据
-            parent: parent,
-            root: parent.root,
             isSourceNode: false,
             operation: parent.operation
-        })
+        },parent)
         return newNode
     }
 
