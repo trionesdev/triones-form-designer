@@ -23,9 +23,35 @@ function App() {
         console.log("[TreeInfo]value", value)
     }
 
+    const value = {
+        "x-id": "td_tXAABwaZAE",
+        "type": "object",
+        "x-component-name":"Form",
+        "properties": {
+            "td_rszikvOzVh": {
+                "type": "string",
+                "title": "文本框",
+                "required": true,
+                "x-decorator": "FormItem",
+                "x-component": "Input.TextArea",
+                "x-id": "td_rszikvOzVh",
+                "x-index": 0,
+                "x-component-name":"Field",
+            },
+            "td_AaMFjiFfps": {
+                "title": "性别",
+                "x-decorator": "FormItem",
+                "x-component": "Select",
+                "x-id": "td_AaMFjiFfps",
+                "x-index": 1,
+                "x-component-name":"Field",
+            }
+        }
+    }
+
     return (
         <div className="App">
-            <FormDesigner onChange={handleOnChange}>
+            <FormDesigner value={value} onChange={handleOnChange}>
                 <StudioPanel>
                     <CompositePanel style={{width: 300}}>
                         <ResourceWidget sources={[Input, Select]}/>

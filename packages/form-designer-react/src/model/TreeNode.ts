@@ -5,10 +5,9 @@ import {Operation} from "./Operation";
 import _ from "lodash";
 import {GlobalStore} from "../store";
 
-interface ITreeNode {
-    parent?: TreeNode
-    root?: TreeNode
-    children?: TreeNode[]
+export interface ITreeNode {
+
+    children?: ITreeNode[]
     id?: string
     componentName?: string
     isSourceNode?: boolean
@@ -23,35 +22,41 @@ const TreeNodes = new Map<string, TreeNode>()
 export class TreeNode {
     parent?: TreeNode
     root?: TreeNode
-    children: TreeNode[]
+    children: TreeNode[] = []
     id: string
     componentName: string
     isSourceNode?: boolean
     schema?: ISchema
     operation?: Operation
 
-    constructor(args: ITreeNode) {
-        this.id = args.id || `td_${randomstring.generate({
+    constructor(node: ITreeNode, parent?: TreeNode) {
+        if (node instanceof TreeNode) {
+            return node
+        }
+        this.id = node.id || `td_${randomstring.generate({
             length: 10,
             charset: 'alphabetic'
         })}`
-        this.root = args?.root
-        this.parent = args?.parent
-        this.children = args?.children || []
-        this.isSourceNode = args?.isSourceNode
-        this.componentName = args?.componentName || 'Field'
-        this.schema = args?.schema
-        this.operation = args?.operation
+        this.root = node?.root
+        this.parent = node?.parent
+        this.isSourceNode = node?.isSourceNode
+        this.componentName = node?.componentName || 'Field'
+        this.schema = node?.schema
+        this.operation = node?.operation || parent?.operation
 
-        if (args.parent) {
-            this.root = args.parent?.root
-            this.parent = args.parent
+        if (parent) {
+            this.root = parent?.root
+            this.parent = parent
         } else {
             this.root = this
             this.parent = null
         }
 
         TreeNodes.set(this.id, this) //同步设置节点到TreeNodes
+
+        if (node) {
+            this.from(node)
+        }
         this.makeObservable()
     }
 
@@ -95,6 +100,28 @@ export class TreeNode {
     // get sourceComponent() {
     //     return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))
     // }
+
+    from(node?: ITreeNode) {
+        if (!node) return
+
+        if (node.id && node.id !== this.id) {
+            TreeNodes.delete(this.id)
+            TreeNodes.set(node.id, this)
+            this.id = node.id
+        }
+        if (node.componentName) {
+            this.componentName = node.componentName
+        }
+        this.schema = node.schema ?? {}
+
+        if (node.children) {
+            this.children =
+                node.children?.map?.((node) => {
+                    node.operation = this.operation
+                    return new TreeNode(node,this)
+                }) || []
+        }
+    }
 
     get designerProps() {
         return GlobalStore.getDesignerResourceByNode(this)?.designerProps?.propsSchema || {}
@@ -243,7 +270,7 @@ export class TreeNode {
             if (node.isSourceNode) {
                 return node.clone(parentNode);
             } else {
-                if (!node.parent){
+                if (!node.parent) {
                     node.parent = parentNode
                 }
                 return node

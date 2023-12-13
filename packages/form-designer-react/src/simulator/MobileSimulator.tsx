@@ -18,12 +18,16 @@ const MobileSimulatorStyled = styled('div')({
         boxShadow:'0 8px 40px 0 rgba(17, 31, 44, 0.12)',
         maxHeight:'640px',
         border:'1px solid rgba(17, 31, 44, 0.08)',
-        '.mobile-box-inner':{
+        '&-inner':{
             width:'100%',
             borderRadius:'14px',
             height: 'calc(100% - 20px)',
             padding:'10px',
-            // backgroundColor:'#f2f4f5'
+            // backgroundColor:'#f2f4f5',
+            '&-wrapper':{
+                border: '1px solid #f2f4f5',
+                height:'100%'
+            }
         }
     }
 })
@@ -37,7 +41,9 @@ export const MobileSimulator: FC<MobileSimulatorProps> = ({
                                                           }) => {
     return <MobileSimulatorStyled>
         <div className={`mobile-box`}>
-            <div className={`mobile-box-inner`}>{children}</div>
+            <div className={`mobile-box-inner`}>
+                <div className={`mobile-box-inner-wrapper`}>{children}</div>
+            </div>
         </div>
     </MobileSimulatorStyled>
 }

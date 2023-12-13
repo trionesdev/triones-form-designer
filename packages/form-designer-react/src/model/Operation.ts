@@ -5,8 +5,9 @@ import {EventManager} from "../event/event";
 import {Cursor, CursorStatus, ICursorPosition} from "./Cursor";
 import {requestIdle} from "../request-idle";
 import {Viewport} from "./Viewport";
-import {calcPointToRectDistance, IPoint, isNearAfter, isPointInRect, Point} from "../coordinate";
+import {calcPointToRectDistance, IPoint, isNearAfter, isPointInRect, Point, transformToSchema} from "../coordinate";
 import _ from "lodash"
+import {GlobalStore} from "../store";
 
 export enum ClosestPosition {
     BEFORE = 'BEFORE',
@@ -46,7 +47,7 @@ export class Operation {
             componentName: args.engine.rootComponentName,
             isSourceNode: false,
             operation: this,
-            schema: {},
+            schema: GlobalStore.getDesignerResource(args.engine.rootComponentName)?.schema,
         })
         this.cursor = new Cursor({
             engine: this.engine,
@@ -82,11 +83,15 @@ export class Operation {
 
     onChange = (msg) => {
         console.log("[TreeInfo]", "tree change sssse",msg, this.tree)
-        this.engine.onChange?.(msg)
+        this.engine.onChange?.(transformToSchema(this.tree))
     }
 
     setViewport(viewport: Viewport) {
         this.viewport = viewport
+    }
+
+    setTree(tree: TreeNode) {
+        this.tree = tree
     }
 
     setClosetNode(node: TreeNode) {
@@ -134,6 +139,9 @@ export class Operation {
     dragStop() {
         this.cursor.setStatus(CursorStatus.DRAG_STOP)
         this.onMouseDownAt = 0
+        /**
+         * 清除拖拽悬浮状态,一定要在requestIdle回调中执行，否则会出行函数据已经刷新，但是页面没渲染的情况，主要还是在使用处结合状态判断
+         */
         requestIdle(() => {
             this.cursor.setStatus(CursorStatus.NORMAL)
         })
