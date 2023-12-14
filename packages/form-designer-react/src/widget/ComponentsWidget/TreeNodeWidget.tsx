@@ -1,10 +1,9 @@
-import React, {FC, useEffect} from "react"
+import React, {FC} from "react"
 import {observer} from "@formily/react";
 import {TreeNode} from "../../model";
 import {useFormDesigner} from "../../hooks";
 import {TreeNodeContext} from "../../context";
 import {useComponents} from "../../hooks";
-import {autorun, reaction} from "@formily/reactive";
 
 type ComponentWidgetProps = {
     treeNode: TreeNode;
@@ -42,22 +41,6 @@ export const TreeNodeWidget: FC<ComponentWidgetProps> = observer(({treeNode}) =>
         }
 
     }
-
-    useEffect(() => {
-        autorun(() => {
-            console.log("[Reactive listiner]")
-        })
-    }, []);
-
-    reaction(() => {
-        return [treeNode.schema,treeNode.children]
-    }, ()=>{
-        console.log("[Reactive listiner reaction]")
-    })
-
-    useEffect(() => {
-        console.log("[Reactive listiner useEffect]")
-    }, [treeNode.schema,treeNode.children]);
 
     return <TreeNodeContext.Provider value={treeNode}>{handleRender()}</TreeNodeContext.Provider>
 })

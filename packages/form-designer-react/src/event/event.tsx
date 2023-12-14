@@ -60,7 +60,6 @@ export class EventManager {
     }
 
     onViewportScroll(e: React.UIEvent) {
-        console.log("onViewportScroll",e)
         ViewportEffect.viewportScrollEffect(e, this.operation)
     }
 

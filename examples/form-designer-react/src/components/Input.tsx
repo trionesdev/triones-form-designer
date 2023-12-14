@@ -41,7 +41,7 @@ Input.Resource = createResource([
     },
     {
         name: 'Input.TextArea',
-        icon: 'InputIcon',
+        icon: 'TextAreaIcon',
         title: '多行输入框',
         componentName: 'Field',
         schema: {

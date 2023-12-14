@@ -22,9 +22,6 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
 
     const handleInsertionStyles = (): React.CSSProperties => {
         const baseStyle: React.CSSProperties = {}
-        console.log("Insertion closestNode", closestNode)
-        console.log("Insertion closestNodeRect", closestNodeRect)
-        console.log("Insertion closestPosition", closestPosition)
 
         if (closestNode) {
 

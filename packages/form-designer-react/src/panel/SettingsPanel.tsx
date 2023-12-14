@@ -50,7 +50,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = observer(({
     const {selectionNode} = operation
 
     const form = useMemo(() => {
-        console.log("SettingsPanel selectionNode", selectionNode)
         return createForm({
             initialValues: selectionNode?.designerProps?.defaultProps,
             values: selectionNode?.schema,

@@ -1,7 +1,7 @@
-import React, {CSSProperties, FC, useEffect} from "react"
+import React, {CSSProperties, FC} from "react"
 import styled from "@emotion/styled";
 import {DragHandler} from "./DragHandler";
-import {useFormDesigner, useOperation, useValidNodeOffsetRect, useViewport} from "../../hooks";
+import {useOperation, useValidNodeOffsetRect} from "../../hooks";
 import {observer} from "@formily/react";
 import {DeleteIcon} from "../../Icon";
 import {CursorStatus, TreeNode} from "../../model";
@@ -43,15 +43,10 @@ type SelectionBoxProps = {
 export const SelectionBox: FC<SelectionBoxProps> = ({
                                                         node
                                                     }) => {
-    const {nodeIdAttrName} = useFormDesigner()
     const operation = useOperation()
     const {dragging, selectionNode} = operation
-    console.log("mouseClickEffect operation SelectionBox selectionNode box", selectionNode)
-    const viewport = useViewport()
-    // const selectionNodeEl = document.querySelector(`*[${nodeIdAttrName}=${node?.id}]`)
-    // console.log("mouseClickEffect operation SelectionBox selectionNodeEl", selectionNodeEl)
+
     const rect = useValidNodeOffsetRect(selectionNode)
-    console.log("mouseClickEffect operation SelectionBox rect", rect)
 
     const handleBoxStyles = () => {
         const boxStyles: CSSProperties = {
@@ -109,10 +104,8 @@ export const SelectionBox: FC<SelectionBoxProps> = ({
 export const Selection = observer(() => {
     const operation = useOperation()
     const {selectionNode, tree, cursor} = operation
-    console.log("mouseClickEffect operation Selection selectionNode", selectionNode)
-    console.log("mouseClickEffect operation Selection cursor.status", cursor.status)
 
-    if (cursor.status != CursorStatus.NORMAL) {
+    if (cursor.status != CursorStatus.NORMAL) { //如果拖拽状态未释放，则不进行渲染
         return null
     }
 

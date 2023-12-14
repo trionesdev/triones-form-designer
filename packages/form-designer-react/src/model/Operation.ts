@@ -1,6 +1,6 @@
 import {TreeNode} from "./TreeNode";
 import {FormDesignerEngine} from "./FormDesignerEngine";
-import {action, autorun, define, observable, observe} from "@formily/reactive";
+import {action, define, observable} from "@formily/reactive";
 import {EventManager} from "../event/event";
 import {Cursor, CursorStatus, ICursorPosition} from "./Cursor";
 import {requestIdle} from "../request-idle";
@@ -75,14 +75,9 @@ export class Operation {
             onChange:action
         })
 
-        autorun(() => {
-            console.log("[TreeInfo]", "sssssssssss")
-        })
-
     }
 
     onChange = (msg) => {
-        console.log("[TreeInfo]", "tree change sssse",msg, this.tree)
         this.engine.onChange?.(transformToSchema(this.tree))
     }
 

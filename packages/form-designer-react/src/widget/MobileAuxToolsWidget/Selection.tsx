@@ -42,9 +42,8 @@ export const SelectionBox: FC<SelectionBoxProps> = ({
                                                         node
                                                     }) => {
     const operation = useOperation()
-    const {dragging, selectionNode} = operation
+    const {dragging, selectionNode,viewport} = operation
     const rect = useValidNodeOffsetRect(selectionNode)
-
     const handleBoxStyles = () => {
         const boxStyles: CSSProperties = {
             borderLeft: `2px solid #1890FF`,

@@ -11,7 +11,7 @@ import {
     ViewportPanel,
     WorkspacePanel
 } from "@trionesdev/form-designer-react";
-import {Form, Input, Select} from "./components";
+import {Form, Input, Password, Select} from "./components";
 import {AntdSettingsPanel} from "./AntdSettingsPanel";
 import * as icons from "./Icons";
 
@@ -26,7 +26,7 @@ function App() {
     const value = {
         "x-id": "td_tXAABwaZAE",
         "type": "object",
-        "x-component-name":"Form",
+        "x-component-name": "Form",
         "properties": {
             "td_rszikvOzVh": {
                 "type": "string",
@@ -36,7 +36,7 @@ function App() {
                 "x-component": "Input.TextArea",
                 "x-id": "td_rszikvOzVh",
                 "x-index": 0,
-                "x-component-name":"Field",
+                "x-component-name": "Field",
             },
             "td_AaMFjiFfps": {
                 "title": "性别",
@@ -44,7 +44,7 @@ function App() {
                 "x-component": "Select",
                 "x-id": "td_AaMFjiFfps",
                 "x-index": 1,
-                "x-component-name":"Field",
+                "x-component-name": "Field",
             }
         }
     }
@@ -54,13 +54,12 @@ function App() {
             <FormDesigner value={value} onChange={handleOnChange}>
                 <StudioPanel>
                     <CompositePanel style={{width: 300}}>
-                        <ResourceWidget sources={[Input, Select]}/>
+                        <ResourceWidget title={`基础组件`} sources={[Input, Select, Password]}/>
                     </CompositePanel>
                     <WorkspacePanel>
-                        <div>ssss</div>
                         <ViewportPanel>
-                            <ViewPanel type={'MOBILE'}>
-                                <ComponentsWidget components={{Form, Input, Select}}/>
+                            <ViewPanel >
+                                <ComponentsWidget components={{Form, Input, Select, Password}}/>
                             </ViewPanel>
                         </ViewportPanel>
                     </WorkspacePanel>

@@ -10,7 +10,7 @@ import {DesignerComponent} from "../../types";
 const SourceItemStyled = styled('div')({
     gridColumnStart: 'span 1',
     userSelect: 'none',
-    cursor: 'move',
+    cursor: 'grab',
     padding: '6px 16px',
     display: 'flex',
     alignItems: 'center',

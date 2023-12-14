@@ -1,7 +1,6 @@
 import React, {FC} from "react"
 import styled from "@emotion/styled";
 import {Simulator} from "../container";
-import {MobileSimulator} from "../simulator";
 
 type ViewportPanelProps = {
     children?: React.ReactNode;
@@ -24,7 +23,6 @@ const ViewportPanelStyled = styled('div')({
 export const ViewportPanel: FC<ViewportPanelProps> = ({children}) => {
 
     return <ViewportPanelStyled className={`td-viewport-panel`}>
-        {/*<Simulator>{children}</Simulator>*/}
-        <MobileSimulator>{children}</MobileSimulator>
+        <Simulator>{children}</Simulator>
     </ViewportPanelStyled>
 }

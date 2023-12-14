@@ -146,12 +146,22 @@ export const transformToTreeNode = (data: any) => {
         children: []
     }
     const schema = new Schema(data)
+
+    const cleanProps = (props: any) => {
+        if (props['name'] === props['x-id']) {
+            delete props.name
+        }
+        delete props['version']
+        delete props['_isJSONSchemaObject']
+        return props
+    }
+
     const appendTreeNode = (parent: ITreeNode, schema: Schema) => {
         if (!schema) return
         const current = {
             id: schema['x-id'],
             componentName: schema['x-component-name'],
-            schema: schema.toJSON(false),
+            schema: cleanProps(schema.toJSON(false)), //一定要cleanProps,否则无法修改属性
             children: [],
         }
         parent.children.push(current)

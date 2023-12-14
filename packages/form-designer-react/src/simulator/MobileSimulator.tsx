@@ -26,7 +26,8 @@ const MobileSimulatorStyled = styled('div')({
             // backgroundColor:'#f2f4f5',
             '&-wrapper':{
                 border: '1px solid #f2f4f5',
-                height:'100%'
+                height:'100%',
+                borderRadius: '24px',
             }
         }
     }

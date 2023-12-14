@@ -74,32 +74,9 @@ export class TreeNode {
                 this.operation.onChange(`${this.id} children changed`)
             }
         })
-        //
-        // reaction(() => {
-        //     return JSON.stringify(this.schema)
-        // }, () => {
-        //     console.log("treenode change", this.schema, this.children)
-        // })
-
-        observe(this.schema, (change) => {
-            if (!this.isSourceNode) {
-                this.operation.onChange(`${this.id} schema changed`)
-            }
-        })
-
-        // autorun(() => {
-        //     console.log("[TreeInfo]", "tree changed")
-        //     if (!this.isSourceNode){
-        //         this.operation.onChange()
-        //         console.log("[TreeInfo] autorun", this.schema)
-        //     }
-        // })
 
     }
 
-    // get sourceComponent() {
-    //     return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))
-    // }
 
     from(node?: ITreeNode) {
         if (!node) return
