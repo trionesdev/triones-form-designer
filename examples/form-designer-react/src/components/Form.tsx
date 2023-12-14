@@ -22,6 +22,7 @@ Form.Resource = createResource([
         title: '表单',
         droppable: true,
         schema: {
+            type: 'object',
             title: '表单',
             'x-component': 'Form',
         }

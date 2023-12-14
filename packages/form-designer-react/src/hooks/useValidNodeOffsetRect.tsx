@@ -21,7 +21,6 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
     }, [viewport, node])
 
     useEffect(() => {
-        console.log("useValidNodeOffsetRect ", node,element)
         const layoutObserver = new LayoutObserver(compute)
         if (element) layoutObserver.observe(element)
         return () => {

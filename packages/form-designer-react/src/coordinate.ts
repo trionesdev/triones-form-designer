@@ -1,3 +1,8 @@
+import {ITreeNode, TreeNode} from "./model";
+import _ from "lodash"
+import randomstring from "randomstring"
+import {Schema} from "@formily/react";
+
 export interface IPoint {
     x: number
     y: number
@@ -105,4 +110,74 @@ export const calcPointToRectDistance = (point: IPoint, rect: DOMRect) => {
     } else {
         return 0;
     }
+}
+
+
+export const transformToSchema = (tree: TreeNode) => {
+    if (tree != tree.root) {
+        return tree.schema
+    }
+
+    const createSchema = (node: TreeNode) => {
+        const schema = _.cloneDeep(node.schema) || {}
+        schema['id'] = node.id
+        if (!_.isEmpty(node.children)) {
+            _.forEach(node.children, (child: TreeNode, index: number) => {
+                const key = _.get(child, ['schema', 'name'], child.id)
+                schema.properties = schema.properties || {}
+                schema.properties[key] = createSchema(child)
+                schema.properties[key]['x-index'] = index
+                schema.properties[key]['x-component-name'] = child.componentName
+            })
+        }
+        return schema
+    }
+    return createSchema(tree)
+}
+
+export const transformToTreeNode = (data: any) => {
+    const root = {
+        id: data[`x-id`],
+        componentName: 'Form',
+        schema: {
+            type: 'object',
+            properties: {}
+        },
+        children: []
+    }
+    const schema = new Schema(data)
+
+    const cleanProps = (props: any) => {
+        if (props['name'] === props['x-id']) {
+            delete props.name
+        }
+        delete props['version']
+        delete props['_isJSONSchemaObject']
+        return props
+    }
+
+    const appendTreeNode = (parent: ITreeNode, schema: Schema) => {
+        if (!schema) return
+        const current = {
+            id: schema['x-id'],
+            componentName: schema['x-component-name'],
+            schema: cleanProps(schema.toJSON(false)), //一定要cleanProps,否则无法修改属性
+            children: [],
+        }
+        parent.children.push(current)
+        if (schema.items && !Array.isArray(schema.items)) {
+            appendTreeNode(current, schema.items)
+        }
+        schema.mapProperties((schema) => {
+            schema['x-id'] = schema['x-id']
+            appendTreeNode(current, schema)
+        })
+    }
+
+    schema.mapProperties((schema) => {
+        schema['x-id'] = schema['x-id'] || `td_${randomstring.generate({length: 10, charset: 'alphabetic'})}`
+        appendTreeNode(root, schema)
+    })
+
+    return root
 }

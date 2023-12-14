@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from "react"
+import React, {FC} from "react"
 import {observer} from "@formily/react";
 import {TreeNode} from "../../model";
 import {useFormDesigner} from "../../hooks";
@@ -11,8 +11,7 @@ type ComponentWidgetProps = {
 export const TreeNodeWidget: FC<ComponentWidgetProps> = observer(({treeNode}) => {
     const {nodeIdAttrName} = useFormDesigner()
     const components = useComponents()
-    console.log('TreeNodeWidget treeNode {}', treeNode)
-    console.log('TreeNodeWidget components {}', components)
+
     const handleRender = () => {
         const Component = components?.[treeNode.componentName];
 
@@ -42,10 +41,6 @@ export const TreeNodeWidget: FC<ComponentWidgetProps> = observer(({treeNode}) =>
         }
 
     }
-
-    useEffect(() => {
-        console.log('[TreeInfo] TreeNodeWidget', treeNode)
-    }, [treeNode]);
 
     return <TreeNodeContext.Provider value={treeNode}>{handleRender()}</TreeNodeContext.Provider>
 })

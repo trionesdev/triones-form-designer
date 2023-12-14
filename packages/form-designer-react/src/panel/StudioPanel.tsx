@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {CSSProperties, FC} from "react";
 import styled from "@emotion/styled";
 import {useOperation} from "../hooks";
 import {css, Global} from "@emotion/react";
@@ -26,6 +26,7 @@ export const StudioPanel: FC<StudioPanelProps> = ({
                                                       children
                                                   }) => {
     const {eventManager} = useOperation()
+
 
     return <StudioPanelStyled
         className={`td-studio-panel`}

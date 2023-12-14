@@ -1,20 +1,21 @@
 import {DesignerCore, TdFC} from "@trionesdev/form-designer-react";
-import React from "react";
-import {Select as FormilySelect} from "@formily/antd-v5";
+import {Password as FormilyPassword} from '@formily/antd-v5'
 import createResource = DesignerCore.createResource;
+import React from "react";
 
-export const Select: TdFC<React.ComponentProps<typeof FormilySelect>> = FormilySelect
+export const Password: TdFC<React.ComponentProps<typeof FormilyPassword>> =
+    FormilyPassword
 
-Select.Resource = createResource([
+Password.Resource = createResource([
     {
-        name: 'Select',
-        icon:'SelectIcon',
-        title: '选择框',
+        name: 'Password',
+        icon: 'PasswordIcon',
+        title: '密码输入',
         componentName: 'Field',
         schema: {
-            title: '选择',
+            title: '密码输入',
             'x-decorator': 'FormItem',
-            'x-component': 'Select',
+            'x-component': 'Password',
         },
         designerProps: {
             propsSchema: {

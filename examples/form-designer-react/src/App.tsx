@@ -3,11 +3,15 @@ import './App.css';
 import {
     ComponentsWidget,
     CompositePanel,
-    FormDesigner, GlobalStore,
-    ResourceWidget, StudioPanel, ViewPanel, ViewportPanel,
+    FormDesigner,
+    GlobalStore,
+    ResourceWidget,
+    StudioPanel,
+    ViewPanel,
+    ViewportPanel,
     WorkspacePanel
 } from "@trionesdev/form-designer-react";
-import {Form, Input, Select} from "./components";
+import {Form, Input, Password, Select} from "./components";
 import {AntdSettingsPanel} from "./AntdSettingsPanel";
 import * as icons from "./Icons";
 
@@ -15,18 +19,47 @@ function App() {
 
     GlobalStore.registerIcons(icons)
 
+    const handleOnChange = (value: any) => {
+        console.log("[TreeInfo]value", value)
+    }
+
+    const value = {
+        "x-id": "td_tXAABwaZAE",
+        "type": "object",
+        "x-component-name": "Form",
+        "properties": {
+            "td_rszikvOzVh": {
+                "type": "string",
+                "title": "文本框",
+                "required": true,
+                "x-decorator": "FormItem",
+                "x-component": "Input.TextArea",
+                "x-id": "td_rszikvOzVh",
+                "x-index": 0,
+                "x-component-name": "Field",
+            },
+            "td_AaMFjiFfps": {
+                "title": "性别",
+                "x-decorator": "FormItem",
+                "x-component": "Select",
+                "x-id": "td_AaMFjiFfps",
+                "x-index": 1,
+                "x-component-name": "Field",
+            }
+        }
+    }
+
     return (
         <div className="App">
-            <FormDesigner>
+            <FormDesigner value={value} onChange={handleOnChange}>
                 <StudioPanel>
                     <CompositePanel style={{width: 300}}>
-                        <ResourceWidget sources={[Input, Select]}/>
+                        <ResourceWidget title={`基础组件`} sources={[Input, Select, Password]}/>
                     </CompositePanel>
                     <WorkspacePanel>
-                        <div>ssss</div>
                         <ViewportPanel>
-                            <ViewPanel>
-                                <ComponentsWidget components={{Form, Input, Select}}/>
+                            <ViewPanel >
+                                <ComponentsWidget components={{Form, Input, Select, Password}}/>
                             </ViewPanel>
                         </ViewportPanel>
                     </WorkspacePanel>

@@ -1,8 +1,8 @@
 import {define, observable} from "@formily/reactive";
-import {DesignerComponent, IComponents, IResource, TdFC} from "../types";
 import {TD_DESIGNER_NODE_ID, TD_DESIGNER_SOURCE_ID} from "../constant";
 import {Operation} from "./Operation";
-import _ from "lodash";
+
+export type DesignerType = 'MOBILE' | 'PC'
 
 interface IFormDesignerEngine {
     rootComponentName?: string
@@ -11,6 +11,7 @@ interface IFormDesignerEngine {
      */
     nodeIdAttrName?: string
     sourceIdAttrName?: string
+    type?: DesignerType
 }
 
 export class FormDesignerEngine {
@@ -18,15 +19,17 @@ export class FormDesignerEngine {
     nodeIdAttrName?: string
     sourceIdAttrName?: string
     operation?: Operation
-
+    type?: DesignerType
+    onChange?: (value:any) => void
 
     constructor(args: IFormDesignerEngine) {
         this.rootComponentName = args.rootComponentName || 'Form'
         this.nodeIdAttrName = args.nodeIdAttrName || TD_DESIGNER_NODE_ID
         this.sourceIdAttrName = args.sourceIdAttrName || TD_DESIGNER_SOURCE_ID
-        this.operation = new Operation({engine: this,onChange:(tree )=>{
-            console.log("treeeee",tree)
-            }})
+        this.type = args.type || 'PC'
+        this.operation = new Operation({
+            engine: this
+        })
 
         this.makeObservable()
     }
@@ -34,10 +37,18 @@ export class FormDesignerEngine {
     makeObservable() {
         define(this, {
             nodeIdAttrName: observable.ref,
+            sourceIdAttrName: observable.ref,
+            type: observable.ref,
         })
 
     }
 
+    setDesignerType(type: DesignerType) {
+        this.type = type
+    }
 
+    setOnchange(fn: (value:any) => void) {
+        this.onChange = fn
+    }
 
 }

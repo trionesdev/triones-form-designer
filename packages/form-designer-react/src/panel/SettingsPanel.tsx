@@ -11,6 +11,8 @@ const SettingsPanelStyled = styled('div')({
     minWidth: '300px',
     backgroundColor: 'white',
     borderLeft: '1px solid #d9d9d9',
+    display: 'flex',
+    flexDirection: 'column',
     '.properties-header': {
         display: 'flex',
         gap: 8,
@@ -19,7 +21,10 @@ const SettingsPanelStyled = styled('div')({
         borderBottom: '1px solid #d9d9d9'
     },
     '.properties-body': {
-        padding: '8px'
+        padding: '8px',
+        flex: '1 auto',
+        minHeight: 0,
+        overflowY: 'auto'
     },
 })
 
@@ -45,7 +50,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = observer(({
     const {selectionNode} = operation
 
     const form = useMemo(() => {
-        console.log("SettingsPanel selectionNode", selectionNode)
         return createForm({
             initialValues: selectionNode?.designerProps?.defaultProps,
             values: selectionNode?.schema,

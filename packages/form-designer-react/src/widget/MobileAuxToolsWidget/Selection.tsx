@@ -1,9 +1,8 @@
 import React, {CSSProperties, FC} from "react"
 import styled from "@emotion/styled";
-import {DragHandler} from "./DragHandler";
 import {useOperation, useValidNodeOffsetRect} from "../../hooks";
 import {observer} from "@formily/react";
-import {DeleteIcon} from "../../Icon";
+import {MobileDeleteIcon} from "../../Icon";
 import {CursorStatus, TreeNode} from "../../model";
 
 
@@ -23,14 +22,13 @@ const SelectionBoxStyled = styled('div')({
         'button': {
             cursor: 'pointer',
             border: 'none',
-            backgroundColor: '#1890FF',
             color: 'white',
             fontSize: '12px',
             padding: '2px',
             display: 'inline-flex',
             'svg': {
-                width: '1rem',
-                height: '1rem',
+                width: '1em',
+                height: '1em',
             }
         }
     }
@@ -44,40 +42,31 @@ export const SelectionBox: FC<SelectionBoxProps> = ({
                                                         node
                                                     }) => {
     const operation = useOperation()
-    const {dragging, selectionNode} = operation
-
+    const {dragging, selectionNode,viewport} = operation
     const rect = useValidNodeOffsetRect(selectionNode)
-
     const handleBoxStyles = () => {
         const boxStyles: CSSProperties = {
-            border: `2px solid #1890FF`,
+            borderLeft: `2px solid #1890FF`,
             visibility: 'hidden',
         }
         if (rect) {
-            boxStyles.visibility = 'visible';
             boxStyles.height = `${rect.height}px`
             boxStyles.width = `${rect.width}px`
             boxStyles.transform = `perspective(1px) translate3d(0px, ${rect.top}px, 0px)`
+        }
+        if (selectionNode!=selectionNode.root){
+            boxStyles.visibility = 'visible';
         }
         return boxStyles
     }
 
     const handleHelperStyles = () => {
-        const helperStyles: CSSProperties = {}
-        if (rect) {
-            if (selectionNode == selectionNode.root) {
-                helperStyles.top = 'auto';
-                helperStyles.bottom = 'auto';
-            } else {
-                if (rect.top > 10) {
-                    helperStyles.top = 'auto';
-                    helperStyles.bottom = '100%';
-                } else {
-                    helperStyles.top = '100%';
-                    helperStyles.bottom = 'auto';
-                }
-            }
+        const helperStyles: CSSProperties = {
+            backgroundColor:'rgba(17, 31, 44, 0.04)',
+            borderRadius:'50px',
+            padding:'4px'
         }
+
         return helperStyles
     }
 
@@ -92,11 +81,7 @@ export const SelectionBox: FC<SelectionBoxProps> = ({
     return <>{!dragging && selectionNode &&
         <SelectionBoxStyled className={`td-aux-selection`} style={handleBoxStyles()}>
             <div className={`td-aux-selection-helpers`} style={handleHelperStyles()}>
-                <button>{selectionNode?.title}</button>
-                {selectionNode != selectionNode.root && <>
-                    <DragHandler/>
-                    <button onClick={handleDelete}>{React.cloneElement(DeleteIcon)}</button>
-                </>}
+                <button onClick={handleDelete}>{React.cloneElement(MobileDeleteIcon)}</button>
             </div>
         </SelectionBoxStyled>}</>
 }
@@ -105,7 +90,7 @@ export const Selection = observer(() => {
     const operation = useOperation()
     const {selectionNode, tree, cursor} = operation
 
-    if (cursor.status != CursorStatus.NORMAL) { //如果拖拽状态未释放，则不进行渲染
+    if (cursor.status != CursorStatus.NORMAL) {
         return null
     }
 

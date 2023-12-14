@@ -5,10 +5,9 @@ import {Operation} from "./Operation";
 import _ from "lodash";
 import {GlobalStore} from "../store";
 
-interface ITreeNode {
-    parent?: TreeNode
-    root?: TreeNode
-    children?: TreeNode[]
+export interface ITreeNode {
+
+    children?: ITreeNode[]
     id?: string
     componentName?: string
     isSourceNode?: boolean
@@ -23,35 +22,41 @@ const TreeNodes = new Map<string, TreeNode>()
 export class TreeNode {
     parent?: TreeNode
     root?: TreeNode
-    children: TreeNode[]
+    children: TreeNode[] = []
     id: string
     componentName: string
     isSourceNode?: boolean
     schema?: ISchema
     operation?: Operation
 
-    constructor(args: ITreeNode) {
-        this.id = args.id || `td_${randomstring.generate({
+    constructor(node: ITreeNode, parent?: TreeNode) {
+        if (node instanceof TreeNode) {
+            return node
+        }
+        this.id = node.id || `td_${randomstring.generate({
             length: 10,
             charset: 'alphabetic'
         })}`
-        this.root = args?.root
-        this.parent = args?.parent
-        this.children = args?.children || []
-        this.isSourceNode = args?.isSourceNode
-        this.componentName = args?.componentName || 'Field'
-        this.schema = args?.schema
-        this.operation = args?.operation
+        this.root = node?.root
+        this.parent = node?.parent
+        this.isSourceNode = node?.isSourceNode
+        this.componentName = node?.componentName || 'Field'
+        this.schema = node?.schema
+        this.operation = node?.operation || parent?.operation
 
-        if (args.parent) {
-            this.root = args.parent?.root
-            this.parent = args.parent
+        if (parent) {
+            this.root = parent?.root
+            this.parent = parent
         } else {
             this.root = this
             this.parent = null
         }
 
         TreeNodes.set(this.id, this) //同步设置节点到TreeNodes
+
+        if (node) {
+            this.from(node)
+        }
         this.makeObservable()
     }
 
@@ -65,40 +70,35 @@ export class TreeNode {
         reaction(() => {
             return this.children
         }, () => {
-            console.log("[TreeInfo]", "children changed")
             if (!this.isSourceNode) {
-                this.operation.onChange()
-                console.log("[TreeInfo] children", this.schema)
+                this.operation.onChange(`${this.id} children changed`)
             }
         })
-        //
-        // reaction(() => {
-        //     return JSON.stringify(this.schema)
-        // }, () => {
-        //     console.log("treenode change", this.schema, this.children)
-        // })
-
-        observe(this.schema, (change) => {
-            console.log("[TreeInfo]", "observe schema changed")
-            if (!this.isSourceNode) {
-                this.operation.onChange()
-                console.log("[TreeInfo] observe", this.schema)
-            }
-        })
-
-        // autorun(() => {
-        //     console.log("[TreeInfo]", "tree changed")
-        //     if (!this.isSourceNode){
-        //         this.operation.onChange()
-        //         console.log("[TreeInfo] autorun", this.schema)
-        //     }
-        // })
 
     }
 
-    // get sourceComponent() {
-    //     return this.operation?.engine?.findSourceComponent(_.get(this.schema, 'x-component', this.componentName))
-    // }
+
+    from(node?: ITreeNode) {
+        if (!node) return
+
+        if (node.id && node.id !== this.id) {
+            TreeNodes.delete(this.id)
+            TreeNodes.set(node.id, this)
+            this.id = node.id
+        }
+        if (node.componentName) {
+            this.componentName = node.componentName
+        }
+        this.schema = node.schema ?? {}
+
+        if (node.children) {
+            this.children =
+                node.children?.map?.((node) => {
+                    node.operation = this.operation
+                    return new TreeNode(node,this)
+                }) || []
+        }
+    }
 
     get designerProps() {
         return GlobalStore.getDesignerResourceByNode(this)?.designerProps?.propsSchema || {}
@@ -117,7 +117,6 @@ export class TreeNode {
     }
 
     get droppable() {
-        console.log("droppable", GlobalStore.getDesignerResource(_.get(this.schema, 'x-component', this.componentName)))
         return GlobalStore.getDesignerResourceByNode(this)?.droppable || false
     }
 
@@ -141,11 +140,9 @@ export class TreeNode {
      */
     append(...nodes: TreeNode[]) {
         const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
-        console.log("dragEndEffect operation droppableNode", droppableNode)
         if (droppableNode) {
             const appendNodes = this.restNodes(nodes, droppableNode);
             droppableNode.children = _.concat(droppableNode.children, appendNodes)
-            console.log("droppableNode", this.operation)
             this.operation.setSelectionNode(appendNodes[0]) //设置新增节点为选中状态
         }
     }
@@ -161,16 +158,12 @@ export class TreeNode {
         if (_.isEmpty(insertNodes)) {
             return
         }
-        debugger
         const droppableNode = this.droppableNode() //找到最近的可以拖入的节点
-        console.log("dragEndEffect operation droppableNode", droppableNode)
         if (droppableNode) {
             const dropNodes = this.restNodes(insertNodes, droppableNode);
-            console.log("dragEndEffect operation dropNodes", dropNodes)
             const index = _.findIndex(droppableNode.children, (node: TreeNode) => {
                 return node.id === this.id
             })
-            console.log("dragEndEffect operation index", index)
             const dropNodesIds = _.map(dropNodes, (node: TreeNode) => {
                 return node.id
             })
@@ -254,7 +247,7 @@ export class TreeNode {
             if (node.isSourceNode) {
                 return node.clone(parentNode);
             } else {
-                if (!node.parent){
+                if (!node.parent) {
                     node.parent = parentNode
                 }
                 return node
@@ -267,11 +260,9 @@ export class TreeNode {
         const newNode = new TreeNode({
             componentName: this.componentName,
             schema: _.cloneDeep(this.schema), //一定要深拷贝，否则数据会干扰，都是直接用的source组件的数据
-            parent: parent,
-            root: parent.root,
             isSourceNode: false,
             operation: parent.operation
-        })
+        },parent)
         return newNode
     }
 

@@ -20,14 +20,8 @@ export namespace GlobalStore {
     //endregion
 
     export function registerDesignerResources(components: Record<string, TdFC<any>>) {
-        // const resources  = _.reduce(components, (result, component, ) => {
-        //     result[key] = component
-        //     return result
-        // }, {})
-        // Object.assign(DESIGNER_RESOURCES_STORE, components)
 
         const componentArr = _.values(components)
-        console.log("Store componentArr", componentArr)
         const resources = _.reduce(componentArr, (result: any, item: TdFC<any>) => {
             return _.concat(result, item.Resource)
         }, [])
@@ -37,9 +31,7 @@ export namespace GlobalStore {
             })
         }, {})
 
-        console.log("Store ", resourcesMap)
         _.assign(DESIGNER_RESOURCES_STORE, resourcesMap)
-        console.log("Store DESIGNER_RESOURCES_STORE.value", DESIGNER_RESOURCES_STORE)
     }
 
     export function getDesignerResource(componentName: string) {

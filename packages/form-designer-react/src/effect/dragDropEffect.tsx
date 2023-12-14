@@ -49,6 +49,7 @@ export const dragMoveEffect = (e, operation: Operation) => {
         topClientY: e.clientY,
     }
     operation.cursor.setPosition()
+    operation.dragMove(position)
     const engine = operation.engine
     const target = e.target as HTMLElement
     const el = target?.closest(`
@@ -58,7 +59,7 @@ export const dragMoveEffect = (e, operation: Operation) => {
         operation.cleanDraggingHover()
         return
     }
-    operation.dragMove(position)
+
     operation.calcClosestPosition(new Point(e.clientX, e.clientX))
     const nodeId = el.getAttribute(engine.nodeIdAttrName)
     if (nodeId) {
@@ -73,13 +74,9 @@ export const dragEndEffect = (e: React.MouseEvent, operation: Operation) => {
 
     const closestNode = operation.closestNode
     const closestPosition = operation.closestPosition
-    console.log("dragEndEffect operation", operation, operation.draggingNode)
+
     if (operation.draggingNode) {
 
-        console.log("dragEndEffect operation draggingNode", operation.draggingNode)
-        console.log("dragEndEffect operation closestNode", closestNode)
-        console.log("dragEndEffect operation closestPosition", closestPosition)
-        console.log("dragEndEffect operation draggingHoverNode", operation.draggingHoverNode)
         if (ClosestPosition.INNER === closestPosition) {
             closestNode.append(operation.draggingNode)
         } else if (ClosestPosition.BEFORE === closestPosition || ClosestPosition.UPPER === closestPosition) {

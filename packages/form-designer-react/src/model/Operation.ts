@@ -1,12 +1,13 @@
 import {TreeNode} from "./TreeNode";
 import {FormDesignerEngine} from "./FormDesignerEngine";
-import {autorun, define, observable, observe} from "@formily/reactive";
+import {action, define, observable} from "@formily/reactive";
 import {EventManager} from "../event/event";
 import {Cursor, CursorStatus, ICursorPosition} from "./Cursor";
 import {requestIdle} from "../request-idle";
 import {Viewport} from "./Viewport";
-import {calcPointToRectDistance, IPoint, isNearAfter, isPointInRect, Point} from "../coordinate";
+import {calcPointToRectDistance, IPoint, isNearAfter, isPointInRect, Point, transformToSchema} from "../coordinate";
 import _ from "lodash"
+import {GlobalStore} from "../store";
 
 export enum ClosestPosition {
     BEFORE = 'BEFORE',
@@ -20,7 +21,6 @@ export enum ClosestPosition {
 
 interface IOperation {
     engine: FormDesignerEngine;
-    onChange: (tree: TreeNode) => void
 }
 
 export class Operation {
@@ -39,19 +39,15 @@ export class Operation {
     closestNodeRect?: DOMRect //最近节点
     eventManager: EventManager
     mouseEvent: any
-    onChange: () => void
 
     constructor(args: IOperation) {
         this.engine = args.engine
-        this.onChange = () => {
-            console.log("[TreeInfo]", "tree change sssse", this.tree)
-            args.onChange?.(this.tree)
-        }
+
         this.tree = new TreeNode({
             componentName: args.engine.rootComponentName,
             isSourceNode: false,
             operation: this,
-            schema: {},
+            schema: GlobalStore.getDesignerResource(args.engine.rootComponentName)?.schema,
         })
         this.cursor = new Cursor({
             engine: this.engine,
@@ -62,9 +58,7 @@ export class Operation {
 
         this.makeObservable()
 
-        autorun(() => {
-            console.log("[TreeInfo]", "sssssssssss")
-        })
+
     }
 
     makeObservable() {
@@ -78,16 +72,21 @@ export class Operation {
             closestPosition: observable.ref,
             closestNode: observable.ref,
             mouseEvent: observable.ref,
-        })
-
-        observe(this.tree, () => {
-            console.log("[TreeInfo]", "operation tree changed")
+            onChange:action
         })
 
     }
 
+    onChange = (msg) => {
+        this.engine.onChange?.(transformToSchema(this.tree))
+    }
+
     setViewport(viewport: Viewport) {
         this.viewport = viewport
+    }
+
+    setTree(tree: TreeNode) {
+        this.tree = tree
     }
 
     setClosetNode(node: TreeNode) {
@@ -135,6 +134,9 @@ export class Operation {
     dragStop() {
         this.cursor.setStatus(CursorStatus.DRAG_STOP)
         this.onMouseDownAt = 0
+        /**
+         * 清除拖拽悬浮状态,一定要在requestIdle回调中执行，否则会出行函数据已经刷新，但是页面没渲染的情况，主要还是在使用处结合状态判断
+         */
         requestIdle(() => {
             this.cursor.setStatus(CursorStatus.NORMAL)
         })

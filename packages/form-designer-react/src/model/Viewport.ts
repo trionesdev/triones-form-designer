@@ -8,6 +8,13 @@ interface IViewport {
     viewportElement: HTMLElement
 }
 
+export interface IViewportData {
+    scrollX?: number
+    scrollY?: number
+    width?: number
+    height?: number
+}
+
 export class Viewport {
     engine: FormDesignerEngine;
     viewportElement: HTMLElement
@@ -19,13 +26,18 @@ export class Viewport {
     constructor(args: IViewport) {
         this.engine = args.engine
         this.viewportElement = args.viewportElement
-
+        this.digestViewport()
         this.makeObservable()
     }
 
     makeObservable() {
         define(this, {
             viewportElement: observable.ref,
+            scrollX: observable.ref,
+            scrollY: observable.ref,
+            width: observable.ref,
+            height: observable.ref,
+            digestViewport: action
         })
     }
 
@@ -48,19 +60,6 @@ export class Viewport {
         return new DOMRect(0, 0, rect?.width, rect?.height);
     }
 
-    // viewportNodeRect(nodeHtml: Element) {
-    //     if (!nodeHtml) {
-    //         return null
-    //     }
-    //     const viewportRect = this.viewportElement.getBoundingClientRect();
-    //     const nodeRect = nodeHtml.getBoundingClientRect()
-    //     return new DOMRect(
-    //         nodeRect.left - viewportRect.left,
-    //         nodeRect.top - viewportRect.top,
-    //         nodeRect.width,
-    //         nodeRect.height
-    //     )
-    // }
 
     findElementById(id: string) {
         if (!id) {
@@ -90,20 +89,17 @@ export class Viewport {
         const viewportRect = this.viewportElement.getBoundingClientRect();
         const nodeRect = nodeHtml.getBoundingClientRect()
 
-        console.log(" Viewport viewportRect", viewportRect)
-        console.log("Viewport nodeRect", nodeRect)
-        console.log("Viewport vietport", this)
         if (this.isInPosition(nodeRect)) {
             return new DOMRect(
-                nodeRect.left - viewportRect.left + this.scrollX,
-                nodeRect.top - viewportRect.top + this.scrollY,
+                nodeRect.left - viewportRect.left + this.viewportElement.scrollLeft,
+                nodeRect.top - viewportRect.top + this.viewportElement.scrollTop,
                 nodeRect.width,
                 nodeRect.height
             )
         } else {
             return new DOMRect(
-                nodeRect.left - viewportRect.left + this.scrollX,
-                nodeRect.top - viewportRect.top + this.scrollY,
+                nodeRect.left - viewportRect.left + this.viewportElement.scrollLeft,
+                nodeRect.top - viewportRect.top + this.viewportElement.scrollTop,
                 nodeRect.width,
                 nodeRect.height
             )
@@ -127,7 +123,8 @@ export class Viewport {
         if (!node) {
             return
         }
-        return this.getElementOffsetRectById(node.id)
+        const rect =this.getElementOffsetRectById(node.id)
+        return rect;
     }
 
     /**
@@ -135,7 +132,7 @@ export class Viewport {
      */
     digestViewport() {
         if (this.viewportElement) {
-            const data = {
+            const data:IViewportData = {
                 scrollX: this.viewportElement.scrollLeft,
                 scrollY: this.viewportElement.scrollTop,
                 width: this.viewportElement.clientWidth,
