@@ -1,4 +1,4 @@
-import React, {CSSProperties, FC} from "react";
+import React, {FC} from "react";
 import styled from "@emotion/styled";
 import {useOperation} from "../hooks";
 import {css, Global} from "@emotion/react";
