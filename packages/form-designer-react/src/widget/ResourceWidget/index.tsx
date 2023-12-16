@@ -3,7 +3,7 @@ import _ from "lodash";
 import styled from "@emotion/styled";
 import {DesignerComponent} from "../../types";
 import {SourceWidget} from "./SourceWidget";
-import {Row, Col} from "../Row";
+import {Row, Col} from "../../components/Row";
 import {Down, Up} from "../../Icon";
 import classNames from "classnames";
 
