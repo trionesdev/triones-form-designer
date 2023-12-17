@@ -12,7 +12,7 @@ type FormDesignerProps = {
     value?: any
     onChange?: (value: any) => void
 }
-export const FormDesigner: FC<FormDesignerProps> = ({children, engine,value,onChange}) => {
+export const FormDesigner: FC<FormDesignerProps> = ({children, engine, value, onChange}) => {
     let scopeEngine = engine
     if (!scopeEngine) {
         scopeEngine = new FormDesignerEngine({rootComponentName: 'Form'})
@@ -21,8 +21,7 @@ export const FormDesigner: FC<FormDesignerProps> = ({children, engine,value,onCh
 
     useEffect(() => {
         if (value) {
-           const tree = scopeEngine.operation?.tree.from(transformToTreeNode(value))
-            debugger
+            const tree = scopeEngine.operation?.tree.from(transformToTreeNode(value))
         }
     }, [value])
 
