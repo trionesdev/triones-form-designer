@@ -75,6 +75,12 @@ export class TreeNode {
             }
         })
 
+        observe(this.schema,()=>{
+            if(!this.isSourceNode){
+                this.operation.onChange(`${this.id} schema changed`)
+            }
+        })
+
     }
 
 

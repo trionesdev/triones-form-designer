@@ -14,6 +14,7 @@ import {
 import {Form, Input, Password, Select} from "./components";
 import {AntdSettingsPanel} from "./AntdSettingsPanel";
 import * as icons from "./Icons";
+import {Watermark} from "antd";
 
 function App() {
 
@@ -51,21 +52,24 @@ function App() {
 
     return (
         <div className="App">
-            <FormDesigner value={value} onChange={handleOnChange}>
-                <StudioPanel>
-                    <CompositePanel style={{width: 300}}>
-                        <ResourceWidget title={`基础组件`} sources={[Input, Select, Password]}/>
-                    </CompositePanel>
-                    <WorkspacePanel>
-                        <ViewportPanel>
-                            <ViewPanel >
-                                <ComponentsWidget components={{Form, Input, Select, Password}}/>
-                            </ViewPanel>
-                        </ViewportPanel>
-                    </WorkspacePanel>
-                    <AntdSettingsPanel/>
-                </StudioPanel>
-            </FormDesigner>
+            <Watermark style={{height:'100%'}} content={['北斗开源']}>
+                <FormDesigner value={value} onChange={handleOnChange}>
+                    <StudioPanel>
+                        <CompositePanel style={{width: 300}}>
+                            <ResourceWidget title={`基础组件`} sources={[Input, Select, Password]}/>
+                        </CompositePanel>
+                        <WorkspacePanel>
+                            <ViewportPanel>
+                                <ViewPanel>
+                                    <ComponentsWidget components={{Form, Input, Select, Password}}/>
+                                </ViewPanel>
+                            </ViewportPanel>
+                        </WorkspacePanel>
+                        <AntdSettingsPanel/>
+                    </StudioPanel>
+                </FormDesigner>
+            </Watermark>
+
         </div>
     );
 }
