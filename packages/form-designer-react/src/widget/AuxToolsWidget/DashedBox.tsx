@@ -60,12 +60,14 @@ export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
         const spanStyles: CSSProperties = {};
         if (!hoverNode || hoverNode == hoverNode?.root) {
         } else {
-            if (rect.top > 10) {
-                spanStyles.top = "auto";
-                spanStyles.bottom = "100%";
-            } else {
-                spanStyles.top = "100%";
-                spanStyles.bottom = "auto";
+            if (rect) {
+                if (rect.top > 10) {
+                    spanStyles.top = "auto";
+                    spanStyles.bottom = "100%";
+                } else {
+                    spanStyles.top = "100%";
+                    spanStyles.bottom = "auto";
+                }
             }
         }
         return spanStyles;
