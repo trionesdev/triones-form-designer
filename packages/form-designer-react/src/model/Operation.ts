@@ -77,9 +77,9 @@ export class Operation {
 
     }
 
-    onChange = (msg) => {
+    onChange = _.debounce((msg) => {
         this.engine.onChange?.(transformToSchema(this.tree))
-    }
+    }, 100)
 
     setViewport(viewport: Viewport) {
         this.viewport = viewport
