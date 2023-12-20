@@ -10,3 +10,8 @@ Triones from designer 是一款表单设计器，支持PC端和移动端。当�
 - 基于formilyjs 表单解决方案 [formilyjs](https://formilyjs.org/zh-CN)
 - 支持基于formilyjs 封装的各种组件库
 
+
+#### 互相吹捧，共同进步
+<div style="text-align: center">
+<img src="images/shuque_wx.jpg" width="200px" alt="">
+</div>
