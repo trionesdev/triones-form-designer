@@ -1,7 +1,7 @@
 import {ITreeNode, TreeNode} from "./model";
 import _ from "lodash"
 import randomstring from "randomstring"
-import {Schema} from "@formily/react";
+import {ISchema, Schema} from "@formily/react";
 
 export interface IPoint {
     x: number
@@ -113,7 +113,7 @@ export const calcPointToRectDistance = (point: IPoint, rect: DOMRect) => {
 }
 
 
-export const transformToSchema = (tree: TreeNode) => {
+export const transformToSchema = (tree: TreeNode): ISchema => {
     if (tree != tree.root) {
         return tree.schema
     }

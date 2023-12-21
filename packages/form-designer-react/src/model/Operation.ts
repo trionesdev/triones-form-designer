@@ -5,7 +5,15 @@ import {EventManager} from "../event/event";
 import {Cursor, CursorStatus, ICursorPosition} from "./Cursor";
 import {requestIdle} from "../request-idle";
 import {Viewport} from "./Viewport";
-import {calcPointToRectDistance, IPoint, isNearAfter, isPointInRect, Point, transformToSchema} from "../coordinate";
+import {
+    calcPointToRectDistance,
+    IPoint,
+    isNearAfter,
+    isPointInRect,
+    Point,
+    transformToSchema,
+    transformToTreeNode
+} from "../coordinate";
 import _ from "lodash"
 import {GlobalStore} from "../store";
 
@@ -21,6 +29,7 @@ export enum ClosestPosition {
 
 interface IOperation {
     engine: FormDesignerEngine;
+    value: any
 }
 
 export class Operation {
@@ -49,6 +58,9 @@ export class Operation {
             operation: this,
             schema: GlobalStore.getDesignerResource(args.engine.rootComponentName)?.schema,
         })
+        if (args.value) {
+            this.tree.from(transformToTreeNode(args.value))
+        }
         this.cursor = new Cursor({
             engine: this.engine,
         })
@@ -72,7 +84,7 @@ export class Operation {
             closestPosition: observable.ref,
             closestNode: observable.ref,
             mouseEvent: observable.ref,
-            onChange:action
+            onChange: action
         })
 
     }
