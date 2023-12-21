@@ -12,6 +12,7 @@ interface IFormDesignerEngine {
     nodeIdAttrName?: string
     sourceIdAttrName?: string
     type?: DesignerType
+    value?: any
 }
 
 export class FormDesignerEngine {
@@ -20,7 +21,7 @@ export class FormDesignerEngine {
     sourceIdAttrName?: string
     operation?: Operation
     type?: DesignerType
-    onChange?: (value:any) => void
+    onChange?: (value: any) => void
 
     constructor(args: IFormDesignerEngine) {
         this.rootComponentName = args.rootComponentName || 'Form'
@@ -28,7 +29,8 @@ export class FormDesignerEngine {
         this.sourceIdAttrName = args.sourceIdAttrName || TD_DESIGNER_SOURCE_ID
         this.type = args.type || 'PC'
         this.operation = new Operation({
-            engine: this
+            engine: this,
+            value: args.value
         })
 
         this.makeObservable()
@@ -47,7 +49,7 @@ export class FormDesignerEngine {
         this.type = type
     }
 
-    setOnchange(fn: (value:any) => void) {
+    setOnchange(fn: (value: any) => void) {
         this.onChange = fn
     }
 

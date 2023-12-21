@@ -18,6 +18,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "lerna": "^8.0.0"
+    "lerna": "^8.0.0",
+    "cross-env": "^7.0.3"
   }
 }

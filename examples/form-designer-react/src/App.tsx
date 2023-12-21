@@ -18,7 +18,7 @@ import {Watermark} from "antd";
 
 function App() {
 
-    GlobalStore.registerIcons(icons)
+
 
     const handleOnChange = (value: any) => {
         console.log("[TreeInfo]value", value)
@@ -50,6 +50,7 @@ function App() {
         }
     }
 
+    GlobalStore.registerIcons(icons)
     return (
         <div className="App">
             <Watermark style={{height:'100%'}} content={['北斗开源']}>
