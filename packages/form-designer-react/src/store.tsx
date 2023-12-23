@@ -27,15 +27,16 @@ export namespace GlobalStore {
         }, [])
         const resourcesMap = _.reduce(resources, (result: any, item: any) => {
             return _.assign(result, {
-                [_.get(item, 'schema.x-component')]: item
+                [(_.get(item, ['name']) || _.get(item, ['schema', 'x-component']))]: item
             })
         }, {})
 
         _.assign(DESIGNER_RESOURCES_STORE, resourcesMap)
+        console.log(DESIGNER_RESOURCES_STORE)
     }
 
     export function getDesignerResource(componentName: string) {
-         
+
         return DESIGNER_RESOURCES_STORE[componentName]
     }
 

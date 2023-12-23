@@ -11,7 +11,7 @@ import {
     ViewportPanel,
     WorkspacePanel
 } from "@trionesdev/form-designer-react";
-import {Form, Input, Password, Select} from "./components";
+import {Form, Input, InputNumber, Password, Select} from "./components";
 import {AntdSettingsPanel} from "./AntdSettingsPanel";
 import * as icons from "./Icons";
 import {Watermark} from "antd";
@@ -59,12 +59,12 @@ function App() {
                 }}>
                     <StudioPanel>
                         <CompositePanel style={{width: 300}}>
-                            <ResourceWidget title={`基础组件`} sources={[Input, Select, Password]}/>
+                            <ResourceWidget title={`基础组件`} sources={[Input, Select, Password, InputNumber]}/>
                         </CompositePanel>
                         <WorkspacePanel>
                             <ViewportPanel>
                                 <ViewPanel>
-                                    <ComponentsWidget components={{Form, Input, Select, Password}}/>
+                                    <ComponentsWidget components={{Form, Input, Select, Password, InputNumber}}/>
                                 </ViewPanel>
                             </ViewportPanel>
                         </WorkspacePanel>
