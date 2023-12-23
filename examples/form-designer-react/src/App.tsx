@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {
     ComponentsWidget,
@@ -18,13 +18,7 @@ import {Watermark} from "antd";
 
 function App() {
 
-
-
-    const handleOnChange = (value: any) => {
-        console.log("[TreeInfo]value", value)
-    }
-
-    const value = {
+    const [data, setData] = useState<any>({
         "x-id": "td_tXAABwaZAE",
         "type": "object",
         "x-component-name": "Form",
@@ -48,13 +42,21 @@ function App() {
                 "x-component-name": "Field",
             }
         }
+    })
+
+    const handleOnChange = (value: any) => {
+        console.log("[TreeInfo]value", value)
     }
+
 
     GlobalStore.registerIcons(icons)
     return (
         <div className="App">
-            <Watermark style={{height:'100%'}} content={['北斗开源']}>
-                <FormDesigner value={value} onChange={handleOnChange}>
+            <Watermark style={{height: '100%'}} content={['北斗开源']}>
+                <FormDesigner value={data} onChange={(value) => {
+                    handleOnChange(value)
+                    setData(value)
+                }}>
                     <StudioPanel>
                         <CompositePanel style={{width: 300}}>
                             <ResourceWidget title={`基础组件`} sources={[Input, Select, Password]}/>
