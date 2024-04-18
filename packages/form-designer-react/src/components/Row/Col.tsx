@@ -5,7 +5,7 @@ import _ from "lodash";
 
 type Span = 0 | 2 | 3 | 4 | 6 | 8 | 12
 
-const ColStyled = styled('div')((props: { span: Span }) => {
+const ColStyled = styled('div')<{ span: Span }>((props) => {
     const width = props.span ? `${100 / (24 / props.span)}%` : '100%'
     return {
         flex: `0 0 ${width}`,
