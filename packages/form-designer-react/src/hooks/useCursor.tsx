@@ -1,5 +1,5 @@
-import {useOperation} from "./useOperation";
+import { useOperation } from './useOperation';
 
 export const useCursor = () => {
-  return useOperation().cursor
-}
+  return useOperation().cursor;
+};
