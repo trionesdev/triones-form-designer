@@ -19,8 +19,8 @@ export const FormDesigner: FC<FormDesignerProps> = ({
   value,
   onChange,
 }) => {
-  const a = sssss;
   const [scopeValue, setScopeValue] = useState(value);
+  const a: string = [];
   let designerEngine = useMemo(() => {
     let scopeEngine = engine;
     if (!scopeEngine) {
