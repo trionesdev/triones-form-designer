@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "clean": "lerna clean",
+    "check:types": "tsc --project tsconfig.json --noEmit",
     "build": "lerna run build",
     "preversion": "yarn run build",
     "version:beta": "lerna version prerelease --preid beta",
