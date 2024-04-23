@@ -1,2 +1,2 @@
-export * from "./FormDesigner"
-export * from "./Simulator"
+export * from './FormDesigner';
+export * from './Simulator';

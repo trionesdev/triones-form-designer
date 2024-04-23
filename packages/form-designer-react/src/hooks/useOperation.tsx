@@ -1,5 +1,5 @@
-import { useFormDesigner } from "./useFormDesigner"
+import { useFormDesigner } from './useFormDesigner';
 
 export const useOperation = () => {
-  return useFormDesigner().operation
-}
+  return useFormDesigner().operation;
+};
