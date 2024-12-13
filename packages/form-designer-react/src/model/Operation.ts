@@ -119,6 +119,10 @@ export class Operation {
     return this.tree.findNodeById(id);
   }
 
+  setDraggingNodeById(id: string) {
+    this.draggingNode = this.findNodeById(id);
+  }
+
   get dragging() {
     return (
       this.cursor.status == CursorStatus.DRAGGING ||

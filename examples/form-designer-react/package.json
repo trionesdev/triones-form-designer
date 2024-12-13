@@ -19,7 +19,6 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@trionesdev/form-designer-react": "file:../../packages/form-designer-react",
     "antd": "^5.11.5",
     "lodash": "^4.17.21"
   },
