@@ -6,13 +6,19 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import { useCursor, useFormDesigner, useOperation } from '../hooks';
+import {
+  useCursor,
+  useFormDesigner,
+  useOperation,
+  useWorkbench,
+} from '../hooks';
 import styled from '@emotion/styled';
 import { ViewportContext } from '../context';
-import { CursorStatus, DesignerType, Viewport } from '../model';
+import { CursorStatus, Viewport } from '../model';
 import { AuxToolsWidget } from '../widget';
 import { MobileAuxToolsWidget } from '../widget/MobileAuxToolsWidget';
 import { observer } from '@formily/react';
+import { WorkbenchType } from '../types';
 
 const ViewPanelStyled = styled('div')({
   position: 'relative',
@@ -24,13 +30,14 @@ const ViewPanelStyled = styled('div')({
 
 type ViewPanelProps = {
   children?: React.ReactNode;
-  type?: DesignerType;
+  type?: WorkbenchType;
 };
 export const ViewPanel: FC<ViewPanelProps> = observer(({ children, type }) => {
   const ref = useRef<HTMLDivElement>();
   const engine = useFormDesigner();
   const { eventManager } = useOperation();
   const cursor = useCursor();
+  const workbench = useWorkbench();
   const handleStudioPanelStyles = (): CSSProperties => {
     const baseStyle: CSSProperties = {};
     if (cursor.status === CursorStatus.DRAGGING) {
@@ -48,12 +55,6 @@ export const ViewPanel: FC<ViewPanelProps> = observer(({ children, type }) => {
     });
   }, [ref, ref.current]);
 
-  useEffect(() => {
-    if (type) {
-      engine.setDesignerType(type);
-    }
-  }, [type]);
-
   useLayoutEffect(() => {
     if (ref.current) {
       viewport.onMoment(ref.current);
@@ -62,7 +63,11 @@ export const ViewPanel: FC<ViewPanelProps> = observer(({ children, type }) => {
     return () => {
       viewport.onUnmount();
     };
-  }, []);
+  }, [ref.current]);
+
+  if (workbench.type !== type) {
+    return null;
+  }
 
   return (
     <ViewportContext.Provider value={viewport}>

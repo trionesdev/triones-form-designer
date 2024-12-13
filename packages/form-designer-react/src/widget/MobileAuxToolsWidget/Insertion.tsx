@@ -1,12 +1,8 @@
 import styled from '@emotion/styled';
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC } from 'react';
 import { observer } from '@formily/react';
 import { useOperation } from '../../hooks';
-import { useFormDesigner } from '../../hooks';
 import { ClosestPosition } from '../../model';
-import _ from 'lodash';
-import { TreeNode } from '../../model';
-import { useViewport } from '../../hooks';
 
 const InsertionStyled = styled('div')({
   position: 'absolute',

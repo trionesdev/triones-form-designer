@@ -1,7 +1,8 @@
 import { ITreeNode, TreeNode } from './model';
 import _ from 'lodash';
-import randomstring from 'randomstring';
 import { ISchema, Schema } from '@formily/react';
+import Chance from 'chance';
+const chance = new Chance();
 
 export interface IPoint {
   x: number;
@@ -209,8 +210,7 @@ export const transformToTreeNode = (data: any) => {
 
   schema.mapProperties((schema) => {
     schema['x-id'] =
-      schema['x-id'] ||
-      `td_${randomstring.generate({ length: 10, charset: 'alphabetic' })}`;
+      schema['x-id'] || `td_${chance.string({ length: 10, alpha: true })}`;
     appendTreeNode(root, schema);
   });
 

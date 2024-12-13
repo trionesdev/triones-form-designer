@@ -64,7 +64,7 @@ export class Viewport {
     if (!id) {
       return null;
     }
-    return this.viewportElement.querySelector(
+    return this.viewportElement?.querySelector(
       `[${this.engine.nodeIdAttrName}="${id}"]`,
     );
   }

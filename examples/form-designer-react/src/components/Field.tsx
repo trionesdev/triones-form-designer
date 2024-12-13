@@ -1,16 +1,13 @@
-import React from 'react';
+import { Field as FormilyField, ISchema, observer } from '@formily/react';
+import { FormItem } from '@formily/antd-v5';
 import {
-  Field as FormilyField,
-  ISchema,
-  ObjectField,
-  observer,
-} from '@formily/react';
-import { FormItem, Input } from '@formily/antd-v5';
-import { useFormDesigner } from '../hooks';
-import { IComponents, TdFC } from '../types';
+  IComponents,
+  TdFC,
+  useFormDesigner,
+} from '@trionesdev/form-designer-react';
 import _ from 'lodash';
 import { toJS } from '@formily/reactive';
-import { useComponents } from '../hooks';
+import { useComponents } from '@trionesdev/form-designer-react';
 
 const SchemaStateMap = {
   title: 'title',
@@ -49,7 +46,7 @@ const toFieldProps = ({
   if (!components['FormItem']) {
     components['FormItem'] = FormItem;
   }
-  _.each(SchemaStateMap, (fieldKey, schemaKey) => {
+  _.each(SchemaStateMap, (fieldKey: string | number, schemaKey: any) => {
     const value = _.get(schema, schemaKey);
     if (value) {
       results[fieldKey] = value;
@@ -57,9 +54,9 @@ const toFieldProps = ({
   });
 
   const decorator =
-    _.get(schema, 'x-decorator') && _.get(components, schema['x-decorator']);
+    _.get(schema, 'x-decorator') && _.get(components, schema?.['x-decorator']);
   const component =
-    _.get(schema, 'x-component') && _.get(components, schema['x-component']);
+    _.get(schema, 'x-component') && _.get(components, schema?.['x-component']);
   const decoratorProps = _.get(schema, 'x-decorator-props', {}) || {};
   const componentProps = _.get(schema, 'x-component-props', {}) || {};
   if (decorator) {
@@ -91,12 +88,12 @@ export const Field: TdFC<FieldProps> = observer((props) => {
   const components = useComponents();
 
   const fieldProps = toFieldProps({
-    id: _.get(props, nodeIdAttrName),
-    nodeIdAttrName,
+    id: _.get(props, nodeIdAttrName!),
+    nodeIdAttrName: nodeIdAttrName!,
     components,
     schema: props.schema,
   });
 
-  return <FormilyField {...fieldProps} name={_.get(props, nodeIdAttrName)} />;
+  return <FormilyField {...fieldProps} name={_.get(props, nodeIdAttrName!)} />;
 });
 Field.Resource = [];

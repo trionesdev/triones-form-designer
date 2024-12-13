@@ -27,3 +27,10 @@ export type TdFC<P = {}> = React.FC<P> & {
 export interface IDesignerComponents {
   [key: string]: TdFC<any>;
 }
+
+export type WorkbenchType =
+  | 'DESIGNABLE'
+  | 'PREVIEW'
+  | 'JSONTREE'
+  | 'MARKUP'
+  | (string & {});

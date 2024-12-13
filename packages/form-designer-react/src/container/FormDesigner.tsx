@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { FC } from 'react';
 import { FormDesignerContext } from '../context';
-import { FormDesignerEngine } from '../model';
+import { DesignerType, FormDesignerEngine } from '../model';
 import { GhostWidget } from '../widget/GhostWidget';
 import { transformToTreeNode } from '../coordinate';
 import _ from 'lodash';
@@ -10,12 +10,14 @@ import { ISchema } from '@formily/react';
 type FormDesignerProps = {
   children?: React.ReactNode;
   engine?: FormDesignerEngine;
+  designerType?: DesignerType;
   value?: ISchema;
   onChange?: (value: ISchema) => void;
 };
 export const FormDesigner: FC<FormDesignerProps> = ({
   children,
   engine,
+  designerType = 'PC',
   value,
   onChange,
 }) => {
@@ -25,6 +27,7 @@ export const FormDesigner: FC<FormDesignerProps> = ({
     if (!scopeEngine) {
       scopeEngine = new FormDesignerEngine({
         rootComponentName: 'Form',
+        type: designerType,
         value,
       });
     }

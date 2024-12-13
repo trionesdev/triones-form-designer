@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import './App.css';
+import { useState } from 'react';
 import {
   ComponentsWidget,
   CompositePanel,
@@ -11,10 +10,19 @@ import {
   ViewportPanel,
   WorkspacePanel,
 } from '@trionesdev/form-designer-react';
-import { Form, Input, InputNumber, Password, Select } from './components';
+import {
+  Field,
+  Form,
+  Input,
+  InputNumber,
+  Password,
+  Select,
+} from './components';
 import { AntdSettingsPanel } from './AntdSettingsPanel';
 import * as icons from './Icons';
 import { Watermark } from 'antd';
+import './App.css';
+import { DesignerTools } from './DesignerTools.tsx';
 
 function App() {
   const [data, setData] = useState<any>({
@@ -50,8 +58,9 @@ function App() {
   GlobalStore.registerIcons(icons);
   return (
     <div className="App">
-      <Watermark style={{ height: '100%' }} content={['北斗开源']}>
+      <Watermark style={{ height: '100%' }} content={['北斗开源|书阙']}>
         <FormDesigner
+          screenType={'MOBILE'}
           value={data}
           onChange={(value) => {
             handleOnChange(value);
@@ -66,10 +75,20 @@ function App() {
               />
             </CompositePanel>
             <WorkspacePanel>
+              <div>
+                <DesignerTools />
+              </div>
               <ViewportPanel>
-                <ViewPanel>
+                <ViewPanel type={'DESIGNABLE'}>
                   <ComponentsWidget
-                    components={{ Form, Input, Select, Password, InputNumber }}
+                    components={{
+                      Form,
+                      Field,
+                      Input,
+                      Select,
+                      Password,
+                      InputNumber,
+                    }}
                   />
                 </ViewPanel>
               </ViewportPanel>

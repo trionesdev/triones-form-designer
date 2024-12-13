@@ -1,6 +1,7 @@
 import { define, observable } from '@formily/reactive';
 import { TD_DESIGNER_NODE_ID, TD_DESIGNER_SOURCE_ID } from '../constant';
 import { Operation } from './Operation';
+import { Workbench } from './Workbench';
 
 export type DesignerType = 'MOBILE' | 'PC';
 
@@ -21,6 +22,7 @@ export class FormDesignerEngine {
   sourceIdAttrName?: string;
   operation?: Operation;
   type?: DesignerType;
+  workbench?: Workbench;
   onChange?: (value: any) => void;
 
   constructor(args: IFormDesignerEngine) {
@@ -28,6 +30,7 @@ export class FormDesignerEngine {
     this.nodeIdAttrName = args.nodeIdAttrName || TD_DESIGNER_NODE_ID;
     this.sourceIdAttrName = args.sourceIdAttrName || TD_DESIGNER_SOURCE_ID;
     this.type = args.type || 'PC';
+    this.workbench = new Workbench(this);
     this.operation = new Operation({
       engine: this,
       value: args.value,

@@ -2,7 +2,6 @@ import React from 'react';
 import { FC } from 'react';
 import styled from '@emotion/styled';
 import { observer } from '@formily/react';
-import { AuxToolsWidget } from '../widget';
 
 type WorkspacePanelProps = {
   children?: React.ReactNode;

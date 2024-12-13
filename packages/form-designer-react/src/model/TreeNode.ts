@@ -1,4 +1,3 @@
-import randomstring from 'randomstring';
 import { ISchema } from '@formily/react';
 import {
   action,
@@ -10,7 +9,11 @@ import {
 } from '@formily/reactive';
 import { Operation } from './Operation';
 import _ from 'lodash';
+import Chance from 'chance';
+
 import { GlobalStore } from '../store';
+
+const chance = new Chance();
 
 export interface ITreeNode {
   children?: ITreeNode[];
@@ -39,12 +42,7 @@ export class TreeNode {
     if (node instanceof TreeNode) {
       return node;
     }
-    this.id =
-      node.id ||
-      `td_${randomstring.generate({
-        length: 10,
-        charset: 'alphabetic',
-      })}`;
+    this.id = node.id || `td_${chance.string({ length: 10, alpha: true })}`;
     this.root = node?.root;
     this.parent = node?.parent;
     this.isSourceNode = node?.isSourceNode;

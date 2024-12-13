@@ -4,7 +4,6 @@ import { observer } from '@formily/react';
 import { IComponents } from '../../types';
 import { useFormDesigner, useTree } from '../../hooks';
 import _ from 'lodash';
-import { Field } from '../Field';
 import { GlobalStore } from '../../store';
 import { DesignerComponentsContext } from '../../context';
 import styled from '@emotion/styled';
@@ -28,7 +27,7 @@ export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(
       dataId[nodeIdAttrName] = tree.id;
     }
 
-    const componentsMap = _.assign({ Field }, components);
+    const componentsMap = _.assign(components);
 
     useEffect(() => {
       GlobalStore.registerDesignerResources(componentsMap);

@@ -1,4 +1,3 @@
-import React from 'react';
 import { SettingsPanel } from '@trionesdev/form-designer-react';
 import { Form, FormItem, Input, Select, Switch } from '@formily/antd-v5';
 
