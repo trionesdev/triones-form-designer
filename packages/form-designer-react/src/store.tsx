@@ -44,7 +44,6 @@ export namespace GlobalStore {
     );
 
     _.assign(DESIGNER_RESOURCES_STORE, resourcesMap);
-    console.log(DESIGNER_RESOURCES_STORE);
   }
 
   export function getDesignerResource(componentName: string) {

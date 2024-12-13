@@ -9,7 +9,10 @@ import { Point } from '../coordinate';
  */
 export const dragStartEffect = (e, operation: Operation) => {
   const engine = operation.engine;
-  //TODO
+  if (operation.draggingNode) {
+    operation.dragStart();
+    return;
+  }
   const target = e.target as HTMLElement;
   const el = target?.closest(`
        *[${engine.nodeIdAttrName}],
@@ -74,8 +77,6 @@ export const dragMoveEffect = (e, operation: Operation) => {
 export const dragEndEffect = (e: React.MouseEvent, operation: Operation) => {
   const closestNode = operation.closestNode;
   const closestPosition = operation.closestPosition;
-  console.log('draggingNode', operation.draggingNode);
-  console.log('closestNode', closestNode);
   if (operation.draggingNode) {
     if (ClosestPosition.INNER === closestPosition) {
       closestNode.append(operation.draggingNode);

@@ -1,7 +1,6 @@
 import React, {
   CSSProperties,
   FC,
-  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -65,24 +64,28 @@ export const ViewPanel: FC<ViewPanelProps> = observer(({ children, type }) => {
     };
   }, [ref.current]);
 
-  // if (workbench.type !== type) {
-  //   return null;
-  // }
+  if (workbench.type !== type) {
+    return null;
+  }
 
   return (
     <ViewportContext.Provider value={viewport}>
-      <ViewPanelStyled
-        ref={ref}
-        className={`td-view-panel`}
-        style={handleStudioPanelStyles()}
-        onClick={(e) => eventManager.onMouseClick(e)}
-        onScroll={(e) => eventManager.onViewportScroll(e)}
-        onResize={(e) => eventManager.onViewportResize(e)}
-      >
-        {children}
-        {engine.type == 'PC' && <AuxToolsWidget />}
-        {engine.type == 'MOBILE' && <MobileAuxToolsWidget />}
-      </ViewPanelStyled>
+      {workbench.type === 'DESIGNABLE' ? (
+        <ViewPanelStyled
+          ref={ref}
+          className={`td-view-panel`}
+          style={handleStudioPanelStyles()}
+          onClick={(e) => eventManager.onMouseClick(e)}
+          onScroll={(e) => eventManager.onViewportScroll(e)}
+          onResize={(e) => eventManager.onViewportResize(e)}
+        >
+          {children}
+          {engine.type == 'PC' && <AuxToolsWidget />}
+          {engine.type == 'MOBILE' && <MobileAuxToolsWidget />}
+        </ViewPanelStyled>
+      ) : (
+        children
+      )}
     </ViewportContext.Provider>
   );
 });

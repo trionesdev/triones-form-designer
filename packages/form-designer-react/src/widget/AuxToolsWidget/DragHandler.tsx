@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 import { MoveIcon } from '../../Icon';
 import { TreeNode } from '../../model';
 import { useOperation } from '../../hooks';
-import _ from 'lodash';
 
 const DragHandlerStyled = styled('button')({
   cursor: 'move!important',
@@ -20,15 +19,21 @@ type DragHandlerProps = {
   node?: TreeNode;
 };
 
+/**
+ * when mouse down event effect one the handle button , set this rect TreeNode as dragging node,
+ * and moving event listen on the Viewpanel
+ * @param name
+ * @param node
+ * @constructor
+ */
 export const DragHandler: FC<DragHandlerProps> = ({ name, node }) => {
-  const { tree, eventManager, draggingNode, setDraggingNode } = useOperation();
+  const operation = useOperation();
 
   return (
     <DragHandlerStyled
       onMouseDown={(e) => {
-        console.log('selectNode', node);
-        // setDraggingNode({...node})
-        eventManager.onMouseDown(e);
+        operation.setDraggingNode(node);
+        operation.eventManager.onMouseDown(e);
         e.stopPropagation();
       }}
     >

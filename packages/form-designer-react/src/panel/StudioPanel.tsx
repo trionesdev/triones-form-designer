@@ -29,7 +29,6 @@ export const StudioPanel: FC<StudioPanelProps> = ({ children }) => {
     <StudioPanelStyled
       className={`td-studio-panel`}
       onMouseDown={(e) => {
-        console.log('mouseDown', e);
         eventManager.onMouseDown(e);
       }}
       onMouseUp={(e) => eventManager.onMouseUp(e)}
