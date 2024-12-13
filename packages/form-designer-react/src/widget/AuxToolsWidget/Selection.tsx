@@ -99,7 +99,7 @@ export const SelectionBox: FC<SelectionBoxProps> = ({ node }) => {
             <button>{selectionNode?.title}</button>
             {selectionNode != selectionNode.root && (
               <>
-                <DragHandler />
+                <DragHandler node={node} />
                 <button onClick={handleDelete}>
                   {React.cloneElement(DeleteIcon)}
                 </button>
@@ -114,7 +114,7 @@ export const SelectionBox: FC<SelectionBoxProps> = ({ node }) => {
 
 export const Selection = observer(() => {
   const operation = useOperation();
-  const { selectionNode, tree, cursor } = operation;
+  const { selectionNode, cursor } = operation;
 
   if (cursor.status != CursorStatus.NORMAL) {
     //如果拖拽状态未释放，则不进行渲染

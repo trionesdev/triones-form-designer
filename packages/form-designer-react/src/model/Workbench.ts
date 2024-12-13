@@ -1,6 +1,6 @@
 import { WorkbenchType } from '../types';
 import { FormDesignerEngine } from './FormDesignerEngine';
-import { define } from '@formily/reactive';
+import { define, observable } from '@formily/reactive';
 
 export class Workbench {
   engine: FormDesignerEngine;
@@ -12,6 +12,8 @@ export class Workbench {
   }
 
   makeObservable() {
-    define(this, {});
+    define(this, {
+      type: observable.ref,
+    });
   }
 }

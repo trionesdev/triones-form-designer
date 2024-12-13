@@ -53,9 +53,6 @@ importers:
       '@testing-library/user-event':
         specifier: ^13.5.0
         version: 13.5.0(@testing-library/dom@8.20.1)
-      '@trionesdev/form-designer-react':
-        specifier: file:../../packages/form-designer-react
-        version: file:packages/form-designer-react(@types/react-dom@18.3.5(@types/react@18.3.16))(@types/react@18.3.16)(react-is@18.3.1)(typescript@5.6.3)
       antd:
         specifier: ^5.11.5
         version: 5.22.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -145,6 +142,9 @@ importers:
       '@types/chance':
         specifier: ^1.1.6
         version: 1.1.6
+      '@types/lodash':
+        specifier: ^4.17.13
+        version: 4.17.13
       '@types/react':
         specifier: ^18.2.39
         version: 18.3.16
@@ -1795,9 +1795,6 @@ packages:
     engines: {node: '>=10', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
-
-  '@trionesdev/form-designer-react@file:packages/form-designer-react':
-    resolution: {directory: packages/form-designer-react, type: directory}
 
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -8287,26 +8284,6 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.26.0
       '@testing-library/dom': 8.20.1
-
-  '@trionesdev/form-designer-react@file:packages/form-designer-react(@types/react-dom@18.3.5(@types/react@18.3.16))(@types/react@18.3.16)(react-is@18.3.1)(typescript@5.6.3)':
-    dependencies:
-      '@emotion/react': 11.14.0(@types/react@18.3.16)(react@18.3.1)
-      '@emotion/styled': 11.14.0(@emotion/react@11.14.0(@types/react@18.3.16)(react@18.3.1))(@types/react@18.3.16)(react@18.3.1)
-      '@formily/core': 2.3.2
-      '@formily/react': 2.3.2(@types/react-dom@18.3.5(@types/react@18.3.16))(@types/react@18.3.16)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(typescript@5.6.3)
-      '@formily/reactive': 2.3.2
-      chance: 1.1.12
-      classnames: 2.5.1
-      dayjs: 1.11.13
-      lodash: 4.17.21
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-    transitivePeerDependencies:
-      - '@types/react'
-      - '@types/react-dom'
-      - react-is
-      - supports-color
-      - typescript
 
   '@trysound/sax@0.2.0': {}
 

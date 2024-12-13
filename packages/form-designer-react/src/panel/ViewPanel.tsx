@@ -65,9 +65,9 @@ export const ViewPanel: FC<ViewPanelProps> = observer(({ children, type }) => {
     };
   }, [ref.current]);
 
-  if (workbench.type !== type) {
-    return null;
-  }
+  // if (workbench.type !== type) {
+  //   return null;
+  // }
 
   return (
     <ViewportContext.Provider value={viewport}>

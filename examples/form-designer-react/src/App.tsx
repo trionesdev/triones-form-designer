@@ -60,7 +60,7 @@ function App() {
     <div className="App">
       <Watermark style={{ height: '100%' }} content={['北斗开源|书阙']}>
         <FormDesigner
-          screenType={'MOBILE'}
+          designerType={'MOBILE'}
           value={data}
           onChange={(value) => {
             handleOnChange(value);
