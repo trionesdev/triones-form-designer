@@ -12,12 +12,13 @@
     "preversion": "yarn run build",
     "version:beta": "lerna version prerelease --preid beta",
     "release:github": "ts-node scripts/release release",
-    "release:force": "lerna publish from-package --yes --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
+    "release:force": "lerna publish from-package --yes --registry=https://registry.npmjs.org/",
     "prelease:force": "lerna publish from-package --yes --dist-tag next",
-    "release": "lerna publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
-    "codingPublish": "lerna publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
+    "release": "lerna publish --registry=https://registry.npmjs.org/",
+    "publishOnly:force": "lerna publish from-package --yes  --ignore-scripts --no-git-tag-version  --registry=https://registry.npmjs.org/",
+    "publishOnly": "lerna publish --ignore-scripts --no-git-tag-version --force-publish --registry=https://registry.npmjs.org/",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,css,less}\"",
-    "prepare": "husky install"
+    "triones:publishOnly": "lerna publish --ignore-scripts --no-git-tag-version --force-publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/"
   },
   "lint-staged": {
     "*.{js,jsx,less,md,json}": [
