@@ -1,6 +1,6 @@
 {
   "name": "@trionesdev/form-designer-react",
-  "version": "0.0.1-beta.2",
+  "version": "0.0.1-beta.4",
   "description": "form-design-react",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -24,9 +24,9 @@
   },
   "devDependencies": {
     "@types/chance": "^1.1.6",
+    "@types/lodash": "^4.17.13",
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.17",
-    "@types/lodash": "^4.17.13",
     "father": "^4.5.1"
   },
   "dependencies": {
