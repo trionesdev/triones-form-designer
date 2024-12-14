@@ -16,7 +16,7 @@ export namespace GlobalStore {
   }
 
   export function getIcon(iconName?: string) {
-    return iconName ?? DESIGNER_ICONS_STORE[iconName];
+    return iconName?DESIGNER_ICONS_STORE[iconName]:null;
   }
 
   //endregion
