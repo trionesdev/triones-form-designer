@@ -39,7 +39,7 @@ type SelectionBoxProps = {
 
 export const SelectionBox: FC<SelectionBoxProps> = ({ node }) => {
   const operation = useOperation();
-  const { dragging, selectionNode, viewport } = operation;
+  const { dragging, selectionNode } = operation;
   const rect = useValidNodeOffsetRect(selectionNode);
   const handleBoxStyles = () => {
     const boxStyles: CSSProperties = {
@@ -97,7 +97,7 @@ export const SelectionBox: FC<SelectionBoxProps> = ({ node }) => {
 
 export const Selection = observer(() => {
   const operation = useOperation();
-  const { selectionNode, tree, cursor } = operation;
+  const { selectionNode, cursor } = operation;
 
   if (cursor.status != CursorStatus.NORMAL) {
     return null;

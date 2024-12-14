@@ -15,8 +15,8 @@ export namespace GlobalStore {
     Object.assign(DESIGNER_ICONS_STORE, icons);
   }
 
-  export function getIcon(iconName: string) {
-    return DESIGNER_ICONS_STORE[iconName];
+  export function getIcon(iconName?: string) {
+    return iconName ?? DESIGNER_ICONS_STORE[iconName];
   }
 
   //endregion
