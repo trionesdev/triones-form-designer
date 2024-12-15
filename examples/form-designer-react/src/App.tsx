@@ -25,6 +25,7 @@ import './App.css';
 import { DesignerTools } from './DesignerTools.tsx';
 
 function App() {
+  // const [data, setData] = useState<any>({})
   const [data, setData] = useState<any>({
     'x-id': 'td_tXAABwaZAE',
     type: 'object',
@@ -60,7 +61,7 @@ function App() {
     <div className="App">
       <Watermark style={{ height: '100%' }} content={['北斗开源|书阙']}>
         <FormDesigner
-          designerType={'MOBILE'}
+          // designerType={'MOBILE'}
           value={data}
           onChange={(value) => {
             handleOnChange(value);

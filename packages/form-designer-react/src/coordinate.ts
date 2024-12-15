@@ -155,14 +155,16 @@ export const transformToSchema = (tree: TreeNode): ISchema => {
   const createSchema = (node: TreeNode) => {
     const schema = _.cloneDeep(node.schema) || {};
     schema['id'] = node.id;
+    schema.properties = schema.properties || {};
     if (!_.isEmpty(node.children)) {
       _.forEach(node.children, (child: TreeNode, index: number) => {
         const key = _.get(child, ['schema', 'name'], child.id);
-        schema.properties = schema.properties || {};
         schema.properties[key] = createSchema(child);
         schema.properties[key]['x-index'] = index;
         schema.properties[key]['x-component-name'] = child.componentName;
       });
+    }else {
+      schema['x-component-name'] = node.componentName;
     }
     return schema;
   };

@@ -21,26 +21,26 @@ export const FormDesigner: FC<FormDesignerProps> = ({
   value,
   onChange,
 }) => {
-  const [scopeValue, setScopeValue] = useState(value);
+  const [internalValue, setInternalValue] = useState(value);
   let designerEngine = useMemo(() => {
-    let scopeEngine = engine;
-    if (!scopeEngine) {
-      scopeEngine = new FormDesignerEngine({
+    let internalEngine = engine;
+    if (!internalEngine) {
+      internalEngine = new FormDesignerEngine({
         rootComponentName: 'Form',
         type: designerType,
         value,
       });
     }
-    return scopeEngine;
+    return internalEngine;
   }, [engine]);
 
   designerEngine?.setOnchange((value: any) => {
-    setScopeValue(value);
+    setInternalValue(value);
     onChange?.(value);
   });
 
   useEffect(() => {
-    if (value && !_.isEqual(value, scopeValue)) {
+    if (value && !_.isEqual(value, internalValue)) {
       designerEngine.operation?.tree.from(transformToTreeNode(value));
     }
   }, [value]);
