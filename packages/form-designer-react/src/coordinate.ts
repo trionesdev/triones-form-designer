@@ -148,7 +148,7 @@ export const calcPointToRectDistance = (point: IPoint, rect: DOMRect) => {
 };
 
 export const transformToSchema = (tree: TreeNode): ISchema => {
-  if (tree != tree.root) {
+  if (tree && tree.root && (tree?.id != tree?.root?.id)) {
     return tree.schema;
   }
 
