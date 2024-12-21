@@ -13,6 +13,7 @@ InputNumber.Resource = createResource([
     title: '数字输入',
     componentName: 'Field',
     schema: {
+      type: 'number',
       title: '数字输入',
       'x-decorator': 'FormItem',
       'x-component': 'InputNumber',

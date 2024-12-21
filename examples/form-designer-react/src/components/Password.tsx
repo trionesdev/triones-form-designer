@@ -14,6 +14,7 @@ Password.Resource = createResource([
     componentName: 'Field',
     schema: {
       title: '密码输入',
+      type: 'string',
       'x-decorator': 'FormItem',
       'x-component': 'Password',
     },

@@ -14,6 +14,7 @@ Select.Resource = createResource([
     componentName: 'Field',
     schema: {
       title: '选择',
+      type: 'enum',
       'x-decorator': 'FormItem',
       'x-component': 'Select',
     },

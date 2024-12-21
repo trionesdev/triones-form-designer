@@ -43,6 +43,7 @@ function App() {
       },
       td_AaMFjiFfps: {
         title: '性别',
+        type: 'number',
         'x-decorator': 'FormItem',
         'x-component': 'Select',
         'x-id': 'td_AaMFjiFfps',

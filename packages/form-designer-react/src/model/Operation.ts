@@ -88,7 +88,7 @@ export class Operation {
   }
 
   onChange = _.debounce((msg) => {
-    const schema = transformToSchema(this.tree)
+    const schema = transformToSchema(this.tree);
     this.engine.onChange?.(schema);
   }, 200);
 
@@ -161,6 +161,7 @@ export class Operation {
      */
     requestIdle(() => {
       this.cursor.setStatus(CursorStatus.NORMAL);
+      this.draggingNode = null;
     });
   }
 
