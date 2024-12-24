@@ -242,6 +242,12 @@ export class TreeNode {
   }
 
   remove() {
+    debugger;
+    if (this.operation.engine.beforeItemDelete) {
+      if (!this.operation.engine.beforeItemDelete(this)) {
+        return;
+      }
+    }
     const index = this.parent.children.indexOf(this);
 
     this.parent.children = this.parent.children.filter((node) => {

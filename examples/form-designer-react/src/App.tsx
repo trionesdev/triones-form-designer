@@ -20,7 +20,7 @@ import {
 } from './components';
 import { AntdSettingsPanel } from './AntdSettingsPanel';
 import * as icons from './Icons';
-import { Watermark } from 'antd';
+import { message, Watermark } from 'antd';
 import './App.css';
 import { DesignerTools } from './DesignerTools.tsx';
 
@@ -67,6 +67,14 @@ function App() {
           onChange={(value) => {
             handleOnChange(value);
             setData(value);
+          }}
+          beforeItemDelete={(item) => {
+            console.log(item);
+            if (item.schema['x-component'] === 'InputNumber') {
+              message.error('InputNumber 组件不能被删除');
+              return false;
+            }
+            return true;
           }}
         >
           <StudioPanel>

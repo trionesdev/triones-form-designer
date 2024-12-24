@@ -1,7 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { FC } from 'react';
 import { FormDesignerContext } from '../context';
-import { DesignerType, FormDesignerEngine } from '../model';
+import {
+  DesignerType,
+  FormDesignerEngine,
+  ITreeNode,
+  TreeNode,
+} from '../model';
 import { GhostWidget } from '../widget/GhostWidget';
 import { transformToTreeNode } from '../coordinate';
 import _ from 'lodash';
@@ -13,6 +18,7 @@ type FormDesignerProps = {
   designerType?: DesignerType;
   value?: ISchema;
   onChange?: (value: ISchema) => void;
+  beforeItemDelete?: (item: ITreeNode) => boolean;
 };
 export const FormDesigner: FC<FormDesignerProps> = ({
   children,
@@ -20,6 +26,7 @@ export const FormDesigner: FC<FormDesignerProps> = ({
   designerType = 'PC',
   value,
   onChange,
+  beforeItemDelete,
 }) => {
   const [internalValue, setInternalValue] = useState(value);
   let designerEngine = useMemo(() => {
@@ -29,6 +36,7 @@ export const FormDesigner: FC<FormDesignerProps> = ({
         rootComponentName: 'Form',
         type: designerType,
         value,
+        beforeItemDelete,
       });
     }
     return internalEngine;

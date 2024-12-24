@@ -2,6 +2,7 @@ import { define, observable } from '@formily/reactive';
 import { TD_DESIGNER_NODE_ID, TD_DESIGNER_SOURCE_ID } from '../constant';
 import { Operation } from './Operation';
 import { Workbench } from './Workbench';
+import { ITreeNode } from './TreeNode';
 
 export type DesignerType = 'MOBILE' | 'PC';
 
@@ -14,6 +15,7 @@ interface IFormDesignerEngine {
   sourceIdAttrName?: string;
   type?: DesignerType;
   value?: any;
+  beforeItemDelete?: (item: ITreeNode) => boolean;
 }
 
 export class FormDesignerEngine {
@@ -24,6 +26,7 @@ export class FormDesignerEngine {
   type?: DesignerType;
   workbench?: Workbench;
   onChange?: (value: any) => void;
+  beforeItemDelete?: (item: ITreeNode) => boolean;
 
   constructor(args: IFormDesignerEngine) {
     this.rootComponentName = args.rootComponentName || 'Form';
@@ -35,6 +38,7 @@ export class FormDesignerEngine {
       engine: this,
       value: args.value,
     });
+    this.beforeItemDelete = args.beforeItemDelete;
 
     this.makeObservable();
   }
