@@ -242,7 +242,6 @@ export class TreeNode {
   }
 
   remove() {
-    debugger;
     if (this.operation.engine.beforeItemDelete) {
       if (!this.operation.engine.beforeItemDelete(this)) {
         return;
