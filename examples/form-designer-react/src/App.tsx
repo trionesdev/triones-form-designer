@@ -20,7 +20,7 @@ import {
 } from './components';
 import { AntdSettingsPanel } from './AntdSettingsPanel';
 import * as icons from './Icons';
-import { message, Watermark } from 'antd';
+import { message, Modal, Watermark } from 'antd';
 import './App.css';
 import { DesignerTools } from './DesignerTools.tsx';
 
@@ -67,6 +67,14 @@ function App() {
           onChange={(value) => {
             handleOnChange(value);
             setData(value);
+          }}
+          onItemDelete={(item) => {
+            Modal.confirm({
+              title: '确定删除该项吗？',
+              onOk: () => {
+                item.remove();
+              },
+            });
           }}
           beforeItemDelete={(item) => {
             console.log(item);

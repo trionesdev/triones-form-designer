@@ -18,6 +18,7 @@ type FormDesignerProps = {
   designerType?: DesignerType;
   value?: ISchema;
   onChange?: (value: ISchema) => void;
+  onItemDelete?: (item: ITreeNode) => void;
   beforeItemDelete?: (item: ITreeNode) => boolean;
 };
 export const FormDesigner: FC<FormDesignerProps> = ({
@@ -26,6 +27,7 @@ export const FormDesigner: FC<FormDesignerProps> = ({
   designerType = 'PC',
   value,
   onChange,
+  onItemDelete,
   beforeItemDelete,
 }) => {
   const [internalValue, setInternalValue] = useState(value);
@@ -36,6 +38,7 @@ export const FormDesigner: FC<FormDesignerProps> = ({
         rootComponentName: 'Form',
         type: designerType,
         value,
+        onItemDelete,
         beforeItemDelete,
       });
     }

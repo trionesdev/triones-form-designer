@@ -15,6 +15,7 @@ interface IFormDesignerEngine {
   sourceIdAttrName?: string;
   type?: DesignerType;
   value?: any;
+  onItemDelete?: (item: ITreeNode) => void;
   beforeItemDelete?: (item: ITreeNode) => boolean;
 }
 
@@ -26,6 +27,7 @@ export class FormDesignerEngine {
   type?: DesignerType;
   workbench?: Workbench;
   onChange?: (value: any) => void;
+  onItemDelete?: (item: ITreeNode) => void;
   beforeItemDelete?: (item: ITreeNode) => boolean;
 
   constructor(args: IFormDesignerEngine) {
@@ -38,6 +40,7 @@ export class FormDesignerEngine {
       engine: this,
       value: args.value,
     });
+    this.onItemDelete = args.onItemDelete;
     this.beforeItemDelete = args.beforeItemDelete;
 
     this.makeObservable();

@@ -71,6 +71,10 @@ export const SelectionBox: FC<SelectionBoxProps> = ({ node }) => {
     if (node == node.root) {
       return;
     }
+    if (operation.engine.onItemDelete) {
+      operation.engine.onItemDelete(node);
+      return;
+    }
     node.remove();
   };
 
