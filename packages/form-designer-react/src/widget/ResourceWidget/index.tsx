@@ -13,6 +13,10 @@ const ResourceWidgetStyled = styled('div')({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '8px',
+    backgroundColor: '#FAFAFA',
+    borderBottom: '1px solid #d9d9d9',
+    cursor: 'pointer',
+    transition: 'all 0.3s,visibility 0s',
     '.action': {
       cursor: 'pointer',
       '.icon': {
@@ -53,9 +57,9 @@ export const ResourceWidget: FC<ResourceWidgetProps> = ({ title, sources }) => {
 
   return (
     <ResourceWidgetStyled>
-      <div className={`td-resource-header`}>
+      <div className={`td-resource-header`} onClick={() => setOpen(!open)}>
         <div>{title}</div>
-        <div className={`action`} onClick={() => setOpen(!open)}>
+        <div className={`action`}>
           <span>{React.cloneElement(open ? Down : Up)}</span>
         </div>
       </div>
