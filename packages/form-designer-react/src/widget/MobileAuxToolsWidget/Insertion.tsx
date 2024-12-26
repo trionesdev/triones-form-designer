@@ -17,7 +17,6 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
   const {
     dragging,
     draggingHoverNode,
-    mouseEvent,
     closestNode,
     closestPosition,
     closestNodeRect,
@@ -25,14 +24,19 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
 
   const handleInsertionStyles = (): React.CSSProperties => {
     const baseStyle: React.CSSProperties = {};
-
     if (closestNode) {
-      if (closestPosition == ClosestPosition.UPPER) {
+      if (
+        closestPosition == ClosestPosition.UPPER ||
+        closestPosition == ClosestPosition.BEFORE
+      ) {
         baseStyle.height = `2px`;
         baseStyle.width = `${closestNodeRect.width}px`;
         baseStyle.backgroundColor = `#1890FF`;
         baseStyle.transform = `perspective(1px) translate3d(0px, ${closestNodeRect.top}px, 0px)`;
-      } else if (closestPosition == ClosestPosition.UNDER) {
+      } else if (
+        closestPosition == ClosestPosition.UNDER ||
+        closestPosition == ClosestPosition.AFTER
+      ) {
         baseStyle.height = `2px`;
         baseStyle.width = `${closestNodeRect.width}px`;
         baseStyle.backgroundColor = `#1890FF`;

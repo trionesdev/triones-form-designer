@@ -17,8 +17,10 @@ export const TreeNodeWidget: FC<ComponentWidgetProps> = observer(
       const Component = components?.[treeNode.componentName];
 
       const renderChildren = () => {
+        debugger;
         if (treeNode.children.length > 0) {
           return treeNode.children.map((item, index) => {
+            debugger;
             return <TreeNodeWidget key={index} treeNode={item} />;
           });
         } else {

@@ -23,14 +23,14 @@ const ResourceWidgetStyled = styled('div')({
   },
   '.td-resource-content': {
     padding: '4px',
-    visibility: 'hidden',
+    display: 'none',
     '&-inner': {
       display: 'grid',
       gridTemplateColumns: 'repeat(2, 50%)',
       gap: '4px',
     },
     '&.open': {
-      visibility: 'visible',
+      display: 'grid',
     },
   },
 });

@@ -18,7 +18,6 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
   const {
     dragging,
     draggingHoverNode,
-    mouseEvent,
     closestNode,
     closestPosition,
     closestNodeRect,
@@ -32,12 +31,27 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
         baseStyle.height = `2px`;
         baseStyle.width = `${closestNodeRect.width}px`;
         baseStyle.backgroundColor = `#1890FF`;
-        baseStyle.transform = `perspective(1px) translate3d(0px, ${closestNodeRect.top}px, 0px)`;
+        baseStyle.transform = `perspective(1px) translate3d(${closestNodeRect.left}px, ${closestNodeRect.top}px, 0px)`;
       } else if (closestPosition == ClosestPosition.UNDER) {
         baseStyle.height = `2px`;
         baseStyle.width = `${closestNodeRect.width}px`;
         baseStyle.backgroundColor = `#1890FF`;
-        baseStyle.transform = `perspective(1px) translate3d(0px, ${closestNodeRect.top + closestNodeRect.height}px, 0px)`;
+        baseStyle.transform = `perspective(1px) translate3d(${closestNodeRect.left}px, ${closestNodeRect.top + closestNodeRect.height}px, 0px)`;
+      } else if (closestPosition == ClosestPosition.BEFORE) {
+        baseStyle.height = `${closestNodeRect.height}px`;
+        baseStyle.width = `2px`;
+        baseStyle.backgroundColor = `#1890FF`;
+        baseStyle.transform = `perspective(1px) translate3d(${closestNodeRect.left}px, ${closestNodeRect.top}px, 0px)`;
+      } else if (closestPosition == ClosestPosition.AFTER) {
+        baseStyle.height = `${closestNodeRect.height}px`;
+        baseStyle.width = `2px`;
+        baseStyle.backgroundColor = `#1890FF`;
+        baseStyle.transform = `perspective(1px) translate3d(${closestNodeRect.left + closestNodeRect.width}px, ${closestNodeRect.top}px, 0px)`;
+      } else if (closestPosition == ClosestPosition.INNER) {
+        baseStyle.height = `${closestNodeRect.height}px`;
+        baseStyle.width = `${closestNodeRect.width}px`;
+        baseStyle.backgroundColor = `#1890FF`;
+        baseStyle.transform = `perspective(1px) translate3d(${closestNodeRect.left}px, ${closestNodeRect.top}px, 0px)`;
       }
     }
     return baseStyle;
