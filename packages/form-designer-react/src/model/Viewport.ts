@@ -149,6 +149,16 @@ export class Viewport {
       return 'vertical';
     }
     //TODO 根据组件类型获取布局
-    return 'vertical';
+    if (node.parent.id == node.root.id) {
+      return 'vertical';
+    } else {
+      if (node.parent.droppable) {
+        return 'horizontal';
+      } else {
+        return 'vertical';
+      }
+    }
+
+    // return 'vertical';
   }
 }

@@ -14,7 +14,12 @@ export const Form: TdFC<React.ComponentProps<typeof FormilyForm>> = (props) => {
   );
 
   return (
-    <FormilyForm form={form} labelCol={6} wrapperCol={14} {...props}>
+    <FormilyForm
+      form={form}
+      labelWidth={100}
+      {...props}
+      style={{ paddingLeft: 16, paddingRight: 16 }}
+    >
       {props?.children}
     </FormilyForm>
   );

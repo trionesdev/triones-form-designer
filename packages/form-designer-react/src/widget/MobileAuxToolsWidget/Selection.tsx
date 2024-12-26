@@ -49,7 +49,7 @@ export const SelectionBox: FC<SelectionBoxProps> = ({ node }) => {
     if (rect) {
       boxStyles.height = `${rect.height}px`;
       boxStyles.width = `${rect.width}px`;
-      boxStyles.transform = `perspective(1px) translate3d(0px, ${rect.top}px, 0px)`;
+      boxStyles.transform = `perspective(1px) translate3d(${rect.left}px, ${rect.top}px, 0px)`;
     }
     if (selectionNode != selectionNode.root) {
       boxStyles.visibility = 'visible';

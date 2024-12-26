@@ -17,6 +17,7 @@ import {
   InputNumber,
   Password,
   Select,
+  FormGrid,
 } from './components';
 import { AntdSettingsPanel } from './AntdSettingsPanel';
 import * as icons from './Icons';
@@ -87,6 +88,7 @@ function App() {
         >
           <StudioPanel>
             <CompositePanel style={{ width: 300 }}>
+              <ResourceWidget title={`布局组件`} sources={[FormGrid]} />
               <ResourceWidget
                 title={`基础组件`}
                 sources={[Input, Select, Password, InputNumber]}
@@ -106,6 +108,7 @@ function App() {
                       Select,
                       Password,
                       InputNumber,
+                      FormGrid,
                     }}
                   />
                 </ViewPanel>

@@ -54,7 +54,7 @@ export const SelectionBox: FC<SelectionBoxProps> = ({ node }) => {
       boxStyles.visibility = 'visible';
       boxStyles.height = `${rect.height}px`;
       boxStyles.width = `${rect.width}px`;
-      boxStyles.transform = `perspective(1px) translate3d(0px, ${rect.top}px, 0px)`;
+      boxStyles.transform = `perspective(1px) translate3d(${rect.left}px, ${rect.top}px, 0px)`;
     }
     return boxStyles;
   };

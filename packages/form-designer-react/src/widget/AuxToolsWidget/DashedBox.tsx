@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { CSSProperties } from 'react';
 import { FC } from 'react';
-import { useOperation, useValidNodeOffsetRect, useViewport } from '../../hooks';
+import { useOperation, useValidNodeOffsetRect } from '../../hooks';
 import { observer } from '@formily/react';
 
 /**
@@ -50,7 +50,7 @@ export const DashedBox: FC<DashedBoxProps> = observer(({}) => {
       boxStyles.height = `${rect.height}px`;
       boxStyles.width = `${rect.width}px`;
       boxStyles.border = `1px dashed #1890FF`;
-      boxStyles.transform = `perspective(1px) translate3d(0px, ${rect.top}px, 0px)`;
+      boxStyles.transform = `perspective(1px) translate3d(${rect.left}px, ${rect.top}px, 0px)`;
       boxStyles.visibility = 'visible';
     }
     return boxStyles;

@@ -90,6 +90,8 @@ export const dragEndEffect = (e: React.MouseEvent, operation: Operation) => {
       ClosestPosition.UNDER === closestPosition
     ) {
       closestNode.insertAfter(operation.draggingNode);
+    } else if (ClosestPosition.INNER_AFTER === closestPosition) {
+    } else if (ClosestPosition.INNER_BEFORE === closestPosition) {
     }
   }
   operation.dragStop();

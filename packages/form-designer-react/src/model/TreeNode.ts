@@ -178,7 +178,7 @@ export class TreeNode {
     if (_.isEmpty(insertNodes)) {
       return;
     }
-    const droppableNode = this.droppableNode(); //找到最近的可以拖入的节点
+    const droppableNode = this.parentDroppableNode(); //找到最近的父级可以拖入的节点,插入当前节点之前，就要排除当前节点是可拖入节点的情况
     if (droppableNode) {
       const dropNodes = this.restNodes(insertNodes, droppableNode);
       const index = _.findIndex(droppableNode.children, (node: TreeNode) => {
@@ -215,7 +215,7 @@ export class TreeNode {
     if (_.isEmpty(insertNodes)) {
       return;
     }
-    const droppableNode = this.droppableNode(); //找到最近的可以拖入的节点
+    const droppableNode = this.parentDroppableNode(); //找到最近的可以拖入的父级节点
     if (droppableNode) {
       const dropNodes = this.restNodes(insertNodes, droppableNode);
       const index = _.findIndex(droppableNode.children, (node: TreeNode) => {
@@ -276,6 +276,14 @@ export class TreeNode {
       } else {
         return this.parent?.droppableNode();
       }
+    }
+  }
+
+  parentDroppableNode() {
+    if (this.isSourceNode) {
+      return;
+    } else {
+      return this.parent?.droppableNode();
     }
   }
 
