@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ComponentsWidget,
   CompositePanel,
@@ -26,37 +26,45 @@ import './App.css';
 import { DesignerTools } from './DesignerTools.tsx';
 
 function App() {
-  // const [data, setData] = useState<any>({})
-  const [data, setData] = useState<any>({
-    'x-id': 'td_tXAABwaZAE',
-    type: 'object',
-    'x-component-name': 'Form',
-    properties: {
-      td_rszikvOzVh: {
-        type: 'string',
-        title: '文本框',
-        required: true,
-        'x-decorator': 'FormItem',
-        'x-component': 'Input.TextArea',
-        'x-id': 'td_rszikvOzVh',
-        'x-index': 0,
-        'x-component-name': 'Field',
+  const [data, setData] = useState<any>({});
+  // const [data, setData] = useState<any>();
+
+  const handleSetData = () => {
+    setData({
+      'x-id': 'td_tXAABwaZAE',
+      type: 'object',
+      'x-component-name': 'Form',
+      properties: {
+        td_rszikvOzVh: {
+          type: 'string',
+          title: '文本框',
+          required: true,
+          'x-decorator': 'FormItem',
+          'x-component': 'Input.TextArea',
+          'x-id': 'td_rszikvOzVh',
+          'x-index': 0,
+          'x-component-name': 'Field',
+        },
+        td_AaMFjiFfps: {
+          title: '性别',
+          type: 'number',
+          'x-decorator': 'FormItem',
+          'x-component': 'Select',
+          'x-id': 'td_AaMFjiFfps',
+          'x-index': 1,
+          'x-component-name': 'Field',
+        },
       },
-      td_AaMFjiFfps: {
-        title: '性别',
-        type: 'number',
-        'x-decorator': 'FormItem',
-        'x-component': 'Select',
-        'x-id': 'td_AaMFjiFfps',
-        'x-index': 1,
-        'x-component-name': 'Field',
-      },
-    },
-  });
+    });
+  };
 
   const handleOnChange = (value: any) => {
     console.log('[TreeInfo]value', value);
   };
+
+  useEffect(() => {
+    setTimeout(handleSetData, 100);
+  }, []);
 
   GlobalStore.registerIcons(icons);
   return (
@@ -96,7 +104,7 @@ function App() {
             </CompositePanel>
             <WorkspacePanel>
               <div>
-                <DesignerTools />
+                <DesignerTools onSetDefaultData={handleSetData} />
               </div>
               <ViewportPanel>
                 <ViewPanel type={'DESIGNABLE'}>

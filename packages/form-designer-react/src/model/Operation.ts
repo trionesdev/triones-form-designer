@@ -90,7 +90,7 @@ export class Operation {
   onChange = _.debounce((msg) => {
     const schema = transformToSchema(this.tree);
     this.engine.onChange?.(schema);
-  }, 200);
+  }, 0);
 
   setViewport(viewport: Viewport) {
     this.viewport = viewport;

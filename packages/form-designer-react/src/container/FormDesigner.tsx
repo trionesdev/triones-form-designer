@@ -1,12 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { FC } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { FormDesignerContext } from '../context';
-import {
-  DesignerType,
-  FormDesignerEngine,
-  ITreeNode,
-  TreeNode,
-} from '../model';
+import { DesignerType, FormDesignerEngine, ITreeNode } from '../model';
 import { GhostWidget } from '../widget/GhostWidget';
 import { transformToTreeNode } from '../coordinate';
 import _ from 'lodash';
@@ -31,6 +25,12 @@ export const FormDesigner: FC<FormDesignerProps> = ({
   beforeItemDelete,
 }) => {
   const [internalValue, setInternalValue] = useState(value);
+
+  const handleChange = (value: any) => {
+    setInternalValue(value);
+    onChange?.(value);
+  };
+
   let designerEngine = useMemo(() => {
     let internalEngine = engine;
     if (!internalEngine) {
@@ -38,6 +38,7 @@ export const FormDesigner: FC<FormDesignerProps> = ({
         rootComponentName: 'Form',
         type: designerType,
         value,
+        onChange: handleChange,
         onItemDelete,
         beforeItemDelete,
       });
@@ -45,13 +46,8 @@ export const FormDesigner: FC<FormDesignerProps> = ({
     return internalEngine;
   }, [engine]);
 
-  designerEngine?.setOnchange((value: any) => {
-    setInternalValue(value);
-    onChange?.(value);
-  });
-
   useEffect(() => {
-    if (value && !_.isEqual(value, internalValue)) {
+    if (!_.isEmpty(value) && !_.isEqual(value, internalValue)) {
       designerEngine.operation?.tree.from(transformToTreeNode(value));
     }
   }, [value]);
