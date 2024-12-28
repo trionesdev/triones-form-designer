@@ -48,10 +48,17 @@ export const Insertion: FC<InsertionProps> = observer(({}) => {
         baseStyle.backgroundColor = `#1890FF`;
         baseStyle.transform = `perspective(1px) translate3d(${closestNodeRect.left + closestNodeRect.width}px, ${closestNodeRect.top}px, 0px)`;
       } else if (closestPosition == ClosestPosition.INNER) {
-        baseStyle.height = `${closestNodeRect.height}px`;
-        baseStyle.width = `${closestNodeRect.width}px`;
-        baseStyle.backgroundColor = `#1890FF`;
-        baseStyle.transform = `perspective(1px) translate3d(${closestNodeRect.left}px, ${closestNodeRect.top}px, 0px)`;
+        if (closestNode.parent) {
+          baseStyle.height = `${closestNodeRect.height}px`;
+          baseStyle.width = `${closestNodeRect.width}px`;
+          baseStyle.backgroundColor = `#1890FF`;
+          baseStyle.transform = `perspective(1px) translate3d(${closestNodeRect.left}px, ${closestNodeRect.top}px, 0px)`;
+        } else {
+          baseStyle.height = `2px`;
+          baseStyle.width = `${closestNodeRect.width}px`;
+          baseStyle.backgroundColor = `#1890FF`;
+          baseStyle.transform = `perspective(1px) translate3d(${closestNodeRect.left}px, ${closestNodeRect.top}px, 0px)`;
+        }
       }
     }
     return baseStyle;

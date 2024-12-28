@@ -149,7 +149,11 @@ export class Viewport {
       return 'vertical';
     }
     //TODO 根据组件类型获取布局
-    if (node.parent.id == node.root.id) {
+    if (!node.parent) {
+      //最近节点是根节点
+      return 'vertical';
+    } else if (node.parent.id == node.root.id) {
+      //最近节点是一级节点
       return 'vertical';
     } else {
       if (node.parent.droppable) {
