@@ -127,7 +127,8 @@ function App() {
 }
 ```
 
-详见 [demo](examples/form-designer-react) 3. 组件开发
+详见 [demo](examples/form-designer-react) 
+3. 组件开发
 
 组件可以自定义，具体开发可以参考 [components](examples/form-designer-react/src/components)
 
