@@ -154,7 +154,6 @@ export const transformToSchema = (tree: TreeNode): ISchema => {
   }
 
   const createSchema = (node: TreeNode) => {
-    debugger;
     const schema = _.cloneDeep(node.schema) || {};
     schema['id'] = node.id;
     schema.properties = schema.properties || {};
@@ -174,7 +173,6 @@ export const transformToSchema = (tree: TreeNode): ISchema => {
 };
 
 export const transformToTreeNode = (data: any) => {
-  debugger;
   const root = {
     id: data[`x-id`],
     componentName: 'Form',

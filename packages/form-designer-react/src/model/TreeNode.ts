@@ -5,7 +5,6 @@ import {
   observable,
   observe,
   reaction,
-  toJS,
 } from '@formily/reactive';
 import { Operation } from './Operation';
 import _ from 'lodash';

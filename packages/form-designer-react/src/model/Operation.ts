@@ -59,7 +59,7 @@ export class Operation {
       schema: GlobalStore.getDesignerResource(args.engine.rootComponentName)
         ?.schema,
     });
-    debugger
+
     if (args.value) {
       this.tree.from(transformToTreeNode(args.value));
     }

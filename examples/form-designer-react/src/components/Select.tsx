@@ -37,12 +37,12 @@ Select.Resource = createResource([
             'x-decorator': 'FormItem',
             'x-component': 'Switch',
           },
-          'x-component-props.options':{
+          'x-component-props.options': {
             type: 'array',
             title: '选项',
             'x-decorator': 'FormItem',
             'x-component': 'SelectOptionsSetter',
-          }
+          },
         },
       },
     },
