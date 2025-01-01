@@ -6,4 +6,5 @@ export * from './model';
 export * from './types';
 export * from './store';
 export * from './externals';
+export * from './coordinate';
 export * from './hooks';

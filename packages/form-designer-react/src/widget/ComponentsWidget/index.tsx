@@ -11,6 +11,10 @@ import styled from '@emotion/styled';
 const ComponentsWidgetStyled = styled('div')({
   minWidth: '100%',
   minHeight: '100%',
+  '.ant-formily-item-label,.ant-formily-item-control': {
+    userSelect: 'none',
+    pointerEvents: 'none',
+  },
 });
 
 type ComponentsWidgetProps = {

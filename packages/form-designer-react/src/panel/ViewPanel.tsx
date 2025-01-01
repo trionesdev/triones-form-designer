@@ -1,6 +1,7 @@
 import React, {
   CSSProperties,
   FC,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -18,6 +19,7 @@ import { AuxToolsWidget } from '../widget';
 import { MobileAuxToolsWidget } from '../widget/MobileAuxToolsWidget';
 import { observer } from '@formily/react';
 import { WorkbenchType } from '../types';
+import { requestIdle } from '../request-idle';
 
 const ViewPanelStyled = styled('div')({
   position: 'relative',
@@ -33,6 +35,7 @@ type ViewPanelProps = {
 };
 export const ViewPanel: FC<ViewPanelProps> = observer(({ children, type }) => {
   const ref = useRef<HTMLDivElement>();
+  const [visible, setVisible] = React.useState(false);
   const engine = useFormDesigner();
   const { eventManager } = useOperation();
   const cursor = useCursor();
@@ -64,6 +67,18 @@ export const ViewPanel: FC<ViewPanelProps> = observer(({ children, type }) => {
     };
   }, [ref.current]);
 
+  useEffect(() => {
+    if (workbench.type === type) {
+      requestIdle(() => {
+        requestAnimationFrame(() => {
+          setVisible(true);
+        });
+      });
+    } else {
+      setVisible(false);
+    }
+  }, [workbench.type]);
+
   if (workbench.type !== type) {
     return null;
   }
@@ -84,7 +99,7 @@ export const ViewPanel: FC<ViewPanelProps> = observer(({ children, type }) => {
           {engine.type == 'MOBILE' && <MobileAuxToolsWidget />}
         </ViewPanelStyled>
       ) : (
-        children
+        visible && <ViewPanelStyled>{children}</ViewPanelStyled>
       )}
     </ViewportContext.Provider>
   );

@@ -16,6 +16,20 @@ export const DesignerTools: FC<DesignerToolsProps> = ({ onSetDefaultData }) => {
       </Space>
       <Space>
         <Button onClick={onSetDefaultData}>设置默认值</Button>
+        <Button
+          onClick={() => {
+            engine.workbench.type = 'DESIGNABLE';
+          }}
+        >
+          设计
+        </Button>
+        <Button
+          onClick={() => {
+            engine.workbench.type = 'PREVIEW';
+          }}
+        >
+          预览
+        </Button>
       </Space>
     </Flex>
   );

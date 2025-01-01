@@ -24,6 +24,7 @@ import * as icons from './Icons';
 import { message, Modal, Watermark } from 'antd';
 import './App.css';
 import { DesignerTools } from './DesignerTools.tsx';
+import { Preview } from './Preview.tsx';
 
 function App() {
   const [data, setData] = useState<any>({});
@@ -119,6 +120,9 @@ function App() {
                       FormGrid,
                     }}
                   />
+                </ViewPanel>
+                <ViewPanel type={'PREVIEW'}>
+                  <Preview />
                 </ViewPanel>
               </ViewportPanel>
             </WorkspacePanel>
