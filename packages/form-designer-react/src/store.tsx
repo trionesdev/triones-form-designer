@@ -42,7 +42,7 @@ export namespace GlobalStore {
       },
       {},
     );
-
+debugger
     _.assign(DESIGNER_RESOURCES_STORE, resourcesMap);
   }
 

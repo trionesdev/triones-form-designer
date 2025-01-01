@@ -59,6 +59,7 @@ export class Operation {
       schema: GlobalStore.getDesignerResource(args.engine.rootComponentName)
         ?.schema,
     });
+    debugger
     if (args.value) {
       this.tree.from(transformToTreeNode(args.value));
     }
@@ -74,7 +75,7 @@ export class Operation {
 
   makeObservable() {
     define(this, {
-      tree: observable,
+      tree: observable.ref,
       dragging: observable.computed,
       hoverNode: observable.ref,
       selectionNode: observable,

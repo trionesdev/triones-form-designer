@@ -3,7 +3,6 @@ import { TreeNodeWidget } from './TreeNodeWidget';
 import { observer } from '@formily/react';
 import { IComponents } from '../../types';
 import { useFormDesigner, useTree } from '../../hooks';
-import _ from 'lodash';
 import { GlobalStore } from '../../store';
 import { DesignerComponentsContext } from '../../context';
 import styled from '@emotion/styled';
@@ -31,15 +30,13 @@ export const ComponentsWidget: FC<ComponentsWidgetProps> = observer(
       dataId[nodeIdAttrName] = tree.id;
     }
 
-    const componentsMap = _.assign(components);
-
     useEffect(() => {
-      GlobalStore.registerDesignerResources(componentsMap);
+      GlobalStore.registerDesignerResources(components);
     }, []);
 
     return (
       <>
-        <DesignerComponentsContext.Provider value={componentsMap}>
+        <DesignerComponentsContext.Provider value={components}>
           <ComponentsWidgetStyled {...dataId}>
             <TreeNodeWidget treeNode={tree} />
           </ComponentsWidgetStyled>

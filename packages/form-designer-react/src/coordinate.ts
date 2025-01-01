@@ -2,6 +2,7 @@ import { ITreeNode, TreeNode } from './model';
 import _ from 'lodash';
 import { ISchema, Schema } from '@formily/react';
 import Chance from 'chance';
+
 const chance = new Chance();
 
 export interface IPoint {
@@ -148,11 +149,12 @@ export const calcPointToRectDistance = (point: IPoint, rect: DOMRect) => {
 };
 
 export const transformToSchema = (tree: TreeNode): ISchema => {
-  if (tree && tree.root && (tree?.id != tree?.root?.id)) {
+  if (tree && tree.root && tree?.id != tree?.root?.id) {
     return tree.schema;
   }
 
   const createSchema = (node: TreeNode) => {
+    debugger;
     const schema = _.cloneDeep(node.schema) || {};
     schema['id'] = node.id;
     schema.properties = schema.properties || {};
@@ -163,7 +165,7 @@ export const transformToSchema = (tree: TreeNode): ISchema => {
         schema.properties[key]['x-index'] = index;
         schema.properties[key]['x-component-name'] = child.componentName;
       });
-    }else {
+    } else {
       schema['x-component-name'] = node.componentName;
     }
     return schema;
@@ -172,13 +174,17 @@ export const transformToSchema = (tree: TreeNode): ISchema => {
 };
 
 export const transformToTreeNode = (data: any) => {
+  debugger;
   const root = {
     id: data[`x-id`],
     componentName: 'Form',
-    schema: {
-      type: 'object',
-      properties: {},
-    },
+    schema: _.assign(
+      {
+        type: 'object',
+        properties: {},
+      },
+      _.omitBy(data, 'properties'),
+    ),
     children: [],
   };
   const schema = new Schema(data);
