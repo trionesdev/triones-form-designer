@@ -18,12 +18,15 @@ import {
   Password,
   Select,
   FormGrid,
+  DatePicker,
+  TimePicker
 } from './components';
 import { AntdSettingsPanel } from './AntdSettingsPanel';
 import * as icons from './Icons';
 import { message, Modal, Watermark } from 'antd';
 import './App.css';
 import { DesignerTools } from './DesignerTools.tsx';
+import { Preview } from './Preview.tsx';
 
 function App() {
   const [data, setData] = useState<any>({});
@@ -34,6 +37,10 @@ function App() {
       'x-id': 'td_tXAABwaZAE',
       type: 'object',
       'x-component-name': 'Form',
+      'x-component-props':{
+        labelWidth: 100,
+        style:{ paddingLeft: 16, paddingRight: 16 }
+      },
       properties: {
         td_rszikvOzVh: {
           type: 'string',
@@ -99,7 +106,11 @@ function App() {
               <ResourceWidget title={`布局组件`} sources={[FormGrid]} />
               <ResourceWidget
                 title={`基础组件`}
-                sources={[Input, Select, Password, InputNumber]}
+                sources={[Input, Select, Password, InputNumber,DatePicker,TimePicker]}
+              />
+              <ResourceWidget
+                title={`增强组件`}
+                sources={[]}
               />
             </CompositePanel>
             <WorkspacePanel>
@@ -117,8 +128,13 @@ function App() {
                       Password,
                       InputNumber,
                       FormGrid,
+                      DatePicker,
+                      TimePicker
                     }}
                   />
+                </ViewPanel>
+                <ViewPanel type={'PREVIEW'}>
+                  <Preview />
                 </ViewPanel>
               </ViewportPanel>
             </WorkspacePanel>

@@ -14,10 +14,6 @@ const ViewportPanelStyled = styled('div')({
   minHeight: 0,
   overflow: 'hidden',
   display: 'flex',
-  '.ant-formily-item-label,.ant-formily-item-control': {
-    userSelect: 'none',
-    pointerEvents: 'none',
-  },
 });
 
 export const ViewportPanel: FC<ViewportPanelProps> = ({ children }) => {

@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
 import { useOperation } from '../hooks';
 import styled from '@emotion/styled';
-import { createForm } from '@formily/core';
+import { createForm, onFormValuesChange } from '@formily/core';
 import { createSchemaField, FormProvider, observer } from '@formily/react';
 import { JSXComponent } from '@formily/react/esm/types';
 import { IconWidget } from '../widget/IconWidget';
 import { GlobalStore } from '../store';
+import _ from 'lodash';
 
 const SettingsPanelStyled = styled('div')({
   minWidth: '300px',
@@ -47,11 +48,23 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = observer(
     const { selectionNode } = operation;
 
     const form = useMemo(() => {
-      return createForm({
+
+
+      const form = createForm({
         initialValues: selectionNode?.designerProps?.defaultProps,
-        values: selectionNode?.schema,
-        effects(form) {},
+        // values: selectionNode?.schema,
+        effects() {
+          onFormValuesChange((form: any) => {
+            selectionNode.schema = _.merge(selectionNode.schema,form.values);
+            if (selectionNode.root == selectionNode) {
+              operation.setTree(selectionNode);
+            }
+          });
+        },
       });
+
+      form.setValues(selectionNode?.schema)
+      return form;
     }, [selectionNode, selectionNode?.id]);
 
     /**

@@ -1,25 +1,23 @@
 import { DesignerCore, TdFC } from '@trionesdev/form-designer-react';
 import React from 'react';
-import { Select as FormilySelect } from '@formily/antd-v5';
+import { TimePicker as FormilyTimePicker } from '@formily/antd-v5';
 import createResource = DesignerCore.createResource;
 
-export const Select: TdFC<React.ComponentProps<typeof FormilySelect>> =
-  FormilySelect;
+export const TimePicker: TdFC<React.ComponentProps<typeof FormilyTimePicker>> =
+  FormilyTimePicker;
 
-Select.Resource = createResource([
+TimePicker.Resource=createResource([
   {
-    name: 'Select',
-    icon: 'SelectIcon',
-    title: '选择框',
+    name: 'TimePicker',
+    icon: 'TimePickerIcon',
+    title: '时间选择',
     componentName: 'Field',
     schema: {
-      title: '选择',
-      type: 'enum',
+      type: 'string',
+      title: '时间选择',
       'x-decorator': 'FormItem',
-      'x-component': 'Select',
-      'x-component-props': {
-        labelInValue: true,
-      },
+      'x-component': 'TimePicker',
+      required: true,
     },
     designerProps: {
       propsSchema: {
@@ -37,14 +35,8 @@ Select.Resource = createResource([
             'x-decorator': 'FormItem',
             'x-component': 'Switch',
           },
-          'x-component-props.options': {
-            type: 'array',
-            title: '选项',
-            'x-decorator': 'FormItem',
-            'x-component': 'SelectOptionsSetter',
-          },
         },
       },
     },
   },
-]);
+])
