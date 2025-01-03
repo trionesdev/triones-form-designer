@@ -2,7 +2,8 @@
 
 Triones from designer 是一款表单设计器，支持PC端和移动端。当前有react版本，后续会开发vue版本
 
-效果预览：https://trionesdev.github.io/triones-form-designer/
+![preview.png](images/preview.png)
+演示地址：https://trionesdev.github.io/triones-form-designer/
 
 ---
 
@@ -127,11 +128,17 @@ function App() {
 }
 ```
 
-详见 [demo](examples/form-designer-react) 
+详见 [demo](examples/form-designer-react)
+
+
 3. 组件开发
 
 组件可以自定义，具体开发可以参考 [components](examples/form-designer-react/src/components)
+> 自定义的组件开发，基本与常规的Form组件开发一致，满足value,onChange两个必要属性即可。在此基础上，再通过TdFC进行定义层面的封装即可。
 
+预览效果的实现参考： https://react.formilyjs.org/zh-CN/api/shared/map-read-pretty
+
+---
 #### 互相吹捧，共同进步
 
 <div style="text-align: center">
