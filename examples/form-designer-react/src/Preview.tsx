@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { createForm } from '@formily/core';
+import {createForm, onFormValuesChange} from '@formily/core';
 import { transformToSchema, useTree } from '@trionesdev/form-designer-react';
 import {
   Form,
@@ -27,7 +27,13 @@ const SchemaField = createSchemaField({
 
 export const Preview = () => {
   const tree = useTree();
-  const form = useMemo(() => createForm(), []);
+  const form = useMemo(() => createForm({
+    effects() {
+      onFormValuesChange((form: any) => {
+         console.log(form.values)
+      })
+    }
+  }), []);
   const schema = transformToSchema(tree);
 
   return (

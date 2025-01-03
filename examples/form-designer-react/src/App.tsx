@@ -54,12 +54,15 @@ function App() {
         },
         td_AaMFjiFfps: {
           title: '性别',
-          type: 'number',
+          type: 'enum',
           'x-decorator': 'FormItem',
           'x-component': 'Select',
           'x-id': 'td_AaMFjiFfps',
           'x-index': 1,
           'x-component-name': 'Field',
+          'x-component-props':{
+            labelInValue: true,
+          }
         },
       },
     });
