@@ -79,7 +79,7 @@ function App() {
     GlobalStore.registerIcons(icons);
     return (
         <div className="App">
-            <Watermark style={{height: '100%', display: 'flex', flexDirection: 'column'}} content={['北斗开源|书阙']}>
+            <Watermark style={{height: '100%', display: 'flex', flexDirection: 'column'}} content={['北斗开源','书阙']}>
                 <div style={{padding: 8,display:'flex',justifyContent:'space-between',borderBottom: '1px solid #ccc'}}>
                     <span>Triones Form Designer</span>
                     <div>
